@@ -660,7 +660,7 @@ script:
 	}
 	write_tokens := { if token_export() then write_token()}
 	write_images := for each card in sort_list(cards, order_by: {card.card_number}) do write_image_file(card, directory: "{options.set_Code}", file:"{remove_commas(card_name())+(if token_export() and options.append_set_code then " " + options.set_Code else "")}.full.jpg", width: (if contains(card.shape, match:"double") then 752 else 375), height: 523)
-	write_cards := to_text(for each card in sort_list(cards, order_by: {input.card_number}) do write_card())
+	write_cards := to_text(for each card in cards do write_card())
 	write_all_tokens := to_text(for each card in sort_list(cards, order_by: {input.card_number}) do write_tokens())
 	write_text_file(file:"tokens" + options.set_Code + ".xml", to_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cockatrice_carddatabase version=\"3\">\n<cards>\n"+write_all_tokens+"\n\n</cards>\n</cockatrice_carddatabase>"))
 	to_string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<cockatrice_carddatabase version=\"3\">\n<sets>\n<set>\n<name>"+options.set_Code+"</name>\n<longname>"+set.title+"</longname>\n</set>\n</sets>\n<cards>\n"+write_cards+"\n\n</cards>\n</cockatrice_carddatabase>")
