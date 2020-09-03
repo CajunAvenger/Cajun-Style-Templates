@@ -106,12 +106,12 @@ keyword parameter type:
 
 keyword parameter type:
 	name: name
-	match: [^(.:;\n—]+
+	match: ([^(.:;\n—]+|[ ])
 	#match: [A-Za-z0-9 ',’"“”!?]+
 	refer script:
 		name: normal
 		description: No changes made.
-		script: \{{input}, match:"\}
+		script: \{{input}\}
 	refer script:
 		name: singular
 		description: Removes plurality from words.
@@ -135,14 +135,23 @@ keyword parameter type:
 	example: Forest
 keyword parameter type:
 	name: english_number
-	match: [ upto]*[(an? |one |two |three |four |five |six |seven |eight |nine |ten )]*
-
+	match: (up to )?(a|an|one|two|three|four|five|six|seven|eight|nine|ten)
+	refer script:
+		name: as a numeral
+		description: Changes english number to numeral
+		script: \{digital_number({input}.value)\}
 keyword parameter type:
 	name: a
 	match: [an?]*
 keyword parameter type:
+	name: s
+	match: s*
+keyword parameter type:
 	name: nonland
 	match: ( n?o?n?l?a?n?d? ?)
+keyword parameter type:
+	name: mill
+	match: mills?
 keyword parameter type:
 	name: iterate
 	match: [., ](t?w?i?c?e?|t?h?r?e?e?|f?o?u?r?|f?i?v?e?|s?i?x?|s?e?v?e?n?|X?)?( ?t?i?m?e?s?)?
@@ -193,7 +202,7 @@ keyword:
 	keyword: Protection from
 	match: Protection from <atom-param>name</atom-param>
 	mode: expert
-	reminder: This {if has_pt() then "creature" else "permanent"} can't be blocked, targeted, dealt damage, or enchanted by anything {replace(english_singular(param1), match:"and from", replace:"or", in_context:" <match> ")}.
+	reminder: This {if has_pt() then "creature" else "permanent"} can't be blocked, targeted, dealt damage, enchanted, or equipped by anything {replace(english_singular(param1), match:"and from", replace:"or", in_context:" <match> ")}.
 keyword:
 	keyword: Regeneration
 	match: Regenerate
@@ -352,9 +361,9 @@ keyword:
 	reminder: {param1}: Attach to target creature you control. Equip only as a sorcery.
 keyword:
 	keyword: Equip quality
-	match: Equi<atom-param>p</atom-param> <atom-param>name</atom-param> <atom-param>cost</atom-param>
+	match: Equip <atom-param>name</atom-param><atom-param>cost</atom-param>
 	mode: core
-	reminder: {param3}: Attach to target {param2} you control. Equip only as a sorcery.
+	reminder: {param2}: Attach to target {param1} creature you control. Equip only as a sorcery.
 keyword:
 	keyword: Imprint
 	match: Imprint
@@ -636,7 +645,7 @@ keyword:
 	keyword: Changeling
 	match: Changeling
 	mode: expert
-	reminder: This card is every creature type at all times.
+	reminder: This card is every creature type.
 keyword:
 	keyword: Hideaway
 	match: Hideaway
@@ -794,7 +803,7 @@ keyword:
 keyword:
 	keyword: Hexproof from
 	match: Hexproo<atom-param>name</atom-param> from <atom-param>name</atom-param>
-	mode: expert
+	mode: core
 	reminder: This {if has_pt() then "creature" else "permanent"} can't be the target of {param2} spells or abilities your opponents control.
 keyword:
 	keyword: Hexproof
@@ -1319,7 +1328,7 @@ keyword:
 	keyword: Mentor
 	match: Mentor
 	mode: expert
-	reminder: Whenever this creature attacks, put a +1/+1 counter target attacking creature with lesser power.
+	reminder: Whenever this creature attacks, put a +1/+1 counter on target attacking creature with lesser power.
 keyword:
 	keyword: Surveil
 	match: Surveil <atom-param>number</atom-param>
@@ -1389,3 +1398,20 @@ keyword:
 	match: Companion — <atom-param>name</atom-param>
 	mode: expert
 	reminder: If this card is your chosen companion, you may cast it once from outside the game.
+#Magic 2021
+keyword:
+	keyword: Mill
+	match: <atom-param>mill</atom-param> <atom-param>one_word</atom-param>
+	mode: core
+	reminder: {if param1.value == "mills" then "They put" else "Put"} the top {if param2.value == "a" then "" else param2 + " "}{if param2.value == "a" then "card" else "cards"} of {if param1.value == "mills" then "their library into their" else "your library into your"} graveyard.
+keyword:
+	keyword: phases out
+	match: phases out
+	mode: expert
+	reminder: Treat it and anything attached to it as though they don't exist until its controller's next turn.
+#Zendikar Rising
+keyword:
+	keyword: Party
+	match: party
+	mode: action
+	reminder: Your party consists of up to one of each Cleric, Rogue, Warrior and Wizard.
