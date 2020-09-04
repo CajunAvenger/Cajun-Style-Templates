@@ -27,6 +27,7 @@ word list:
 	word: Artifact
 	word: Artifact Creature
 	word: Enchantment
+	word: Enchantment Creature
 	word: Instant
 	word: Sorcery
 	word: Land

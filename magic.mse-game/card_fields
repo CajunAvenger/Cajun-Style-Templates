@@ -329,14 +329,6 @@ card field:
 	description: The first level text for the card
 card field:
 	type: text
-	name: modal rule text
-	script: modal_text_filter(input: value, card_name: card.name)
-	show statistics: false
-	multi line: true
-	position hint: 115
-	description: The secret rules text for the card
-card field:
-	type: text
 	name: loyalty cost 2
 	show statistics: false
 	description: The loyalty cost for the second ability of a planeswalker
@@ -354,14 +346,6 @@ card field:
 	multi line: true
 	position hint: 120
 	description: The second level text for the card
-card field:
-	type: text
-	name: modal flavor text
-	script: forward_editor(field:card.flavor_text)
-	show statistics: false
-	multi line: true
-	position hint: 125
-	description: The secret flavor text for the card
 card field:
 	type: text
 	name: loyalty cost 3
@@ -861,19 +845,6 @@ card field:
 card field:
 	type: text
 	name: flavor text 3
-	script: flavor_text_filter(value)
-	multi line: true
-	show statistics: false
-card field:
-	type: text
-	name: modal rule text 2
-	script: modal_text_filter(input: value, card_name: card.name_2)
-	show statistics: false
-	multi line: true
-	description: The rules text of the card
-card field:
-	type: text
-	name: modal flavor text 2
 	script: flavor_text_filter(value)
 	multi line: true
 	show statistics: false

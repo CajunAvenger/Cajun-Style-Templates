@@ -455,6 +455,31 @@ iterate_digits := {
 	else if iterate_trim(iterate_fix(input)) == " twenty" then "20"
 	else iterate_trim(iterate_fix(input))
 }
+digital_number := {
+	input := replace(input, match:"up to ", replace:"")
+	if input == "zero" then 0
+	else if input == "one" or input == "a" or input == "an" then 1
+	else if input == "two" then 2
+	else if input == "three" then 3
+	else if input == "four" then 4
+	else if input == "five" then 5
+	else if input == "six" then 6
+	else if input == "seven" then 7
+	else if input == "eight" then 8
+	else if input == "nine" then 9
+	else if input == "ten" then 10
+	else if input == "eleven" then 11
+	else if input == "twelve" then 12
+	else if input == "thirteen" then 13
+	else if input == "fourteen" then 14
+	else if input == "fifteen" then 15
+	else if input == "sixteen" then 16
+	else if input == "seventeen" then 17
+	else if input == "eighteen" then 18
+	else if input == "nineteen" then 19
+	else if input == "twenty" then 20
+	else input
+}
 reverse_elements := {for element from 1 to length(input) do input[length(input) - element] + " "}
 ############################################################## The text box
 
@@ -463,29 +488,28 @@ reverse_elements := {for element from 1 to length(input) do input[length(input) 
 mana_context :=
 	"(?ix)				# case insensitive, ignore whitespace
 	 (^|[[:space:]\"(“'])		# start of a word
-	 (  <match>:			# G: something
-	 |  <match>,			# G, tap: something
-	 |  or[ ]<match>		# Add X, Y, or Z.
-	 |  <match>[ ]to[ ]your		# Add X, Y, or Z to your mana pool.
-	 |  <match>[ ]was[ ]spent		# if G was spent to cast
-	 |  <match>[ ]can[ ]be[ ]pay
-	 |  (?<!converted[ ]mana[ ])(pays?|additional|costs?|the	# pay X. creatures cost 1 less. pay an additional G.
-	    |adds?|pay(ed)?[ ](with|using)
-	    )
-	    ([ ]either)?			 # pay either X or Y
-	    ([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
-	    ([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
-	    [ ]<match>(?![ ]life)
-	    ([,.)]|$				# (end of word)
-	    |[ ][^ .,]*$			# still typing...
-	    |[ ]( or | and | in | less | more | to ) # or next word is ...
-	    )
-	    )
+		 (
+			<match>:			# G: something
+		 |  <match>,			# G, tap: something
+		 |  or[ ]<match>		# Add X, Y, or Z.
+		 |  <match>[ ]to[ ]your		# Add X, Y, or Z to your mana pool.
+		 |  <match>[ ]was[ ]spent		# if G was spent to cast
+		 |  <match>[ ]can[ ]be[ ]paid
+		 |  (pays?|additional|costs?|the|adds?|pay(ed)?[ ](with|using))	# pay X. creatures cost 1 less. pay an additional G.
+			([ ]either)?			 # pay either X or Y
+			([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
+			([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
+			[ ]<match>
+			([,.)\"”]|$				# (end of word)
+			|[ ][^ .,]*$			# still typing...
+			|[ ]( or | and | in | less | more | to ) # or next word is ...
+		 )
+	 )
 	 |  <param-mana><match></param-mana>		# keyword argument that is declared as mana
 	 |  <param-cost>[ ]*<match></param-cost>	# keyword argument that is declared as cost
 	 |  <param-cost><match>,			# keyword argument that is declared as cost
 	 ";
-
+mana_un_context := "(converted mana costs? <match>|<match> life)"
 
 # truncates the name of legends
 legend_filter := replace@(match:"(, | of | the ).*", replace: "" )
@@ -504,7 +528,7 @@ equip_filter :=
 	replace@(match:"This creature", replace:"It")
 	+replace@(match:"this creature", replace:"it")
 auto_correct :=
-	replace@(match:"it’s (controller|owner|power|toughness|converted|other)", replace:"its \\1")
+	replace@(match:" it’s (controller|owner|power|toughness|converted|other)", replace:"its \\1")
 	+replace@(match:"Then, if" replace:"Then if")
 	+replace@(match:"([Ff]irst|[Dd]ouble) Strike" replace:"\\1 strike")
 	+replace@(match:"Splice (Ont|unt|int)" replace:"Splice ont")
@@ -522,20 +546,9 @@ text_filter :=
 	remove_tag@(tag: "<b-auto>")   +
 	remove_tag@(tag: "<error-spelling") +
 	remove_tag@(tag: "<nospellcheck") +
-	# step 1b : temporarily rename Equipment and Equipped to circumvent Equip bug
-	replace@(
-		match: "Equipped",
-		replace: "CodeCapitalE"
-	)+
-	replace@(
-		match: "Equipment",
-		replace: "CodeEment"
-	)+
-	replace@(
-		match: "equip",
-		in_context: "<match>(ment|ped)",
-		replace: "CodeLowere"
-	)+
+	remove_tag@(tag: "<li>") +
+	remove_tag@(tag: "<bullet>") +
+	remove_tag@(tag: "<align") +
 	# step 2 : reminder text for keywords
 	expand_keywords@(
 		condition: {
@@ -576,19 +589,6 @@ text_filter :=
 		match: "[)](</atom-reminder-[^>]+></kw-[^>]><atom-reminder-[^>]+> )[(]"
 		replace: "\\1"
 	) +
-	# step 2g : add back Equips now they won't break anything
-	replace@(
-		match:"CodeEment",
-		replace: "Equipment"
-	)+ 
-	replace@(
-		match:"CodeCapitalE",
-		replace: "Equipped"
-	)+
-	replace@(
-		match: "CodeLowere",
-		replace: "equip"
-	)+
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME",
@@ -619,6 +619,11 @@ text_filter :=
 		match: "\\b[VLHSCETQ\\?XYZIWUBRG0-9/|]+\\b",
 		in_context: mana_context,
 		replace: {"<sym-auto>" + mana_filter_t() + "</sym-auto>"} ) +
+	# step 5b : remove false positive mana & tap symbols
+	replace@(
+		match: "<sym-auto>([VLHSCETQ\\?XYZIWUBRG0-9/|]+)</sym-auto>",
+		in_context: mana_un_context,
+		replace: "\\1" ) +
 	# step 5c : add explicit mana symbols
 	replace@(
 		match: "\\[[VLHSCETQE\\?XYZIWUBRG0-9/|]+\\]",
@@ -630,6 +635,11 @@ text_filter :=
 	 	match: "[(]([^)\n]|[(][^)\n]*[)])*[)]?",
 		in_context: "(^|[[:space:]])<match>|<atom-keyword><match></",
 	 	replace: "<i-auto>&</i-auto>") +
+	# step 7b : indent bullets
+	 replace@(
+	 	match: "^(• )([^•]+)",
+	 	replace: {"<li><bullet>" + _1 + "</bullet>" + _2 + "</li>"}
+	 )+
 	# step 8 : automatic capitalization, but not after "("
 	replace@(
 		match: "([ ]*: |—| — )" # preceded by this
@@ -921,11 +931,13 @@ special_text := { "" }
 special_text2 := { "" }
 exporter_name_filter := filter_text@(match:"!exporte?r?name [^\n!]+")
 exporter_name_grabber := replace@(match:"!exporte?r?name ", replace:"")
-card_name := { if exporter_name_grabber(exporter_name_filter(card.notes)) != "" then exporter_name_grabber(exporter_name_filter(card.notes)) else card.name }
+card_name := { replace(if exporter_name_grabber(exporter_name_filter(card.notes)) != "" then exporter_name_grabber(exporter_name_filter(card.notes)) else card.name, match:" $", replace:"") }
 
 comma_count := filter_text@(match:",")
 round_up := {to_int(0.99999999999998+input)}
 round_near := {to_int(0.5+input)}
+to_title := replace@(match:"(^| )([A-z])([^ ]*)", replace:{_1+ to_upper(_2) + to_lower(_3)})
+to_sentence := replace@(match:"(^|\n)([A-z])([^\n]*)", replace:{_1+ to_upper(_2) + to_lower(_3)})
 join := {
 	string := ""
 	if length(input) == 2 then spacer := " "
@@ -1039,9 +1051,9 @@ lines_of_text := {												#estimate lines in break blocks
 			lines := lines + calc_lines(word_split(input[x]), char:char)
 	lines
 }
-flavor_text := {split_text(match:"\n", remove_tags(card.flavor_text)+"\n")}						#remove tags, add \n so .1 doesn't explode
+flavor_text := {split_text(match:"\n", remove_tags(card.flavor_text+"\n"))}						#remove tags, add \n so .1 doesn't explode
 hard_flavor_break := { if not contains(card.flavor_text, match:"\n") then 0 else if contains(card.flavor_text, match:"<soft-line>\n") then 0 else if lines_of_rules() >= 3 then -3 else -2}
-font_size := {round_near(card_style.text.content_height / card_style.text.content_lines) - 8}	#approximate font size
+font_size := {min(14,round_near(card_style.text.content_height / card_style.text.content_lines) - 8)}	#approximate font size
 adj_char_width := {7.35 * min(14, font_size()+0.95) / 14}										#average char width, adjusted for font size
 char_per_line := {min(52,round_up(card_style.text.content_width / adj_char_width())+1.5)}		#approximate character limit. very rarely over 52 but standard eq can reach 60+
 lines_of_flavor := {lines_of_text(flavor_text(), char:char_per_line())}												
@@ -1052,11 +1064,13 @@ linebreak_height := { 2*length(hard_paragraph_count(card.rule_text)) }
 ###correction for ratio of rules/flavor causing weirdness
 uneven_correction := { if lines_of_flavor() == 1 then max(4, (card_style.text.content_lines - (2*lines_of_flavor()))) else (card_style.text.content_lines - (2*lines_of_flavor())) }
 ###add it all up
-bar_equation := { top_of_textbox() + padding_height() + card_style.text.content_height - line_height()*(lines_of_flavor() + offset_lines()) + linebreak_height() - uneven_correction() + front_corr() + bar_offset() + hard_flavor_break() +1 }
-
-flavor_text2 := {split_text(match:"\n", remove_tags(card.flavor_text_2)+"\n")}						#remove tags, add \n so .1 doesn't explode
+###old_bar_equation is compatibilty for 2.0.0
+old_bar_equation := { top_of_textbox() + padding_height() + card_style.text.content_height - line_height()*(lines_of_flavor() + offset_lines()) + linebreak_height() - uneven_correction() + front_corr() + bar_offset() + hard_flavor_break() +1 }
+bar_equation := {if card_style.text.layout.blocks[0].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
+	
+flavor_text2 := {split_text(match:"\n", remove_tags(card.flavor_text_2+"\n"))}						#remove tags, add \n so .1 doesn't explode
 hard_flavor_break2 := { if not contains(card.flavor_text_2, match:"\n") then 0 else if contains(card.flavor_text_2, match:"<soft-line>\n") then 0 else if lines_of_rules2() >= 3 then -3 else -2}
-font_size2 := {round_near(card_style.text_2.content_height / card_style.text_2.content_lines) - 8}	#approximate font size
+font_size2 := {min(14,round_near(card_style.text_2.content_height / card_style.text_2.content_lines) - 8)}	#approximate font size
 adj_char_width2 := {7.35 * min(14, font_size2()+0.95) / 14}										#average char width, adjusted for font size
 char_per_line2 := {min(52,round_up(card_style.text_2.content_width / adj_char_width2())+1.5)}		#approximate character limit. very rarely over 52 but standard eq can reach 60+
 lines_of_flavor2 := {lines_of_text(flavor_text2(), char:char_per_line2())}												
@@ -1067,7 +1081,8 @@ linebreak_height2 := { 2*length(hard_paragraph_count(card.rule_text_2)) }
 ###correction for ratio of rules/flavor causing weirdness
 uneven_correction2 := { if lines_of_flavor2() == 1 then max(4, (card_style.text_2.content_lines - (2*lines_of_flavor2()))) else (card_style.text_2.content_lines - (2*lines_of_flavor2())) }
 ###add it all up
-bar_equation2 := { top_of_textbox2() + padding_height2() + card_style.text_2.content_height - line_height2()*(lines_of_flavor2() + offset_lines2()) + linebreak_height2() - uneven_correction2() + back_corr() + bar_offset2() + hard_flavor_break2() +1 }
+old_bar_equation2 := { top_of_textbox2() + padding_height2() + card_style.text_2.content_height - line_height2()*(lines_of_flavor2() + offset_lines2()) + linebreak_height2() - uneven_correction2() + back_corr() + bar_offset2() + hard_flavor_break2() +1 }
+bar_equation2 := {if card_style.text_2.layout.blocks[0].bottom or else 0 > 0 then card_style.text_2.top + 0.5*(card_style.text_2.layout.blocks[0].bottom+card_style.text_2.layout.blocks[1].top) else old_bar_equation2()}
 
 ##### long correction coefficient based off several sets of data
 front_corr := {correction_coeff(lof:lines_of_flavor(), lor:lines_of_rules(), lbh:linebreak_height())}
@@ -1133,6 +1148,7 @@ v_mana_loc := {if not use_v_mana() then "" else replace(set.custom_mana_symbol_n
 searchPull := filter_text@(match:"search(name|mana|type|rules|flavor|text|notes)")
 searchSnip := replace@(match:"search(name|mana|type|rules|flavor|text|notes)_", replace:"")
 
+is_modal := contains@(match:"<li>")
 custom_index := {
 	sortIndex := split_text(set.custom_index, match:",")
 	for each field in sortIndex do 
