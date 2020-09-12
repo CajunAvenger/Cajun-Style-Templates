@@ -823,6 +823,16 @@ insert symbol menu:
 	item:
 		type: line
 	item:
+		name: custom symbols
+		item: V
+		item: V/W
+		item: V/U
+		item: V/B
+		item: V/R
+		item: V/G
+	item:
+		type: line
+	item:
 		name: prismatic
 		item: W/U/B/R/G
 	item:

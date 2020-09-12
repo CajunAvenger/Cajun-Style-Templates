@@ -101,6 +101,10 @@ symbol:
 	code: chaos
 	image: mana_chaos.png
 	image font size: 151.69
+###################################################################################### Prismatic Symbols
+symbol:
+	code: W/U/B/R/G
+	image: mana_wubrg.png
 symbol:
 	code: B/G/W
 	image: mana_bgw.png
@@ -483,6 +487,21 @@ symbol:
 		max stretch: 0.5
 	image font size: 145
 symbol:
+	image: { masked_blend(dark: "mana_circle_large.png", light: "mana_ss.png", mask: "mask_hybrid.png") }
+	code: ([XYZ0-9])/S
+	regex: yes
+	draw text: 1
+	text margin left:   -.30
+	text margin right:  .2
+	text margin top:    -.14
+	text margin bottom: .34
+	text font:
+		name: MPlantin
+		size: .6
+		color: black
+		max stretch: 0.5
+	image font size: 145
+symbol:
 	image: { masked_blend(dark: "mana_circle_large.png", light: "mana_cc.png", mask: "mask_hybrid.png") }
 	code: ([XYZ0-9])/C
 	regex: yes
@@ -504,12 +523,13 @@ symbol:
 	draw text: 0
 	text margin left:   .23
 	text margin right:  .21
-	text margin top:    -.10
+	text margin top:    -.15
 	text margin bottom: -.06
 	text font:
 		name: MPlantin
 		size: 1
 		color: rgb(0,0,0)
+		max stretch: 0.9
 symbol:
 	code: I
 	image: mana_infinite.png
