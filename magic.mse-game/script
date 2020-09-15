@@ -556,8 +556,19 @@ text_filter :=
 	remove_tag@(tag: "<align") +
 	# step 1b : remove zero-width space used for level spacers
 	replace@(match:"​", replace:"")+
-	# temp fix for formatting buttons
-	{"_ " + input + " _"}+
+	# step 2a : temp fix for formatting buttons
+	replace@(
+		match:"<b></b>",
+		replace:"BOLDAROUND"
+	)+
+	replace@(
+		match:"<i></i>",
+		replace:"ITALAROUND"
+	)+
+	replace@(
+		match:"<sym></sym>",
+		replace:"SYMAROUND"
+	)+
 	# step 2 : reminder text for keywords
 	expand_keywords@(
 		condition: {
@@ -599,12 +610,16 @@ text_filter :=
 	) +
 	# step 2f : temp fix for formatting buttons
 	replace@(
-		match:"^_ ",
-		replace:""
+		match:"BOLDAROUND",
+		replace:"<b></b>"
 	)+
 	replace@(
-		match:" _$",
-		replace:""
+		match:"ITALAROUND",
+		replace:"<i></i>"
+	)+
+	replace@(
+		match:"SYMAROUND",
+		replace:"<sym></sym>"
 	)+
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
