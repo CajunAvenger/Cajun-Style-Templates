@@ -481,6 +481,8 @@ digital_number := {
 	else input
 }
 reverse_elements := {for element from 1 to length(input) do input[length(input) - element] + " "}
+is_modal := contains@(match:"<li>")
+
 ############################################################## The text box
 
 # Filters for the text box
@@ -551,6 +553,21 @@ text_filter :=
 	remove_tag@(tag: "<li>") +
 	remove_tag@(tag: "<bullet>") +
 	remove_tag@(tag: "<align") +
+	# step 1b : remove zero-width space used for level spacers
+	replace@(match:"​", replace:"")+
+	# step 2a : temp fix for formatting buttons
+	replace@(
+		match:"<b></b>",
+		replace:"BOLDAROUND"
+	)+
+	replace@(
+		match:"<i></i>",
+		replace:"ITALAROUND"
+	)+
+	replace@(
+		match:"<sym></sym>",
+		replace:"SYMAROUND"
+	)+
 	# step 2 : reminder text for keywords
 	expand_keywords@(
 		condition: {
@@ -586,11 +603,23 @@ text_filter :=
 		replace: "\\2\\1"
 		) +
 	# step 2e : combine reminder texts
-	#
 	replace@(
 		match: "[)](</atom-reminder-[^>]+></kw-[^>]><atom-reminder-[^>]+> )[(]"
 		replace: "\\1"
 	) +
+	# step 2f : temp fix for formatting buttons
+	replace@(
+		match:"BOLDAROUND",
+		replace:"<b></b>"
+	)+
+	replace@(
+		match:"ITALAROUND",
+		replace:"<i></i>"
+	)+
+	replace@(
+		match:"SYMAROUND",
+		replace:"<sym></sym>"
+	)+
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME",
@@ -898,6 +927,7 @@ mainframe_stat_color := {
 }
 is_mainframe := { false }
 is_walker := { contains(card.super_type, match:"Planeswalker") }
+mainframe_walker := {false}
 mainframe_power := { card.power }
 mainframe_toughness := { card.toughness }
 
@@ -1156,7 +1186,6 @@ v_mana_loc := {if not use_v_mana() then "" else replace(set.custom_mana_symbol_n
 searchPull := filter_text@(match:"search(name|mana|type|rules|flavor|text|notes)")
 searchSnip := replace@(match:"search(name|mana|type|rules|flavor|text|notes)_", replace:"")
 
-is_modal := contains@(match:"<li>")
 custom_index := {
 	sortIndex := split_text(set.custom_index, match:",")
 	for each field in sortIndex do 

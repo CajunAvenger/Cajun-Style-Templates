@@ -76,8 +76,8 @@ auto replace:
 	match: ETB
 	replace: enters the battlefield
 auto replace:
-	match: etbt
-	replace: enters the battlefield tapped
+	match: battlefieldA
+	replace: enters the battlefield or attacks,
 auto replace:
 	match: battlefieldT
 	replace: battlefield tapped
@@ -93,6 +93,15 @@ auto replace:
 auto replace:
 	match: SAC
 	replace: Sacrifice a creature:
+auto replace:
+	match: SAX
+	replace: sacrifice a creature
+auto replace:
+	match: P&T
+	replace: power and toughness
+auto replace:
+	match: BPT
+	replace: base power and toughness
 #
 #Abilities
 auto replace:
@@ -389,6 +398,12 @@ auto replace:
 auto replace:
 	match: GY
 	replace: graveyard
+auto replace:
+	match: RELENTLESS
+	replace: A deck can have any number of cards named CARDNAME.
+auto replace:
+	match: HIFLY
+	replace: CARDNAME can block only creatures with flying.
 #
 #Ability word replacements
 auto replace:
@@ -528,54 +543,6 @@ auto replace:
 	replace: Addendum — If you cast this spell during your main phase, 
 #
 #X replacements
-auto replace:
-	match: MILL1
-	replace: puts the top card of their library into their graveyard.
-auto replace:
-	match: MILL2
-	replace: puts the top two cards of their library into their graveyard.
-auto replace:
-	match: MILL3
-	replace: puts the top three cards of their library into their graveyard.
-auto replace:
-	match: MILL4
-	replace: puts the top four cards of their library into their graveyard.
-auto replace:
-	match: MILL5
-	replace: puts the top five cards of their library into their graveyard.
-auto replace:
-	match: MILL6
-	replace: puts the top six cards of their library into their graveyard.
-auto replace:
-	match: MILL7
-	replace: puts the top seven cards of their library into their graveyard.
-auto replace:
-	match: MILL8
-	replace: puts the top eight cards of their library into their graveyard.
-auto replace:
-	match: MILL9
-	replace: puts the top nine cards of their library into their graveyard.
-auto replace:
-	match: MILLX
-	replace: puts the top X cards of their library into their graveyard.
-auto replace:
-	match: MILL.10
-	replace: puts the top ten cards of their library into their graveyard.
-auto replace:
-	match: MILL.13
-	replace: puts the top thirteen cards of their library into their graveyard.
-auto replace:
-	match: MILL.15
-	replace: puts the top fifteen cards of their library into their graveyard.
-auto replace:
-	match: MILL.20
-	replace: puts the top twenty cards of their library into their graveyard.
-auto replace:
-	match: MILL.30
-	replace: puts the top thirty cards of their library into their graveyard.
-auto replace:
-	match: MILL HALF
-	replace: puts the top half of their library, rounded down, into their graveyard.
 auto replace:
 	match: GRIND1
 	replace: Target player reveals cards from the top of their library until they reveal a land card, then puts those cards into their graveyard.
@@ -920,7 +887,7 @@ auto replace:
 	replace: Prevent the next 7 damage that would be dealt to target creature or player this turn.
 auto replace:
 	match: PREVENT8
-	replace: Prevent the next 8 damage that would be dealt to target creature or player this 
+	replace: Prevent the next 8 damage that would be dealt to target creature or player this turn.
 auto replace:
 	match: PREVENT9
 	replace: Prevent the next 9 damage that would be dealt to target creature or player this turn.
@@ -1292,22 +1259,58 @@ auto replace:
 #Token creation
 auto replace:
 	match: TREASURE1
-	replace: Create a colorless Treasure artifact token with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create a Treasure token. (It’s an artifact with “[T], Sacrifice this artifact: Add one mana of any color.”)
 auto replace:
 	match: TREASURE2
-	replace: Create two colorless Treasure artifact tokens with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create two Treasure tokens. (They’re artifacts with “[T], Sacrifice this artifact: Add one mana of any color.”)
 auto replace:
 	match: TREASURE3
-	replace: Create three colorless Treasure artifact tokens with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create three Treasure tokens. (They’re artifacts with “[T], Sacrifice this artifact: Add one mana of any color.”)
 auto replace:
 	match: TREASURE4
-	replace: Create four colorless Treasure artifact tokens with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create four Treasure tokens. (They’re artifacts with “[T], Sacrifice this artifact: Add one mana of any color.”)
 auto replace:
 	match: TREASURE5
-	replace: Create five colorless Treasure artifact tokens with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create five Treasure tokens. (They’re artifacts with “[T], Sacrifice this artifact: Add one mana of any color.”)
 auto replace:
 	match: TREASUREX
-	replace: Create X colorless Treasure artifact tokens with "[T], Sacrifice this artifact: Add one mana of any color."
+	replace: Create X Treasure tokens. (They’re artifacts with “[T], Sacrifice this artifact: Add one mana of any color.”)
+auto replace: 
+	match: FOOD1
+	replace: Create a Food token. (It’s an artifact with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace: 
+	match: FOOD2
+	replace: Create two Food tokens. (They’re artifacts with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace: 
+	match: FOOD3
+	replace: Create three Food tokens. (They’re artifacts with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace: 
+	match: FOOD4
+	replace: Create four Food tokens. (They’re artifacts with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace: 
+	match: FOOD5
+	replace: Create five Food tokens. (They’re artifacts with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace: 
+	match: FOODX
+	replace: Create X Food tokens. (They’re artifacts with “[2], [T], Sacrifice this artifact: You gain 3 life.”)
+auto replace:
+	match: CLUE1
+	replace: Create a Clue token. (It's an artifact with "[2], Sacrifice this artifact: Draw a card.")
+auto replace:
+	match: CLUE2
+	replace: Create two Clue tokens. (They're artifacts with "[2], Sacrifice this artifact: Draw a card.")
+auto replace:
+	match: CLUE3
+	replace: Create three Clue tokens. (They're artifacts with "[2], Sacrifice this artifact: Draw a card.")
+auto replace:
+	match: CLUE4
+	replace: Create four Clue tokens. (They're artifacts with "[2], Sacrifice this artifact: Draw a card.")
+auto replace:
+	match: CLUE5
+	replace: Create five Clue tokens. (They're artifacts with "[2], Sacrifice this artifact: Draw a card.")
+auto replace:
+	match: CLUEX
+	replace: Create X Clue tokens. (They're artifacts with "[2], Sacrifice this artifact: Draw a card.")
 auto replace:
 	match: GOBLIN
 	replace: create a 1/1 red Goblin creature token.
@@ -1325,10 +1328,10 @@ auto replace:
 	replace: create a 3/1 red Elemental creature token.
 auto replace:
 	match: SCION
-	replace: create a 1/1 colorless Eldrazi Scion creature token with "Sacrifice this creature: Add [C] to your mana pool"
+	replace: create a 1/1 colorless Eldrazi Scion creature token with "Sacrifice this creature: Add [C]."
 auto replace:
 	match: SPAWN
-	replace: create a 0/1 colorless Eldrazi Spawn creature token with "Sacrifice this creature: Add [C] to your mana pool"
+	replace: create a 0/1 colorless Eldrazi Spawn creature token with "Sacrifice this creature: Add [C]."
 auto replace:
 	match: BEAST
 	replace: create a 3/3 green Beast creature token.

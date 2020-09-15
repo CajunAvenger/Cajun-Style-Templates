@@ -4,7 +4,7 @@
 languages := [
 	English: [
 		code              : "en",
-		spellcheck_code   : "en_us",
+		spellcheck_code   : "en_US",
 		pt_separator      : "/",
 		type_separator    : " — ",
 		subtype_separator : " ",
