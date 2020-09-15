@@ -543,6 +543,7 @@ auto_correct :=
 		     + "(<kw-[^<]><nospellcheck>)" # inside a kw
 			 + "([A-Z])" # match this
 		replace: { _1 + _2 + to_lower(_3)})
+		
 text_filter :=
 	# step 1 : remove all automatic tags
 	remove_tag@(tag: "<sym-auto>") +
@@ -556,7 +557,7 @@ text_filter :=
 	# step 1b : remove zero-width space used for level spacers
 	replace@(match:"​", replace:"")+
 	# temp fix for formatting buttons
-	{"_" + input + "_"}+
+	{"_ " + input + " _"}+
 	# step 2 : reminder text for keywords
 	expand_keywords@(
 		condition: {
@@ -598,11 +599,11 @@ text_filter :=
 	) +
 	# step 2f : temp fix for formatting buttons
 	replace@(
-		match:"^_",
+		match:"^_ ",
 		replace:""
 	)+
 	replace@(
-		match:"_$",
+		match:" _$",
 		replace:""
 	)+
 	# step 3a : expand shortcut word CARDNAME
