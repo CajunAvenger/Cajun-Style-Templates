@@ -180,10 +180,10 @@ init script:
 	stripe01b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:43),105)}
 	stripe12b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:17),stripe23b()-374)}
 	stripe23b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 1, default:70),95)}
-	stripe30b := { 319 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:0),stripe32b()-338)}
-	stripe31b := { 319 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:21),stripe32b()-338)}
-	stripe32b := { 319 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 1, default:69),stripe33b()-338)}
-	stripe33b := { 319 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 2, default:119),151)}
+	stripe30b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:0),stripe32b()-374)}
+	stripe31b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 0, default:3),stripe32b()-374)}
+	stripe32b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 1, default:43),stripe33b()-374)}
+	stripe33b := { 354 + min(pull_comma_array(styling.back_stripe_coordinate, cell: 2, default:83),151)}
 
 	has_identity := { chosen(styling.other_options, choice:"front color indicator")}
 	has_identity2 := { chosen(styling.other_options, choice:"back color indicator") and not contains(card.card_color_2, match:"colorless")}
@@ -1139,7 +1139,7 @@ card style:
 		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else if back_mutate() then (if back_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_5)}
-		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 289-lv_chop(styling.level_5_chop, cell:0)+(if back_clear() then 5 else 0) else 329-lv_chop(styling.level_5_chop, cell:0) }
+		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0)+(if back_clear() then 5 else 0) else 329-lv_chop(styling.level_5_chop, cell:0) }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 342 else if card.pt_4 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() and not back_mutate() then 0 else 343 }
 		bottom: { if back_leveler() then (336+lv_5_height()) else if back_saga() then (if split_12b() == "" then 258 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
 		font:
@@ -1213,7 +1213,7 @@ card style:
 		left: {if back_saga() then 45 else 63+unindent(card.loyalty_cost_8)}
 		top: {if back_saga() then (if split_34b() == "" then 437 else split_34b()) else if back_normal() then 0 else if back_four_abilities() then stripe33b()+10 -lv_chop(styling.level_8_chop, cell:0) else 0}
 		width: {if back_leveler() then 0 else -lv_chop(styling.level_8_chop, cell:2)-unindent(card.loyalty_cost_8) + if back_saga() then 138 else if back_four_abilities() then 282 else 0 }
-		bottom: { if back_three_boxes() then (if split_34b() == "" then 446 else split_34b()) else if back_saga() then 446 else if back_normal() then 0 else if back_four_abilities() then 484 - lv_chop(styling.level_8_chop, cell:1) else 0 }
+		bottom: { if back_three_boxes() then (if split_34b() == "" then 446 else split_34b()) else if back_saga() then 446 else if back_normal() then 0 else if back_four_abilities() then 486 - lv_chop(styling.level_8_chop, cell:1) else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1501,7 +1501,7 @@ card style:
 	loyalty cost 5:
 		z index: 7
 		left: {if is_normal() then 14 else 32}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 297 else if back_two_abilities() then 349 else 336)  }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 330 else if back_two_abilities() then 349 else 336)  }
 		width: { if not back_normal() or card.loyalty_cost_5 != "" then 13.16 else 0 }
 		height:	{ if not back_normal() or card.loyalty_cost_5 != "" then 34.63 else 0 }
 		alignment: center middle
@@ -1512,7 +1512,7 @@ card style:
 	loyalty cost 6:
 		z index: 7
 		left: {if is_normal() then 14 else 32}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 344 else if back_two_abilities() then 430 else 390) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 369 else if back_two_abilities() then 430 else 390) }
 		width: { if not back_normal() or card.loyalty_cost_6 != "" then 13.16 else 0 }
 		height:	{ if not back_normal() or card.loyalty_cost_6 != "" then 34.63 else 0 }
 		alignment: center middle
@@ -1523,7 +1523,7 @@ card style:
 	loyalty cost 7:
 		z index: 7
 		left: {if is_normal() then 14 else 32}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 391 else 443) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 409 else 443) }
 		width: { if card.loyalty_cost_7 != "" then 13.16 else if back_two_abilities() or back_normal() then 0 else 13.16}
 		height:	34.63
 		alignment: center middle
@@ -1534,7 +1534,7 @@ card style:
 	loyalty cost 8:
 		z index: 7
 		left: {if is_normal() then 14 else 32}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 439 }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 449 }
 		width: { if back_four_abilities() or card.loyalty_cost_8 != "" then 13.16 else 0 }
 		height:	{ if back_four_abilities() or card.loyalty_cost_8 != "" then 34.63 else 0 }
 		alignment: center middle
@@ -1592,7 +1592,7 @@ extra card field:
 extra card field:
 	type: choice
 	name: stamp
-	script: card.card_color
+	script: card.card_color_2
 	editable: false
 	save value: false
 extra card field:
@@ -2378,7 +2378,7 @@ extra card style:
 		visible: { is_stamped() and not front_clear() }
 		render style: image
 		image: { if is_saga() then "saga_stamp.png" else if is_map() then "maps/holo_stamp.png" else if is_normal() then card_stamp2() else card_stamp() }
-		mask: "stamp_mask.png"
+		mask: stamp_mask.png
 	foil stamp:
 		left: {if front_clear() then 168 else if is_normal() then 165 else 170 }
 		top: { if front_clear() then 480 else if is_normal() then 481 else 482 }
@@ -2454,7 +2454,7 @@ extra card style:
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 5:
 		left: {if is_normal() then 0 else 18}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 295 else if back_two_abilities() then 347 else 334) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 328 else if back_two_abilities() then 347 else 334) }
 		width: 42
 		height: 40
 		z index: 6
@@ -2466,7 +2466,7 @@ extra card style:
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 6:
 		left: {if is_normal() then 0 else 18}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 342 else if back_two_abilities() then 427 else 387) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 367 else if back_two_abilities() then 427 else 387) }
 		width: 42
 		height: 40
 		z index: 6
@@ -2478,7 +2478,7 @@ extra card style:
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 7:
 		left: {if is_normal() then 0 else 18}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 389 else 440) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 407 else 440) }
 		width: 42
 		height: 40
 		z index: 6
@@ -2490,7 +2490,7 @@ extra card style:
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 8:
 		left: {if is_normal() then 0 else 18}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 437 }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 447 }
 		width: 42
 		height: 40
 		z index: 6
@@ -2554,7 +2554,7 @@ extra card style:
 		visible: { card.loyalty_cost_4 != "" }
 	colon 5:
 		left: {if is_normal() then 41 else 59}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 309 else if back_two_abilities() then 361 else 348) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 340 else if back_two_abilities() then 361 else 348) }
 		width: 5
 		height: 10
 		z index: 6
@@ -2567,7 +2567,7 @@ extra card style:
 		visible: { card.loyalty_cost_5 != "" }
 	colon 6:
 		left: {if is_normal() then 41 else 59}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 356 else if back_two_abilities() then 441 else 401) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 380 else if back_two_abilities() then 441 else 401) }
 		width: 5
 		height: 10
 		z index: 6
@@ -2580,7 +2580,7 @@ extra card style:
 		visible: { card.loyalty_cost_6 != "" }
 	colon 7:
 		left: {if is_normal() then 41 else 59}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 403 else 454) }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 420 else 454) }
 		width: 5
 		height: 10
 		z index: 6
@@ -2593,7 +2593,7 @@ extra card style:
 		visible: { card.loyalty_cost_7 != "" }
 	colon 8:
 		left: {if is_normal() then 41 else 59}
-		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 451 }
+		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 460 }
 		width: { if back_four_abilities() then 5 else 0 }
 		height: 10
 		z index: 6
@@ -2686,16 +2686,16 @@ extra card style:
 		z index: 2
 		mask: stripe_mask.png
 		visible: { back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
-#	fourth stripe back:
-#		left: 46
-#		top: { stripe33b() }
-#		width: 299
-#		height: 20
-#		image: { (if back_clear() then "clear_" else "") + "top_stripe_test.png" }
-#		render style: image
-#		z index: 2
-#		mask: stripe_mask.png
-#		visible: { back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+	fourth stripe back:
+		left: 46
+		top: { stripe33b() }
+		width: 299
+		height: 20
+		image: { (if back_clear() then "clear_" else "") + "top_stripe_test.png" }
+		render style: image
+		z index: 2
+		mask: stripe_mask.png
+		visible: { back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
 	stripe color back:
 		left: 46
 		top: 344
