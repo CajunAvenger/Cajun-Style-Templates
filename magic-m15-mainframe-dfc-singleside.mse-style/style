@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp2: "normal/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
@@ -2359,12 +2359,12 @@ extra card style:
 		image: { if back_saga() then "saga_stamp.png" else if back_map() then "maps/holo_stamp.png" else if back_normal() then card_stamp2() else card_stamp() }
 		mask: stamp_mask.png
 	foil stamp:
-		left: { if is_normal() then 165 else 170 }
-		top: { if is_normal() then 481 else 482 }
-		width: { if is_normal() then 46 else 36.5 }
-		height: { if is_normal() then 26 else 22.5 }
+		left: { if back_normal() then 165 else 170 }
+		top: { if back_normal() then 481 else 482 }
+		width: { if back_normal() then 46 else 36.5 }
+		height: { if back_normal() then 26 else 22.5 }
 		z index: 4
-		visible: { is_stamped() and not is_map()}
+		visible: { is_stamped() and not back_map()}
 		render style: image
 		image: foil_stamp.png
 	foil layer:
@@ -3011,24 +3011,24 @@ extra card style:
 #		visible: { card.casting_cost != "" and is_flagged()}
 #		render style: image
 #		image: { card_cb() }
-#	flavor bar:
-#		left: 0
-#		top: { bar_equation() }
-#		width: 375
-#		height: 1
-#		z index: 1
-#		render style: image
-#		image: bar.png
-#		visible: { card.rule_text != "" and remove_tags(card.flavor_text) != "" and set.use_flavor_bar }
-#	flavor bar 2:
-#		left: 377
-#		top: { bar_equation2() }
-#		width: 375
-#		height: 1
-#		z index: 1
-#		render style: image
-#		image: bar.png
-#		visible: { card.rule_text_2 != "" and remove_tags(card.flavor_text_2) != "" and set.use_flavor_bar }
+	flavor bar:
+		left: 0
+		top: { bar_equation() }
+		width: 375
+		height: 1
+		z index: 1
+		render style: image
+		image: bar.png
+		visible: { card.rule_text != "" and remove_tags(card.flavor_text) != "" and set.use_flavor_bar }
+	flavor bar 2:
+		left: 0
+		top: { bar_equation2() }
+		width: 375
+		height: 1
+		z index: 1
+		render style: image
+		image: bar.png
+		visible: { card.rule_text_2 != "" and remove_tags(card.flavor_text_2) != "" and set.use_flavor_bar }
 
 #	chapter 1:
 #		left: 14
