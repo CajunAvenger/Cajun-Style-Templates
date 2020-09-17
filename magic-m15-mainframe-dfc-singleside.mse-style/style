@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp2: "normal/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp2: "normal/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
@@ -93,7 +93,7 @@ init script:
 	# The front map face
 	map_background := { color_background(type:"map", base_hybrid:card_hybrid) }
 	# The second map face
-	map_background2 := { color_background(type:"map", base_hybrid:card_hybrid) }
+	map_background2 := { color_background(type:"map2", base_hybrid:card_hybrid) }
 	saga_background := { color_background(type:"saga", base_hybrid:card_hybrid) }
 	# pt scripts
 	card_ptbox2 := { color_background(type:"pt2",       base_hybrid:pt_hybrid) }
@@ -161,11 +161,11 @@ init script:
 		else 490
 	}
 	
-	top_of_textbox := {if is_normal() then (if is_map() then 340 else if is_mutate() then 395 else 92)-lv_chop(styling.level_1_chop, cell:0) else 0}
-	bottom_of_textbox := {if is_normal() then (if is_map() then 475 else 246)-lv_chop(styling.level_1_chop, cell:1) else 0}
+	top_of_textbox := {if is_normal() then (if is_map() then 105 else if is_mutate() then 395 else 92)-lv_chop(styling.level_1_chop, cell:0) else 0}
+	bottom_of_textbox := {if is_normal() then (if is_map() then 240 else 246)-lv_chop(styling.level_1_chop, cell:1) else 0}
 
-	top_of_textbox2 := {if back_normal() then (if back_map() then 340 else if back_mutate() then 394 else 336)-lv_chop(styling.level_5_chop, cell:0) else 0}
-	bottom_of_textbox2 := {if back_normal() then (if back_map() then 475 else 490)-lv_chop(styling.level_5_chop, cell:1) else 0}
+	top_of_textbox2 := {if back_normal() then (if back_map() then 349 else if back_mutate() then 394 else 336)-lv_chop(styling.level_5_chop, cell:0) else 0}
+	bottom_of_textbox2 := {if back_normal() then (if back_map() then 484 else 490)-lv_chop(styling.level_5_chop, cell:1) else 0}
 
 	text_size := { 14 -(if styling.front_font_cap == "" then 0 else if contains(styling.front_font_cap, match: ".5") then to_int(split_text(match:".5", styling.separated_text_size).0) else styling.front_font_cap) }
 	text_size2 := { 14 -(if styling.back_font_cap == "" then 0 else if contains(styling.back_font_cap, match: ".5") then to_int(split_text(match:".5", styling.separated_text_size).0) else styling.back_font_cap) }
@@ -188,10 +188,6 @@ init script:
 	has_identity := { chosen(styling.other_options, choice:"front color indicator")}
 	has_identity2 := { chosen(styling.other_options, choice:"back color indicator") and not contains(card.card_color_2, match:"colorless")}
 	is_unsorted := {chosen(styling.other_options, choice:"remove from autocount")}
-	front_clear := {chosen(styling.other_options, choice:"clear front")}
-	back_clear := {chosen(styling.other_options, choice:"clear back")}
-	two_clear := {has_two_abilities() and not has_two_abilities() and front_clear()}
-	two_back_clear := {has_two_abilities() and not back_two_abilities() and back_clear()}
 	use_full_art := {"false"}
 	is_miracle := {styling.front_style == "miracle"}
 	is_nyx := {styling.front_style == "nyx" or chosen(styling.other_options, choice:"nyx front")}
@@ -205,8 +201,8 @@ init script:
 	back_saga := {back_two_boxes() or back_three_boxes() or back_four_boxes()}
 	is_legend := {is_normal() and not is_map() and (chosen(styling.other_options, choice:"legendary front") or (contains(card.super_type, match:"Legendary") and set.auto_legends)) }
 	back_legend := {back_normal() and not back_map() and (chosen(styling.other_options, choice: "legendary back") or (contains(card.super_type_2, match: "Legendary") and set.auto_legends))}
-	is_mutate := {chosen(styling.other_options, choice:"front mutate") and is_normal() and not is_saga() and not is_map() and not front_clear()}
-	back_mutate := {chosen(styling.other_options, choice:"back mutate") and back_normal() and not back_saga() and not back_map() and not back_clear()}
+	is_mutate := {chosen(styling.other_options, choice:"front mutate") and is_normal() and not is_saga() and not is_map()}
+	back_mutate := {chosen(styling.other_options, choice:"back mutate") and back_normal() and not back_saga() and not back_map()}
 	is_leveler := {styling.front_style == "leveler"}
 	back_leveler := {styling.back_style == "leveler"}
 
@@ -229,8 +225,8 @@ init script:
 	overlay2 := {slice_crop(background_slide_2(), height: lv_3_height(), width:314, distance:lv_3_height())}
 	mask_height := {if input == "one" then lv_1_height() else if input == "two" then lv_2_height() else lv_3_height()}
 	lone_pt := {chosen(styling.other_options, choice:"regular pt on levelers")}
-	lv_2_ptbox := { if is_vehicle() then "vpt.png" else if front_clear() then "xpt.png" else leveler_ptbox2() }
-	lv_3_ptbox := { if is_vehicle() then "vpt.png" else if front_clear() then "xpt.png" else leveler_ptbox3() }
+	lv_2_ptbox := { if is_vehicle() then "vpt.png" else leveler_ptbox2() }
+	lv_3_ptbox := { if is_vehicle() then "vpt.png" else leveler_ptbox3() }
 	arrow_left := {if box_leveler() then -3 else if loy_leveler() then 10 else 18}
 	arrow_width := {if box_leveler() then 84 else if loy_leveler() then 42 else 56}
 	arrow_height := {if aug_leveler(input) then 42 else if box_leveler() then 50 else if loy_leveler() then 40 else 40}
@@ -250,8 +246,8 @@ init script:
 	overlay6 := {slice_crop(background_slide_3(), height: lv_6_height(), width:314, distance:(152-lv_6_coordinate()))}
 	overlay7 := {slice_crop(background_slide_4(), height: lv_7_height(), width:314, distance:lv_7_height())}
 	mask_height := {if input == "one" then lv_5_height() else if input == "two" then lv_6_height() else lv_7_height()}
-	lv_6_ptbox := { if back_vehicle() then "vpt.png" else if back_clear() then "xpt.png" else leveler_ptbox2() }
-	lv_7_ptbox := { if back_vehicle() then "vpt.png" else if back_clear() then "xpt.png" else leveler_ptbox3() }
+	lv_6_ptbox := { if back_vehicle() then "vpt.png" else leveler_ptbox2() }
+	lv_7_ptbox := { if back_vehicle() then "vpt.png" else leveler_ptbox3() }
 	arrow_left2 := {377 + if box_leveler2() then -3 else if loy_leveler2() then 10 else 18}
 	arrow_width2 := {if box_leveler2() then 84 else if loy_leveler2() then 42 else 56}
 	arrow_height2 := {if aug_leveler2(input) then 42 else if box_leveler2() then 50 else if loy_leveler2() then 40 else 40}
@@ -571,7 +567,6 @@ styling field:
 	type: multiple choice
 	name: other options
 	description: Additional options
-	choice: normal back face
 	choice: promo
 	choice: prerelease stamps
 	choice: remove from autocount
@@ -583,8 +578,6 @@ styling field:
 	choice: center back
 	choice: center first name
 	choice: center second name
-	choice: clear front
-	choice: clear back
 	choice: nyx front
 	choice: nyx back
 	choice: vehicle front
@@ -721,7 +714,7 @@ card style:
 		z index: 0
 		render style: image
 		popup style: in place
-		image: { if front_clear() or is_map() then "" else if is_saga() then saga_background() else if is_normal() then card_background() else card_background3() }
+		image: { if is_map() then map_background() else if is_saga() then saga_background() else if is_normal() then card_background() else card_background3() }
 	card color 2:
 		left:	0
 		top:	253
@@ -730,11 +723,11 @@ card style:
 		z index: 0
 		render style: image
 		popup style: in place
-		image: { if back_clear() or back_map() then "" else if back_saga() then saga_background() else if back_normal() and chosen(styling.other_options, choice:"normal back face") then card_background() else if back_normal() then card_background2() else if chosen(styling.other_options, choice:"normal back face") then card_background3() else card_background4() }
+		image: { if back_map() then map_background2() else if back_saga() then saga_background() else if back_normal() then card_background2() else card_background4() }
 	############################# Name line
 	name:
 		left: { if is_map() then 65 else if is_normal() then 58 else 60 }
-		top: { if is_map() then 27 else if is_normal() then 30 else if front_clear() then 22 else 23 }
+		top: { if is_map() then 27 else if is_normal() then 30 else 23 }
 		right: { (if is_map() then 344 else 339) - card_style.casting_cost.content_width }
 		height: {23 - (0.5 * shrink_name())}
 		alignment: { if chosen(styling.other_options, choice:"center first name") then "bottom center" else "bottom shrink-overflow"}
@@ -746,7 +739,7 @@ card style:
 			color: black
 	name 2:
 		left: { if back_map() then 65 else if back_normal() then 58 else 60 }
-		top: { if back_map() then 271 else if back_normal() then 274 else if back_clear() then 266 else 267 }
+		top: { if back_map() then 271 else if back_normal() then 274 else 267 }
 		right: { (if back_map() then 344 else 339) - card_style.casting_cost_2.content_width }
 		height: {23 - (0.5 * shrink_name2())}
 		alignment: { if chosen(styling.other_options, choice:"center second name") then "bottom center" else "bottom shrink-overflow"}
@@ -755,7 +748,7 @@ card style:
 		font:
 			name: { if back_map() then "Beleren Small Caps" else "Beleren Bold"}
 			size: { if back_map() then 14.8 - shrink_name2() else 16 - shrink_name2()}
-			color: { if chosen(styling.other_options, choice:"normal back face") or back_map() or back_clear() or back_saga() then "black" else "white" }
+			color: { if back_map() or back_saga() then "black" else "white" }
 	casting cost:
 		right: 347
 		top: { if is_normal() then 29 else 22 }
@@ -794,7 +787,7 @@ card style:
 	############################# Card type
 	indicator:
 		left: { if is_map() then 18 else 31 }
-		top: { if is_saga() then 449 else if is_map() then 298 else if is_plwalker() then 57 else 65 }
+		top: { if is_saga() then 449 else if is_map() then 63 else if is_plwalker() then 57 else 65 }
 		width: 17
 		height: 17
 		z index: 2
@@ -803,7 +796,7 @@ card style:
 		image: { card_identity() }
 	indicator 2:
 		left: { if back_map() then 18 else 31 }
-		top: { if back_saga() then 449 else if back_map() then 298 else if back_walker() then 301 else 309 }
+		top: { if back_saga() then 449 else if back_map() then 307 else if back_walker() then 301 else 309 }
 		width: 17
 		height: 17
 		z index: 2
@@ -812,7 +805,7 @@ card style:
 		image: { card_identity_2() }
 	type:
 		left: { if is_map() then 85 else if has_identity() then 52 else 32 }
-		top: { (if is_map() then 297.5 else if is_saga() then 444 else if is_plwalker() then 53 else 61) + shrink_type() }
+		top: { (if is_map() then 62.5 else if is_saga() then 444 else if is_plwalker() then 53 else 61) + shrink_type() }
 		width: { if is_map() then 205 else (if has_identity() then 290 else 310) - max(22,card_style.rarity.content_width) }
 		height: { if is_map() then 18 - shrink_type() else 20 - shrink_type() }
 		alignment: { if is_map() then "center top shrink-overflow" else "top shrink-overflow"}
@@ -826,8 +819,8 @@ card style:
 			color: black
 			separator color: red
 	type 2:
-		left: { if back_map() then 462 else if has_identity2() then 52 else 32 }
-		top: { (if back_map() then 297.5 else if back_saga() then 444 else if back_walker() then 297 else 305) + shrink_type2() }
+		left: { if back_map() then 85 else if has_identity2() then 52 else 32 }
+		top: { (if back_map() then 306.5 else if back_saga() then 444 else if back_walker() then 297 else 305) + shrink_type2() }
 		width: { if back_map() then 205 else (if has_identity2() then 290 else 310) - max(22,card_style.rarity.content_width) }
 		height: { if back_map() then 18 - shrink_type2() else 20 - shrink_type2()}
 		alignment: {if back_map() then "center top shrink-overflow" else "top shrink-overflow"}
@@ -838,11 +831,11 @@ card style:
 		font:
 			name: Beleren Bold
 			size: { if back_map() then 12 - shrink_type2() else 13 - shrink_type2()}
-			color: { if back_clear() or back_map() or back_saga() or chosen(styling.other_options, choice:"normal back face") then "black" else "white"}
+			color: { if back_map() or back_saga() then "black" else "white"}
 			separator color: red
 	rarity:
 		right: { if is_map() then 199 else 345 }
-		top: { if is_saga() then 445 else if is_map() then 53 else if is_plwalker() then 55 else 62 }
+		top: { if is_saga() then 445 else if is_map() then 82 else if is_plwalker() then 55 else 62 }
 		width: { if is_normal() then 44 else 42 }
 		height: { if is_normal() then 22 else 21 }
 		z index: 3
@@ -882,7 +875,7 @@ card style:
 					else symbol_variation(symbol: set.masterpiece_symbol, variation: "mythic rare")
 	rarity 2:
 		right: { if back_map() then 199 else 345}
-		top: { if back_saga() then 445 else if back_map() then 53 else if back_walker() then 299 else 306 }
+		top: { if back_saga() then 445 else if back_map() then 326 else if back_walker() then 299 else 306 }
 		width: { if back_normal() then 44 else 42 }
 		height: { if back_normal() then 22 else 21 }
 		z index: 3
@@ -946,7 +939,7 @@ card style:
 		line height hard max: 1.3
 		line height line max: 1.6
 	text 2:
-		left: { if back_map() then 417 else (if back_bumped() then 425 else 29) }
+		left: { if back_map() then 40 else (if back_bumped() then 425 else 29) }
 		top: { top_of_textbox2() }
 		width: {if back_leveler() then 0 else -lv_chop(styling.level_5_chop, cell:2) + if back_saga() then 0 else if back_map() then 287 else if back_normal() then (314 - if is_bumped() then 18) else 0}
 		bottom: { bottom_of_textbox2()}
@@ -1139,7 +1132,7 @@ card style:
 		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else if back_mutate() then (if back_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_5)}
-		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0)+(if back_clear() then 5 else 0) else 329-lv_chop(styling.level_5_chop, cell:0) }
+		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 342 else if card.pt_4 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() and not back_mutate() then 0 else 343 }
 		bottom: { if back_leveler() then (336+lv_5_height()) else if back_saga() then (if split_12b() == "" then 258 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
 		font:
@@ -1342,7 +1335,7 @@ card style:
 	pt:
 		z index: 300
 		left: {if is_leveler() and not lone_pt() then 291 else 286}
-		top: { if is_leveler() and not lone_pt() then (l1_center() - 14) else if is_map() then 467 else 230}
+		top: { if is_leveler() and not lone_pt() then (l1_center() - 14) else if is_map() then 224 else 230}
 		width: { if is_normal() or card.pt != "" then 60 else 0}
 		height:	28
 		alignment: center middle shrink-overflow
@@ -1364,7 +1357,7 @@ card style:
 		font:
 			name: Beleren Bold
 			size: { if back_map() then 14 else 16}
-			color: {if is_leveler() and is_vehicle() then "white" else if is_leveler() or back_clear() then "black" else "white"}
+			color: {if is_leveler() and is_vehicle() then "white" else if is_leveler() or back_map() then "black" else "white"}
 			separator color: red
 			shadow color: {if is_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
 			shadow displacement x: -1
@@ -1402,7 +1395,7 @@ card style:
 
 	pt 5:
 		z index: 5
-		left: 668
+		left: 291
 		top: {(l6_center() - 12)}
 		width: {if back_leveler() and not lone_pt() or card.pt_5 != "" then 60 else 0}
 		height: 28
@@ -1417,7 +1410,7 @@ card style:
 			shadow displacement y: 1
 	pt 6:
 		z index: 5
-		left: 668
+		left: 291
 		top: {(l7_center() - 12)}
 		width: {if back_leveler() and not lone_pt() or card.pt_6 != "" then 60 else 0}
 		height: 28
@@ -1730,25 +1723,25 @@ extra card field:
 extra card field:
 	type: color
 	name: top color
-	script: if front_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: bottom color
-	script: if front_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: stripe color
-	script: if front_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: stripe color 2
-	script: if front_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
@@ -1772,25 +1765,25 @@ extra card field:
 extra card field:
 	type: color
 	name: top color back
-	script: if back_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: bottom color back
-	script: if back_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: stripe color back
-	script: if back_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
 	type: color
 	name: stripe color 2 back
-	script: if front_clear() then rgb(230,230,230) else rgb(200,200,200)
+	script: rgb(200,200,200)
 	editable: false
 	save value: false
 extra card field:
@@ -1799,20 +1792,6 @@ extra card field:
 	script: set.copyright
 	save value: false
 	editable: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: clear frame
-	choice: frame
-	editable: false
-	save value: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: clear frame back
-	choice: frame
-	editable: false
-	save value: false
 	show statistics: false
 extra card field:
 	type: choice
@@ -2370,24 +2349,24 @@ extra card style:
 		choice images:
 			loyalty: loyalty.png
 	stamp:
-		left: {if is_map() then 169 else if is_normal() then 165 else 170 }
-		top: { if is_normal() and not is_map() then 481 else 482 }
-		width: { if is_map() then 38 else if is_normal() then 46 else 36.5 }
-		height: { if is_map() then 24 else if is_normal() then 26 else 22.5 }
+		left: {if back_map() then 169 else if back_normal() then 165 else 170 }
+		top: { if back_normal() and not back_map() then 481 else 482 }
+		width: { if back_map() then 38 else if back_normal() then 46 else 36.5 }
+		height: { if back_map() then 24 else if back_normal() then 26 else 22.5 }
 		z index: 3
-		visible: { is_stamped() and not front_clear() }
+		visible: { is_stamped() }
 		render style: image
-		image: { if is_saga() then "saga_stamp.png" else if is_map() then "maps/holo_stamp.png" else if is_normal() then card_stamp2() else card_stamp() }
+		image: { if back_saga() then "saga_stamp.png" else if back_map() then "maps/holo_stamp.png" else if back_normal() then card_stamp2() else card_stamp() }
 		mask: stamp_mask.png
 	foil stamp:
-		left: {if front_clear() then 168 else if is_normal() then 165 else 170 }
-		top: { if front_clear() then 480 else if is_normal() then 481 else 482 }
-		width: { if front_clear() and is_normal() then 0 else if front_clear() then 41 else if is_normal() then 46 else 36.5 }
-		height: { if front_clear() and is_normal() then 0 else if front_clear() then 28 else if is_normal() then 26 else 22.5 }
+		left: { if is_normal() then 165 else 170 }
+		top: { if is_normal() then 481 else 482 }
+		width: { if is_normal() then 46 else 36.5 }
+		height: { if is_normal() then 26 else 22.5 }
 		z index: 4
 		visible: { is_stamped() and not is_map()}
 		render style: image
-		image: { if front_clear() then "xstamp.png" else "foil_stamp.png" }
+		image: foil_stamp.png
 	foil layer:
 		left: 0
 		top : 0
@@ -2606,20 +2585,20 @@ extra card style:
 		visible: { card.loyalty_cost_8 != "" }
 	top stripe:
 		left: 46
-		top: { if has_four_abilities() then stripe31() else if two_clear() then stripe01()+10 else if has_two_abilities() then stripe01() else stripe12() }
+		top: { if has_four_abilities() then stripe31() else if has_two_abilities() then stripe01() else stripe12() }
 		width: 299
 		height: 20
-		image: { (if front_clear() then "clear_" else "") + "top_stripe_test.png" }
+		image: top_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_two_abilities() or two_clear() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png") }
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png") }
 	bot stripe:
 		left: 46
 		top: { if has_four_abilities() then stripe32() else stripe23() }
 		width: 299
 		height: 20
-		image: { (if front_clear() then "clear_" else "") + "bot_stripe_test.png" }
+		image: bot_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
@@ -2629,7 +2608,7 @@ extra card style:
 		top: { stripe33() }
 		width: 299
 		height: 20
-		image: { (if front_clear() then "clear_" else "") + "top_stripe_test.png" }
+		image: top_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
@@ -2638,10 +2617,10 @@ extra card style:
 		left: 46
 		top: 102
 		width: 299
-		bottom: { if has_four_abilities() then stripe31() else if two_clear() then stripe01()+10 else if has_two_abilities() then stripe01() else stripe12() }
+		bottom: { if has_four_abilities() then stripe31() else if has_two_abilities() then stripe01() else stripe12() }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_two_abilities() or two_clear() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
 	stripe color 2:
 		left: 46
 		top: { (if has_four_abilities() then stripe32() else stripe23()) + 20 }
@@ -2657,7 +2636,7 @@ extra card style:
 		height: 23
 		z index: 2
 		mask: mask_top.png
-		visible: { has_two_abilities() or two_clear() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
 	bottom color:
 		left: 26
 		top: 218
@@ -2668,20 +2647,20 @@ extra card style:
 		visible: { has_three_abilities() and not contains(styling.custom_mask, match:".png")}
 	top stripe back:
 		left: 46
-		top: { if back_four_abilities() then stripe31b() else if two_back_clear() then stripe01b()+10 else if back_two_abilities() then stripe01b() else stripe12b() }
+		top: { if back_four_abilities() then stripe31b() else if back_two_abilities() then stripe01b() else stripe12b() }
 		width: 299
 		height: 20
-		image: { (if back_clear() then "clear_" else "") + "top_stripe_test.png" }
+		image: top_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_two_abilities() or two_back_clear() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png") }
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png") }
 	bot stripe back:
 		left: 46
 		top: { if back_four_abilities() then stripe32b() else stripe23b() }
 		width: 299
 		height: 20
-		image: { (if back_clear() then "clear_" else "") + "bot_stripe_test.png" }
+		image: bot_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
@@ -2691,7 +2670,7 @@ extra card style:
 		top: { stripe33b() }
 		width: 299
 		height: 20
-		image: { (if back_clear() then "clear_" else "") + "top_stripe_test.png" }
+		image: top_stripe_test.png
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
@@ -2700,10 +2679,10 @@ extra card style:
 		left: 46
 		top: 344
 		width: 299
-		bottom: { if back_four_abilities() then stripe31b() else if two_back_clear() then stripe01b()+10 else if back_two_abilities() or two_back_clear() then stripe01b() else stripe12b() }
+		bottom: { if back_four_abilities() then stripe31b() else if back_two_abilities() then stripe01b() else stripe12b() }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_two_abilities() or two_back_clear() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
 	stripe color 2 back:
 		left: 46
 		top: { (if back_four_abilities() then stripe32b() else stripe23b()) + 20 }
@@ -2719,7 +2698,7 @@ extra card style:
 		height: 23
 		z index: 2
 		mask: mask_top.png
-		visible: { back_two_abilities() or two_back_clear() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
 	bottom color back:
 		left: 26
 		top: 469
@@ -2730,13 +2709,13 @@ extra card style:
 		visible: { back_three_abilities() and not contains(styling.custom_mask_2, match:".png")}
 	pt box:
 		left: { if is_leveler() and not lone_pt() then 278 else if is_map() then 270 else 273}
-		top: { if is_leveler() and not lone_pt() then (l1_center() - (if is_map() then 26 else 18)) else if is_map() then 453 else 227}
+		top: { if is_leveler() and not lone_pt() then (l1_center() - (if is_map() then 26 else 18)) else if is_map() then 212 else 227}
 		width: { if is_map() then 90 else if is_normal() or card.pt != "" then 81 else 0 }
 		height:	{ if is_map() then 54 else 42}
 		z index: 299
 		visible: { card.pt != "" }
 		render style: image
-		image: { if is_map() then card_mapbox() else if is_vehicle() then "vpt.png" else if front_clear() then "xpt.png" else card_ptbox() }
+		image: { if is_map() then card_mapbox() else if is_vehicle() then "vpt.png" else card_ptbox() }
 	pt box 2:
 		left: { if is_leveler() and not lone_pt() then 278 else if is_map() then 270 else 273}
 		top: { if is_leveler() then (l2_center() - (if is_map() then 26 else 15)) else if back_map() then 453 else 475}
@@ -2745,7 +2724,7 @@ extra card style:
 		z index: 299
 		visible: { card.pt_2 != "" }
 		render style: image
-		image: { if is_leveler() then (if is_map() then card_mapbox() else if is_vehicle() then "vpt.png" else if front_clear() then "xpt.png" else leveler_ptbox2()) else if back_map() then card_mapbox2() else if back_vehicle() then "vpt.png" else if back_clear() then "xpt.png" else card_ptbox2() }
+		image: { if is_leveler() then (if is_map() then card_mapbox() else if is_vehicle() then "vpt.png" else leveler_ptbox2()) else if back_map() then card_mapbox2() else if back_vehicle() then "vpt.png" else card_ptbox2() }
 	pt box 3:
 		left: 278
 		top: { l3_center() - (if is_map() then 26 else 15)}
@@ -2763,7 +2742,7 @@ extra card style:
 		z index: 3
 		visible: { card.pt_4 != "" }
 		render style: image
-		image: { if back_map() then card_mapbox2() else if back_vehicle() then "vpt.png" else if back_clear() then "xpt.png" else if is_leveler() and not back_leveler() then card_ptbox2() else card_ptbox() }
+		image: { if back_map() then card_mapbox2() else if back_vehicle() then "vpt.png" else if is_leveler() and not back_leveler() then card_ptbox2() else card_ptbox() }
 	pt box 5:
 		left: 655
 		top: { l6_center() - (if back_map() then 26 else 15)}
@@ -2795,27 +2774,9 @@ extra card style:
 			size: 6.5
 			color: white
 			weight: bold
-	clear frame:
-		left:	0
-		top:	0
-		width:	{ if front_clear() then 375 else 0 }
-		height:	{ if front_clear() then 253 else 0 }
-		z index: 1
-		render style: image
-		popup style: in place
-		image: { (if is_normal() then "clear" else if has_four_abilities() then "xcard2" else "xcard") + (if has_two_abilities() or two_clear() or has_three_abilities() or has_four_abilities() then "_level") + (if is_stamped() and is_normal() then "_rare") + ".png" }
-	clear frame back:
-		left:	0
-		top:	253
-		width:	{ if back_clear() then 375 else 0 }
-		height:	{ if back_clear() then 271 else 0 }
-		z index: 1
-		render style: image
-		popup style: in place
-		image: { (if back_normal() then "clear2" else if back_four_abilities() then "xcard2" else "xcard") + (if back_two_abilities() or two_back_clear() or back_three_abilities() or back_four_abilities() then "_level") + ".png" }
 	corner:
 		left: { if is_map() then 22 else 19}
-		top: { if is_normal() then 25 else if front_clear() then 17 else 18}
+		top: { if is_normal() then 25 else 18}
 		height: { if is_normal() then 31 else 32}
 		width: { if is_normal() then 31 else 32}
 		z index: 5
@@ -2846,7 +2807,7 @@ extra card style:
 			sparker colors colorless: planeswalker/ccorner.png
 	corner 2:
 		left: { if is_map() then 22 else 19}
-		top: { if back_normal() then 269 else if back_clear() then 261 else 262}
+		top: { if back_normal() then 269 else 262}
 		height: { if back_normal() then 31 else 32}
 		width: { if back_normal() then 31 else 32}
 		z index: 5
@@ -2881,7 +2842,7 @@ extra card style:
 		width: 375
 		height: 523
 		render style: image
-		image: {if front_clear() then "" else nyx_background()}
+		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
 		mask: {"nyx/" + (if is_plwalker() then ((if has_four_abilities() then "4") + "pw_") else "notch_") + (if is_vehicle() then "v_") + (if is_saga() then "full") + "mask.png"}
@@ -2891,20 +2852,20 @@ extra card style:
 		width: 375
 		height: 253
 		render style: image
-		image: {if front_clear() then "xcrown.png" else legend_background()}
+		image: {legend_background()}
 		z index: 3
 		visible: {is_legend()}
-		mask: { if not front_clear() then "nodemask.png"}
+		mask: nodemask.png
 	miracle overlay:
 		left: 0
 		top: 0
 		width: 375
 		height: 523
 		render style: image
-		image: {if front_clear() then "miracles/xmiracle.png" else miracle_background()}
+		image: {miracle_background()}
 		z index: 1
 		visible: {is_miracle()}
-		mask: { if not front_clear() then "nodemask.png"}
+		mask: nodemask.png
 	vehicle overlay:
 		left: 0
 		top: 0
@@ -2921,30 +2882,30 @@ extra card style:
 		width: 375
 		height: 523
 		render style: image
-		image: {if back_clear() then "" else nyx_background()}
+		image: {nyx_background()}
 		z index: 0
 		visible: {back_nyx()}
-		mask: {"nyx/" + (if back_walker() then ((if back_four_abilities() then "4") + "pw_") else if chosen(styling.other_options, choice:"normal back face") then "notch_") + (if is_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if back_walker() then ((if back_four_abilities() then "4") + "pw_")) + (if is_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
 	miracle overlay 2:
 		left: 377
 		top: 0
 		width: 375
 		height: 523
 		render style: image
-		image: {if back_clear() then "miracles/xmiracle.png" else if chosen(styling.other_options, choice:"normal back face") then miracle_background() else miracle_background2()}
+		image: {miracle_background2()}
 		z index: 1
 		visible: {back_miracle()}
-		mask: { if not back_clear() then "nodemask.png"}
+		mask: nodemask.png
 	legend overlay 2:
 		left: 0
 		top: 253
 		width: 375
 		height: 271
 		render style: image
-		image: {if back_clear() then "xcrown.png" else legend_background2()}
+		image: {legend_background2()}
 		z index: 3
 		visible: {back_legend()}
-		mask: { if not back_clear() then "nodemask2.png"}
+		mask: nodemask2.png
 	vehicle overlay 2:
 		left: 0
 		top: 253
@@ -2962,7 +2923,7 @@ extra card style:
 #		height: 523
 #		render style: image
 #		image: {if has_four_abilities() then "planeswalker/bigpatch.png" else "planeswalker/smolpatch.png"}
-#		visible: {not is_normal() and not (front_clear() and has_four_abilities())}
+#		visible: {not is_normal()}
 #		z index: 2
 #		mask: ""
 #	patch 2:
@@ -2972,7 +2933,7 @@ extra card style:
 #		height: 523
 #		render style: image
 #		image: {if back_four_abilities() then "planeswalker/bigpatch.png" else "planeswalker/smolpatch.png"}
-#		visible: {not back_normal() and not (back_clear() and back_four_abilities())}
+#		visible: {not back_normal()}
 #		z index: 2
 #	map:
 #		left: 0
