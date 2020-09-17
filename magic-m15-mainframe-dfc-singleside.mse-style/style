@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
@@ -1493,7 +1493,7 @@ card style:
 			color: white
 	loyalty cost 5:
 		z index: 7
-		left: {if is_normal() then 14 else 32}
+		left: {if back_normal() then 14 else 32}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 330 else if back_two_abilities() then 349 else 336)  }
 		width: { if not back_normal() or card.loyalty_cost_5 != "" then 13.16 else 0 }
 		height:	{ if not back_normal() or card.loyalty_cost_5 != "" then 34.63 else 0 }
@@ -1504,7 +1504,7 @@ card style:
 			color: white
 	loyalty cost 6:
 		z index: 7
-		left: {if is_normal() then 14 else 32}
+		left: {if back_normal() then 14 else 32}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 369 else if back_two_abilities() then 430 else 390) }
 		width: { if not back_normal() or card.loyalty_cost_6 != "" then 13.16 else 0 }
 		height:	{ if not back_normal() or card.loyalty_cost_6 != "" then 34.63 else 0 }
@@ -1515,7 +1515,7 @@ card style:
 			color: white
 	loyalty cost 7:
 		z index: 7
-		left: {if is_normal() then 14 else 32}
+		left: {if back_normal() then 14 else 32}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 409 else 443) }
 		width: { if card.loyalty_cost_7 != "" then 13.16 else if back_two_abilities() or back_normal() then 0 else 13.16}
 		height:	34.63
@@ -1526,7 +1526,7 @@ card style:
 			color: white
 	loyalty cost 8:
 		z index: 7
-		left: {if is_normal() then 14 else 32}
+		left: {if back_normal() then 14 else 32}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 449 }
 		width: { if back_four_abilities() or card.loyalty_cost_8 != "" then 13.16 else 0 }
 		height:	{ if back_four_abilities() or card.loyalty_cost_8 != "" then 34.63 else 0 }
@@ -2350,7 +2350,7 @@ extra card style:
 			loyalty: loyalty.png
 	stamp:
 		left: {if back_map() then 169 else if back_normal() then 165 else 170 }
-		top: { if back_normal() and not back_map() then 481 else 482 }
+		top: { if back_normal() and not back_map() then 481 else 491 }
 		width: { if back_map() then 38 else if back_normal() then 46 else 36.5 }
 		height: { if back_map() then 24 else if back_normal() then 26 else 22.5 }
 		z index: 3
@@ -2432,7 +2432,7 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 5:
-		left: {if is_normal() then 0 else 18}
+		left: {if back_normal() then 0 else 18}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 328 else if back_two_abilities() then 347 else 334) }
 		width: 42
 		height: 40
@@ -2444,7 +2444,7 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 6:
-		left: {if is_normal() then 0 else 18}
+		left: {if back_normal() then 0 else 18}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 367 else if back_two_abilities() then 427 else 387) }
 		width: 42
 		height: 40
@@ -2456,7 +2456,7 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 7:
-		left: {if is_normal() then 0 else 18}
+		left: {if back_normal() then 0 else 18}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 407 else 440) }
 		width: 42
 		height: 40
@@ -2468,7 +2468,7 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 8:
-		left: {if is_normal() then 0 else 18}
+		left: {if back_normal() then 0 else 18}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 447 }
 		width: 42
 		height: 40
@@ -2532,7 +2532,7 @@ extra card style:
 		alignment: middle center
 		visible: { card.loyalty_cost_4 != "" }
 	colon 5:
-		left: {if is_normal() then 41 else 59}
+		left: {if back_normal() then 41 else 59}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:0) +(if back_four_abilities() then 340 else if back_two_abilities() then 361 else 348) }
 		width: 5
 		height: 10
@@ -2545,7 +2545,7 @@ extra card style:
 		alignment: middle center
 		visible: { card.loyalty_cost_5 != "" }
 	colon 6:
-		left: {if is_normal() then 41 else 59}
+		left: {if back_normal() then 41 else 59}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:1) +(if back_four_abilities() then 380 else if back_two_abilities() then 441 else 401) }
 		width: 5
 		height: 10
@@ -2558,7 +2558,7 @@ extra card style:
 		alignment: middle center
 		visible: { card.loyalty_cost_6 != "" }
 	colon 7:
-		left: {if is_normal() then 41 else 59}
+		left: {if back_normal() then 41 else 59}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:2) +(if back_four_abilities() then 420 else 454) }
 		width: 5
 		height: 10
@@ -2571,7 +2571,7 @@ extra card style:
 		alignment: middle center
 		visible: { card.loyalty_cost_7 != "" }
 	colon 8:
-		left: {if is_normal() then 41 else 59}
+		left: {if back_normal() then 41 else 59}
 		top: { -loyal_move(styling.move_back_loyalty_costs, cell:3) + 460 }
 		width: { if back_four_abilities() then 5 else 0 }
 		height: 10
