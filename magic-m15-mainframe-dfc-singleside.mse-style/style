@@ -2872,9 +2872,9 @@ extra card style:
 		width: 375
 		height: 253
 		render style: image
-		image: {(if is_saga() or is_plwalker() then "full_") + "voverlay.png"}
+		image: voverlay.png
 		z index: 0
-		mask: {"nyx/" + if is_plwalker() then ((if has_four_abilities() then "4") + "pw_mask.png") else if is_saga() then "fullmask.png" else "v_mask.png"}
+		mask: vmask.png
 		visible: {is_vehicle()}
 	nyx overlay 2:
 		left: 377
@@ -2912,9 +2912,9 @@ extra card style:
 		width: 375
 		height: 271
 		render style: image
-		image: {(if back_saga() or back_walker() then "full_") + "voverlay2.png"}
+		image: voverlay2.png
 		z index: 0
-		mask: {"nyx/" + if back_walker() then ((if back_four_abilities() then "4") + "pw_mask.png") else if back_saga() then "fullmask.png" else "v_mask.png"}
+		mask: vmask2.png
 		visible: {back_vehicle()}
 #	patch 1:
 #		left: 0
