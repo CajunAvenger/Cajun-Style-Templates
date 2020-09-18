@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" cb: "" cb2: "" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" cb: "cb.png" cb2: "cb.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
@@ -100,8 +100,6 @@ init script:
 	card_mapbox := { color_background(type:"mappt",       base_hybrid:pt_hybrid) }
 	card_mapbox2 := { color_background(type:"mappt",       base_hybrid:pt_hybrid) }
 	# doublecast flag scripts
-	card_cb2 := { color_background(type:"cb2", base_hybrid:card_hybrid) }
-	card_cb := { color_background(type:"cb", base_hybrid:card_hybrid) }
 	arrow_background := { color_background(type:"arrow",     base_hybrid:pt_hybrid) }
 
 
@@ -188,7 +186,6 @@ init script:
 	has_identity := { chosen(styling.other_options, choice:"front color indicator")}
 	has_identity2 := { chosen(styling.other_options, choice:"back color indicator") and not contains(card.card_color_2, match:"colorless")}
 	is_unsorted := {chosen(styling.other_options, choice:"remove from autocount")}
-	use_full_art := {"false"}
 	is_miracle := {styling.front_style == "miracle"}
 	is_nyx := {styling.front_style == "nyx" or chosen(styling.other_options, choice:"nyx front")}
 	is_vehicle := {styling.front_style == "vehicle" or chosen(styling.other_options, choice:"vehicle front")}
@@ -355,10 +352,6 @@ init script:
 	offset_lines2 := {offset_counter(styling.flavor_bar_offset_2)}
 	###
 
-	###### future
-	is_shifted := {false}
-	back_shifted := {false}
-	
 	special_text := {
 		if styling.front_style == "saga" then (
 			card.rule_text
@@ -1342,9 +1335,9 @@ card style:
 		font:
 			name: Beleren Bold
 			size: { if is_map() then 14 else 16}
-			color: {if is_shifted() or is_vehicle() then "white" else "black"}
+			color: {if is_vehicle() then "white" else "black"}
 			separator color: red
-			shadow color: {if is_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 	pt 2:
@@ -1359,7 +1352,7 @@ card style:
 			size: { if back_map() then 14 else 16}
 			color: {if is_leveler() and is_vehicle() then "white" else if is_leveler() or back_map() then "black" else "white"}
 			separator color: red
-			shadow color: {if is_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 	pt 3:
@@ -1372,9 +1365,9 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if is_shifted() or is_vehicle() then "white" else "black"}
+			color: {if is_vehicle() then "white" else "black"}
 			separator color: red
-			shadow color: {if is_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 	pt 4:
@@ -1971,32 +1964,6 @@ extra card field:
 	save value: false
 	editable: false
 	script: card.card_color_2
-extra card field:
-	type: text
-	name: cb 2 copy
-	script: card.casting_cost_2
-	editable: false
-	save value: false
-extra card field:
-	type: text
-	name: cb copy
-	script: card.casting_cost
-	editable: false
-	save value: false
-extra card field:
-	type: choice
-	choice: cb
-	name: cb box
-	script: card.card_color
-	editable: false
-	save value: false
-extra card field:
-	type: choice
-	choice: cb
-	name: cb box 2
-	script: card.card_color_2
-	editable: false
-	save value: false
 extra card field:
 	type: choice
 	name: flavor bar
@@ -2916,101 +2883,6 @@ extra card style:
 		z index: 0
 		mask: vmask2.png
 		visible: {back_vehicle()}
-#	patch 1:
-#		left: 0
-#		top: 0
-#		width: 375
-#		height: 523
-#		render style: image
-#		image: {if has_four_abilities() then "planeswalker/bigpatch.png" else "planeswalker/smolpatch.png"}
-#		visible: {not is_normal()}
-#		z index: 2
-#		mask: ""
-#	patch 2:
-#		left: 377
-#		top: 0
-#		width: 375
-#		height: 523
-#		render style: image
-#		image: {if back_four_abilities() then "planeswalker/bigpatch.png" else "planeswalker/smolpatch.png"}
-#		visible: {not back_normal()}
-#		z index: 2
-#	map:
-#		left: 0
-#		top: 0
-#		width: 375
-#		height: 523
-#		z index: 1
-#		render style: image
-#		image: {map_background()}
-#		visible: {is_map()}
-#		mask: maps/frame_mask.png
-#	map 2:
-#		left: 377
-#		top: 0
-#		width: 375
-#		height: 523
-#		z index: 1
-#		render style: image
-#		image: {map_background2()}
-#		visible: {back_map()}
-#		mask: maps/frame_mask.png
-#	cb 2 copy:
-#		z index: 6
-#		left: 270
-#		top: 60
-#		width: 70
-#		height:	20
-#		alignment: bottom center
-#		font:
-#			name: ModMatrix
-#			size: 12
-#			weight: bold
-#			color: black
-#			separator color: red
-#		symbol font:
-#			name: magic-mana-large
-#			size: 13
-#			alignment: middle right
-#		always symbol: true
-#		visible: { is_flagged()}
-#	cb copy:
-#		z index: 6
-#		left: 647
-#		top: 60
-#		width: 70
-#		height:	20
-#		alignment: bottom center
-#		font:
-#			name: ModMatrix
-#			size: 12
-#			weight: bold
-#			color: black
-#			separator color: red
-#		symbol font:
-#			name: magic-mana-large
-#			size: 13
-#			alignment: middle right
-#		always symbol: true
-#		visible: { is_flagged()}
-#	cb box:
-#		left: 0
-#		top: 0
-#		width: 375
-#		height:	253
-#		z index: 5
-#		visible: { card.casting_cost_2 != "" and is_flagged() }
-#		render style: image
-#		image: { card_cb() }
-#	cb box 2:
-#		left: 0
-#		top: 253
-#		width: 375
-#		height:	271
-#		z index: 5
-#		visible: { card.casting_cost != "" and is_flagged()}
-#		render style: image
-#		image: { card_cb() }
 	flavor bar:
 		left: 0
 		top: { bar_equation() }
