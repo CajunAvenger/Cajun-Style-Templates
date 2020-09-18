@@ -3102,36 +3102,6 @@ extra card style:
 #		z index: 6
 #		image: line.png
 #		visible: {back_four_boxes()}
-#	opac filter:
-#		left: 45
-#		top: 84
-#		width: 303
-#		height: 155
-#		mask: "opacfilter.png"}
-#		z index: 1
-#		visible: {is_plwalker() and pull_comma_array(styling.opacity, cell:0, end:false, default:300) != 300}
-#	opac filter 2:
-#		left: 45
-#		top: 328
-#		width: 303
-#		height: 165
-#		mask: "opacfilter2.png"
-#		z index: 1
-#		visible: {back_walker() and pull_comma_array(styling.opacity, cell:1, end:false, default:300) != 300}
-#	silver patch:
-#		left: 10
-#		top: 10
-#		width: 355
-#		height: 15
-#		z index: 2
-#		visible: { is_legend() and card.border_color == rgb(200,200,200) }
-#	silver patch 2:
-#		left: 10
-#		top: 254
-#		width: 355
-#		height: 6
-#		z index: 2
-#		visible: { back_legend() and card.border_color == rgb(200,200,200) }
 #	lvl label 0:
 #		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
 #		top: {l1_center() - (if loy_leveler() then 2 else 10) + arrow_offset(0)}
