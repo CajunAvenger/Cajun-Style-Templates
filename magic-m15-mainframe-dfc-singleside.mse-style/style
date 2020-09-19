@@ -34,11 +34,11 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" nyx2: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" nyx2: "nyx2.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
-	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
+	landless := {if input == "arrow" or input == "nyx" or input == "nyx2" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
 	crown_lead := {
@@ -82,6 +82,8 @@ init script:
 	card_background6 := { color_background(type:"card6", base_hybrid:card_hybrid) }
 	# The nyx frontface
 	nyx_background := { color_background(type:"nyx", base_hybrid:card_hybrid) }
+	# The nyx backface
+	nyx_background2 := { color_background(type:"nyx2", base_hybrid:card_hybrid) }
 	# The miracle frontface
 	miracle_background := { color_background(type:"miracle", base_hybrid:card_hybrid) }
 	# The miracle backface
@@ -1380,9 +1382,9 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if back_shifted() or back_vehicle() or (is_leveler() and not back_leveler()) then "white" else "black"}
+			color: {if back_vehicle() or (is_leveler() and not back_leveler()) then "white" else "black"}
 			separator color: red
-			shadow color: {if back_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 
@@ -1396,9 +1398,9 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if back_shifted() or back_vehicle() then "white" else "black"}
+			color: {if back_vehicle() then "white" else "black"}
 			separator color: red
-			shadow color: {if back_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 	pt 6:
@@ -1411,9 +1413,9 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if back_shifted() or back_vehicle() then "white" else "black"}
+			color: {if back_vehicle() then "white" else "black"}
 			separator color: red
-			shadow color: {if back_shifted() then rgb(0,0,0) else rgba(0,0,0,0)}
+			shadow color: { rgba(0,0,0,0) }
 			shadow displacement x: -1
 			shadow displacement y: 1
 
@@ -2152,24 +2154,6 @@ extra card field:
 	editable: false
 	save value: false
 	show statistics: false
-extra card field:
-	type: color
-	name: opac filter
-	script: rgb(opacity(0), opacity(0), opacity(0))
-	save value: false
-extra card field:
-	type: color
-	name: opac filter 2
-	script: rgb(opacity(1), opacity(1), opacity(1))
-	save value: false
-extra card field:
-	type: color
-	name: silver patch
-	script: rgb(0,0,0)
-extra card field:
-	type: color
-	name: silver patch 2
-	script: rgb(0,0,0)
 # Add the word "LEVEL" to the top arrow.
 extra card field:
 	type: text
@@ -2807,12 +2791,12 @@ extra card style:
 		left: 0
 		top: 0
 		width: 375
-		height: 523
+		height: 253
 		render style: image
 		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
-		mask: {"nyx/" + (if is_plwalker() then ((if has_four_abilities() then "4") + "pw_") else "notch_") + (if is_vehicle() then "v_") + (if is_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if is_plwalker() then "pw_" else if is_saga() then "full") + "mask.png"}
 	legend overlay:
 		left: 0
 		top: 0
@@ -2844,15 +2828,15 @@ extra card style:
 		mask: vmask.png
 		visible: {is_vehicle()}
 	nyx overlay 2:
-		left: 377
-		top: 0
+		left: 0
+		top: 253
 		width: 375
-		height: 523
+		height: 271
 		render style: image
-		image: {nyx_background()}
+		image: {nyx_background2()}
 		z index: 0
 		visible: {back_nyx()}
-		mask: {"nyx/" + (if back_walker() then ((if back_four_abilities() then "4") + "pw_")) + (if is_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if back_walker() then "pw_" else if back_saga() then "full") + "mask2.png"}
 	miracle overlay 2:
 		left: 377
 		top: 0
