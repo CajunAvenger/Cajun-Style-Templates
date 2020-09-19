@@ -658,7 +658,7 @@ script:
 		else if contains(card.shape, match:"leveler") then write_leveler()
 		else write_normal()
 	}
-	write_tokens := { if token_export() then write_token()}
+	write_tokens := { if token_export() then write_token() else ""}
 	write_images := for each card in cards do write_image_file(card, directory: "{options.set_Code}", file:"{remove_commas(card_name())+(if token_export() and options.append_set_code then " " + options.set_Code else "")}.full.jpg", width: (if contains(card.shape, match:"double") then 752 else 375), height: 523)
 	write_cards := to_text(for each card in cards do write_card())
 	write_all_tokens := to_text(for each card in cards do write_tokens())
