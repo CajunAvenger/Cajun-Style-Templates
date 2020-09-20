@@ -216,10 +216,10 @@ init script:
 	lv_2_coordinate := {max(min(52 + to_number(pull_comma_array(styling.stripe_coordinate, cell:0)),152), 0)}
 	lv_3_coordinate := {max(min(101 + to_number(pull_comma_array(styling.stripe_coordinate, cell:1)),152), lv_2_coordinate())}
 	lv_2_height := {lv_3_coordinate() - lv_2_coordinate()}
-	lv_3_height := {152-lv_3_coordinate()}
-	l1_center := {327 + 0.5*lv_1_height()}
-	l2_center := {327 + lv_2_coordinate() + 0.5*lv_2_height()}
-	l3_center := {327 + lv_3_coordinate() + 0.5*lv_3_height()}
+	lv_3_height := {156-lv_3_coordinate()}
+	l1_center := {92 + 0.5*lv_1_height()}
+	l2_center := {92 + lv_2_coordinate() + 0.5*lv_2_height()}
+	l3_center := {92 + lv_3_coordinate() + 0.5*lv_3_height()}
 	overlay1 := {slice_crop(background_slide(), height: lv_2_height(), width:314, distance:(152-lv_2_coordinate()))}
 	overlay2 := {slice_crop(background_slide_2(), height: lv_3_height(), width:314, distance:lv_3_height())}
 	mask_height := {if input == "one" then lv_1_height() else if input == "two" then lv_2_height() else lv_3_height()}
@@ -238,16 +238,16 @@ init script:
 	lv_6_coordinate := {max(min(52 + to_number(pull_comma_array(styling.back_stripe_coordinate, cell:0)),152), 0)}
 	lv_7_coordinate := {max(min(101 + to_number(pull_comma_array(styling.back_stripe_coordinate, cell:1)),152), lv_6_coordinate())}
 	lv_6_height := {lv_7_coordinate() - lv_6_coordinate()}
-	lv_7_height := {152-lv_7_coordinate()}
-	l5_center := {327 + 0.5*lv_5_height()}
-	l6_center := {327 + lv_6_coordinate() + 0.5*lv_6_height()}
-	l7_center := {327 + lv_7_coordinate() + 0.5*lv_7_height()}
+	lv_7_height := {156-lv_7_coordinate()}
+	l5_center := {336 + 0.5*lv_5_height()}
+	l6_center := {336 + lv_6_coordinate() + 0.5*lv_6_height()}
+	l7_center := {336 + lv_7_coordinate() + 0.5*lv_7_height()}
 	overlay6 := {slice_crop(background_slide_3(), height: lv_6_height(), width:314, distance:(152-lv_6_coordinate()))}
 	overlay7 := {slice_crop(background_slide_4(), height: lv_7_height(), width:314, distance:lv_7_height())}
 	mask_height := {if input == "one" then lv_5_height() else if input == "two" then lv_6_height() else lv_7_height()}
 	lv_6_ptbox := { if back_vehicle() then "vpt.png" else leveler_ptbox2() }
 	lv_7_ptbox := { if back_vehicle() then "vpt.png" else leveler_ptbox3() }
-	arrow_left2 := {377 + if box_leveler2() then -3 else if loy_leveler2() then 10 else 18}
+	arrow_left2 := {if box_leveler2() then -3 else if loy_leveler2() then 10 else 18}
 	arrow_width2 := {if box_leveler2() then 84 else if loy_leveler2() then 42 else 56}
 	arrow_height2 := {if aug_leveler2(input) then 42 else if box_leveler2() then 50 else if loy_leveler2() then 40 else 40}
 
@@ -1030,9 +1030,9 @@ card style:
 	############################# Levels
 	level 1 text:
 		left: {if is_leveler() then (if card.level_0 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else if is_mutate() then (if is_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_1)}
-		top: { if is_leveler() then 327 else if is_saga() then 155 else if is_mutate() then 329 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
+		top: { if is_leveler() then 93 else if is_saga() then 155 else if is_mutate() then 329 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
 		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 183 else if is_normal() and not is_mutate() then 0 else 343 }
-		bottom: { if is_leveler() then (327+lv_1_height()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_mutate() then 391 else if is_normal() then 0 else bottom_of_walker_textbox() }
+		bottom: { if is_leveler() then (93+lv_1_height()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_mutate() then 391 else if is_normal() then 0 else bottom_of_walker_textbox() }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1054,7 +1054,7 @@ card style:
 		line height line max: 1.6
 	level 2 text:
 		left: {if is_leveler() then (if card.level_1 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 63+unindent(card.loyalty_cost_2)}
-		top: { (if is_leveler() then (329 + lv_2_coordinate()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_normal() then 0 else if has_four_abilities() then stripe31()+10 else if has_two_abilities() then stripe01()+11 else stripe12()+10) -lv_chop(styling.level_2_chop, cell:0) }
+		top: { (if is_leveler() then (93 + lv_2_coordinate()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_normal() then 0 else if has_four_abilities() then stripe31()+10 else if has_two_abilities() then stripe01()+11 else stripe12()+10) -lv_chop(styling.level_2_chop, cell:0) }
 		right: { -lv_chop(styling.level_2_chop, cell:2) + if is_leveler() then (if card.pt_2 != "" then 277 else 342) else if is_saga() then 183 else if is_normal() then 0 else 343 }
 		bottom: { if is_leveler() then card_style.level_2_text.top + lv_2_height()-2 else if is_normal() and not is_saga() then 0 else (if is_saga() then (if split_23() == "" then 108 else split_23()) else if is_normal() then 0 else if has_four_abilities() then stripe32()+10 else if has_two_abilities() then 235 else stripe23()+10) - lv_chop(styling.level_2_chop, cell:1) }
 		font:
@@ -1078,9 +1078,9 @@ card style:
 		line height line max: 1.6
 	level 3 text:
 		left: {if is_leveler() then (if card.level_2 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 63+unindent(card.loyalty_cost_3)}
-		top: {if is_leveler() then (331 + lv_3_coordinate()) else if has_two_abilities() then 0 else (if is_saga() then (if split_23() == "" then 343 else split_23()) else if is_normal() then 0 else if has_four_abilities() then stripe32()+10 else stripe23()+10) -lv_chop(styling.level_3_chop, cell:0) }
+		top: {if is_leveler() then (93 + lv_3_coordinate()) else if has_two_abilities() then 0 else (if is_saga() then (if split_23() == "" then 343 else split_23()) else if is_normal() then 0 else if has_four_abilities() then stripe32()+10 else stripe23()+10) -lv_chop(styling.level_3_chop, cell:0) }
 		right: { -lv_chop(styling.level_3_chop, cell:2) + if is_leveler() then (if card.pt_3 != "" then 277 else 342) else if is_saga() then 183 else if is_normal() then 0 else 343 }
-		bottom: { if is_leveler() then (94 + lv_3_coordinate()+lv_3_height()-2) else if has_two_abilities() or is_normal() and not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 108 else split_23()) else (if is_saga() then (if split_34() == "" then 202 else split_34()) else if has_four_abilities() then stripe33()+10 else 235) - lv_chop(styling.level_3_chop, cell:1) }
+		bottom: { if is_leveler() then (93 + lv_3_coordinate()+lv_3_height()-2) else if has_two_abilities() or is_normal() and not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 108 else split_23()) else (if is_saga() then (if split_34() == "" then 202 else split_34()) else if has_four_abilities() then stripe33()+10 else 235) - lv_chop(styling.level_3_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1127,9 +1127,9 @@ card style:
 		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else if back_mutate() then (if back_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_5)}
-		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
+		top: { if back_leveler() then 337 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 342 else if card.pt_4 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() and not back_mutate() then 0 else 343 }
-		bottom: { if back_leveler() then (336+lv_5_height()) else if back_saga() then (if split_12b() == "" then 258 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
+		bottom: { if back_leveler() then (337+lv_5_height()) else if back_saga() then (if split_12b() == "" then 258 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1151,7 +1151,7 @@ card style:
 		line height line max: 1.6
 	level 6 text:
 		left: {if back_leveler() then (if card.level_6 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else 63+unindent(card.loyalty_cost_6)}
-		top: { (if back_leveler() then (327 + lv_6_coordinate()) else if back_saga() then (if split_12b() == "" then 249 else split_12b()) else if back_normal() then 0 else if back_four_abilities() then stripe31b()+10 else if back_two_abilities() then stripe01b()+11 else stripe12b()+10) -lv_chop(styling.level_6_chop, cell:0) }
+		top: { (if back_leveler() then (337 + lv_6_coordinate()) else if back_saga() then (if split_12b() == "" then 249 else split_12b()) else if back_normal() then 0 else if back_four_abilities() then stripe31b()+10 else if back_two_abilities() then stripe01b()+11 else stripe12b()+10) -lv_chop(styling.level_6_chop, cell:0) }
 		right: { -lv_chop(styling.level_6_chop, cell:2) + if back_leveler() then (if card.pt_5 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() then 0 else 343 }
 		bottom: { if back_leveler() then card_style.level_6_text.top + lv_6_height() else if back_normal() and not back_saga() then 0 else (if back_saga() then (if split_23b() == "" then 352 else split_23b()) else if back_four_abilities() then stripe32b()+10 else if back_two_abilities() then 486 else stripe23b()+10) - lv_chop(styling.level_6_chop, cell:1) }
 		font:
@@ -1175,9 +1175,9 @@ card style:
 		line height line max: 1.6
 	level 7 text:
 		left: {if back_leveler() then (if card.level_7 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else 63+unindent(card.loyalty_cost_7)}
-		top: { if back_leveler() then (327 + lv_7_coordinate()) else if back_two_abilities() then 0 else (if back_saga() then (if split_23b() == "" then 343 else split_23b()) else if back_normal() then 0 else if back_four_abilities() then stripe32b()+10 else stripe23b()+10) -lv_chop(styling.level_7_chop, cell:0) }
+		top: { if back_leveler() then (337 + lv_7_coordinate()) else if back_two_abilities() then 0 else (if back_saga() then (if split_23b() == "" then 343 else split_23b()) else if back_normal() then 0 else if back_four_abilities() then stripe32b()+10 else stripe23b()+10) -lv_chop(styling.level_7_chop, cell:0) }
 		right: { -lv_chop(styling.level_7_chop, cell:2) + if back_leveler() then (if card.pt_6 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() then 0 else 343 }
-		bottom: { if back_leveler() then (336 + lv_7_coordinate()+lv_7_height()) else if back_two_abilities() or back_normal() and not back_saga() then 0 else if back_two_boxes() then (if split_23b() == "" then 352 else split_23b()) else (if back_saga() then (if split_34b() == "" then 446 else split_34b()) else if back_normal() then 0 else if back_four_abilities() then stripe33b()+10 else 486) - lv_chop(styling.level_7_chop, cell:1) }
+		bottom: { if back_leveler() then (337 + lv_7_coordinate()+lv_7_height()) else if back_two_abilities() or back_normal() and not back_saga() then 0 else if back_two_boxes() then (if split_23b() == "" then 352 else split_23b()) else (if back_saga() then (if split_34b() == "" then 446 else split_34b()) else if back_normal() then 0 else if back_four_abilities() then stripe33b()+10 else 486) - lv_chop(styling.level_7_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1276,7 +1276,7 @@ card style:
 			size: {12 + if center_label(0) then 0.5 else 0}
 	level 5:
 		z index: 7
-		left: {377+ if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
 		top: {l5_center() - (if aug_leveler2(0) then 4 else 2) - (if center_label2(0) then 6 else 0) + arrow_offset2(0)}
 		width: {if back_leveler() or card.level_5 != "" then (34 + (if box_leveler2() then 30 else 0)) else 0}
 		height:	22
@@ -1293,7 +1293,7 @@ card style:
 			size: {12 + if center_label2(0) then 0.5 else 0}
 	level 6:
 		z index: 7
-		left: {377+ if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
 		top: {l6_center() - (if aug_leveler2(0) then 4 else 2) - (if center_label2(1) then 6 else 0) + arrow_offset2(1)}
 		height: 22
 		width: {if back_leveler() or card.level_6 != "" then (34 + (if box_leveler2() then 30 else 0)) else 0}
@@ -1310,7 +1310,7 @@ card style:
 			size: {12 + if center_label2(0) then 0.5 else 0}
 	level 7:
 		z index: 7
-		left: {377+ if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 14 else 21}
 		top: {l7_center() - (if aug_leveler2(0) then 4 else 2) - (if center_label2(2) then 6 else 0) + arrow_offset2(2)}
 		width: {if back_leveler() or card.level_7 != "" then (34 + (if box_leveler2() then 30 else 0)) else 0}
 		height:	22
@@ -1358,7 +1358,7 @@ card style:
 			shadow displacement x: -1
 			shadow displacement y: 1
 	pt 3:
-		z index: 5
+		z index: 6
 		left: 291
 		top: {(l3_center() - 12)}
 		width: {if is_leveler() and not lone_pt() or card.pt_3 != "" then 60 else 0}
@@ -1374,7 +1374,7 @@ card style:
 			shadow displacement y: 1
 	pt 4:
 		z index: 5
-		left: {377+ if back_leveler() and not lone_pt() then 291 else 286}
+		left: {if back_leveler() and not lone_pt() then 291 else 286}
 		top: { if back_leveler() and not lone_pt() then (l5_center() - 14) else if is_map() then 467 else 469}
 		width: {if back_leveler() and not lone_pt() or card.pt_4 != "" or is_leveler() then 60 else 0}
 		height:	28
@@ -2681,12 +2681,12 @@ extra card style:
 		top: { l3_center() - (if is_map() then 26 else 15)}
 		width: { if (is_leveler() and not lone_pt()) or card.pt_3 != "" then (if is_map() then 90 else 81) else 0}
 		height:	{ if (is_leveler() and not lone_pt()) or card.pt_3 != "" then (if is_map() then 54 else 42) else 0}
-		z index: 3
+		z index: 5
 		visible: { card.pt_3 != "" }
 		render style: image
 		image: {if is_map() then mappt_background() else combine_blend(image1: lv_3_ptbox(), image2: "ptbox_multiply_2.png", combine: "multiply")}
 	pt box 4:
-		left: {377 + if back_leveler() and not lone_pt() then 278 else if back_map() then 270 else 273}
+		left: {if back_leveler() and not lone_pt() then 278 else if back_map() then 270 else 273}
 		top: { if back_leveler() and not lone_pt() then (l5_center() - (if back_map() then 26 else 18)) else if back_map() then 453 else 466}
 		width: { if back_map() then 90 else 81}
 		height:	{ if back_map() then 54 else 42}
@@ -2695,7 +2695,7 @@ extra card style:
 		render style: image
 		image: { if back_map() then card_mapbox2() else if back_vehicle() then "vpt.png" else if is_leveler() and not back_leveler() then card_ptbox2() else card_ptbox() }
 	pt box 5:
-		left: 655
+		left: 278
 		top: { l6_center() - (if back_map() then 26 else 15)}
 		width: { if (back_leveler() and not lone_pt()) or card.pt_5 != "" then (if back_map() then 90 else 81) else 0}
 		height:	{ if (back_leveler() and not lone_pt()) or card.pt_5 != "" then (if back_map() then 54 else 42) else 0}
@@ -2704,7 +2704,7 @@ extra card style:
 		render style: image
 		image: {if back_map() then card_mapbox2() else combine_blend(image1: lv_6_ptbox(), image2: "ptbox_multiply_1.png", combine: "multiply")}
 	pt box 6:
-		left: 655
+		left: 278
 		top: { l7_center() - (if back_map() then 26 else 15)}
 		width: { if (back_leveler() and not lone_pt()) or card.pt_6 != "" then (if back_map() then 90 else 81) else 0}
 		height:	{ if (back_leveler() and not lone_pt()) or card.pt_6 != "" then (if back_map() then 54 else 42) else 0}
@@ -3086,166 +3086,166 @@ extra card style:
 #		z index: 6
 #		image: line.png
 #		visible: {back_four_boxes()}
-#	lvl label 0:
-#		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
-#		top: {l1_center() - (if loy_leveler() then 2 else 10) + arrow_offset(0)}
-#		width: {if is_leveler() or card.level_0 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
-#		height: {if loy_leveler() then 10 else if center_label(0) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler() then 15 else if length(level_label(0)) < 8 or box_leveler() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler() then "" else "bold"}
-#		visible: {card.level_0 != ""}
-#	lvl label 1:
-#		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
-#		top: {l2_center() - (if loy_leveler() then 2 else 10) + arrow_offset(1)}
-#		width: {if is_leveler() or card.level_1 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
-#		height: {if loy_leveler() then 10 else if center_label(1) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler() then 15 else if length(level_label(1)) < 8 or box_leveler() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler() then "" else "bold"}
-#		visible: {card.level_1 != ""}
-#	lvl label 2:
-#		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
-#		top: {l3_center() - (if loy_leveler() then 2 else 10) + arrow_offset(2)}
-#		width: {if is_leveler() or card.level_2 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
-#		height: {if loy_leveler() then 10 else if center_label(2) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler() then 15 else if length(level_label(2)) < 8 or box_leveler() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler() then "" else "bold"}
-#		visible: {card.level_2 != ""}
-#	level 2 overlay:
-#		left: 29
-#		top: { 329 + lv_2_coordinate()}
-#		height: { lv_2_height()}
-#		width: 314
-#		z index: 0
-#		render style: image
-#		image: {overlay1()}
-#		visible: {is_leveler()}
-#	level 3 overlay:
-#		left: 29
-#		top: { 329 + lv_3_coordinate()}
-#		height: { lv_3_height()}
-#		width: 314
-#		z index: 0
-#		render style: image
-#		image: {overlay2()}
-#		visible: {is_leveler()}
-#	arrow 1:
-#		z index: 5
-#		left: {arrow_left()}
-#		top: {l1_center() - 16 + arrow_offset(0)}
-#		width: {if card.level_0 != "" then arrow_width() else 0}
-#		height:	{arrow_height(0)}
-#		render style: image
-#		image: {if loy_leveler() then loyalty_image_name(card.level_0) else if box_leveler() then card_ptbox() else arrow_background()}
-#	arrow 2:
-#		z index: 5
-#		left: {arrow_left()}
-#		top: {l2_center() - 16 + arrow_offset(1)}
-#		width: {if card.level_1 != "" then arrow_width() else 0}
-#		height:	{arrow_height(1)}
-#		render style: image
-#		image: {if loy_leveler() then loyalty_image_name(card.level_1) else if box_leveler() then card_ptbox() else arrow_background()}
-#	arrow 3:
-#		z index: 5
-#		left: {arrow_left()}
-#		top: {l3_center() - 16 + arrow_offset(2)}
-#		width: {if card.level_2 != "" then arrow_width() else 0}
-#		height:	{arrow_height(2)}
-#		render style: image
-#		image: {if loy_leveler() then loyalty_image_name(card.level_2) else if box_leveler() then card_ptbox() else arrow_background()}
-#	lvl label 5:
-#		left: {if box_leveler2() then 385 else if loy_leveler2() then 425 else 398}
-#		top: {l5_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(0)}
-#		width:  {if back_leveler() or card.level_5 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
-#		height: {if loy_leveler2() then 10 else if center_label2(0) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler2() then 15 else if length(level_label(3)) < 8 or box_leveler2() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler2() then "" else "bold"}
-#		visible: {card.level_5 != ""}
-#	lvl label 6:
-#		left: {if box_leveler2() then 385 else if loy_leveler2() then 425 else 398}
-#		top: {l6_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(1)}
-#		width: {if back_leveler() or card.level_6 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
-#		height: {if loy_leveler2() then 10 else if center_label2(1) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler2() then 15 else if length(level_label(4)) < 8 or box_leveler2() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler2() then "" else "bold"}
-#		visible: {card.level_6 != ""}
-#	lvl label 7:
-#		left: {if box_leveler2() then 385 else if loy_leveler2() then 425 else 398}
-#		top: {l7_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(2)}
-#		width: {if back_leveler() or card.level_7 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
-#		height: {if loy_leveler2() then 10 else if center_label2(2) then 0 else 10}
-#		z index: 6
-#		alignment: middle center
-#		font:
-#			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
-#			size: {if loy_leveler2() then 15 else if length(level_label(5)) < 8 or box_leveler2() then 7 else 6}
-#			color: black
-#			weight: {if loy_leveler2() then "" else "bold"}
-#		visible: {card.level_7 != ""}
-#	level 6 overlay:
-#		left: 406
-#		top: { 329 + lv_6_coordinate()}
-#		height: { lv_6_height()}
-#		width: 314
-#		z index: 0
-#		render style: image
-#		image: {overlay6()}
-#		visible: {back_leveler()}
-#	level 7 overlay:
-#		left: 406
-#		top: { 329 + lv_7_coordinate()}
-#		height: { lv_7_height()}
-#		width: 314
-#		z index: 0
-#		render style: image
-#		image: {overlay7()}
-#		visible: {back_leveler()}
-#	arrow 5:
-#		z index: 5
-#		left: {arrow_left2()}
-#		top: {l5_center() - 16 + arrow_offset2(0)}
-#		width: {if card.level_5 != "" then arrow_width2() else 0}
-#		height:	{arrow_height2(0)}
-#		render style: image
-#		image: {if loy_leveler2() then loyalty_image_name(card.level_5) else if box_leveler2() then card_ptbox() else arrow_background()}
-#	arrow 6:
-#		z index: 5
-#		left: {arrow_left2()}
-#		top: {l6_center() - 16 + arrow_offset2(1)}
-#		width: {if card.level_6 != "" then arrow_width2() else 0}
-#		height:	{arrow_height2(1)}
-#		render style: image
-#		image: {if loy_leveler2() then loyalty_image_name(card.level_6) else if box_leveler2() then card_ptbox() else arrow_background()}
-#	arrow 7:
-#		z index: 5
-#		left: {arrow_left2()}
-#		top: {l7_center() - 16 + arrow_offset2(2)}
-#		width: {if card.level_7 != "" then arrow_width2() else 0}
-#		height:	{arrow_height2(3)}
-#		render style: image
-#		image: {if loy_leveler2() then loyalty_image_name(card.level_7) else if box_leveler2() then card_ptbox() else arrow_background()}
+	lvl label 0:
+		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
+		top: {l1_center() - (if loy_leveler() then 2 else 10) + arrow_offset(0)}
+		width: {if is_leveler() or card.level_0 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
+		height: {if loy_leveler() then 10 else if center_label(0) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler() then 15 else if length(level_label(0)) < 8 or box_leveler() then 7 else 6}
+			color: black
+			weight: {if loy_leveler() then "" else "bold"}
+		visible: {card.level_0 != ""}
+	lvl label 1:
+		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
+		top: {l2_center() - (if loy_leveler() then 2 else 10) + arrow_offset(1)}
+		width: {if is_leveler() or card.level_1 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
+		height: {if loy_leveler() then 10 else if center_label(1) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler() then 15 else if length(level_label(1)) < 8 or box_leveler() then 7 else 6}
+			color: black
+			weight: {if loy_leveler() then "" else "bold"}
+		visible: {card.level_1 != ""}
+	lvl label 2:
+		left: {if box_leveler() then 8 else if loy_leveler() then 48 else 21}
+		top: {l3_center() - (if loy_leveler() then 2 else 10) + arrow_offset(2)}
+		width: {if is_leveler() or card.level_2 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
+		height: {if loy_leveler() then 10 else if center_label(2) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler() then 15 else if length(level_label(2)) < 8 or box_leveler() then 7 else 6}
+			color: black
+			weight: {if loy_leveler() then "" else "bold"}
+		visible: {card.level_2 != ""}
+	level 2 overlay:
+		left: 29
+		top: { 92 + lv_2_coordinate()}
+		height: { lv_2_height()}
+		width: 314
+		z index: 0
+		render style: image
+		image: {overlay1()}
+		visible: {is_leveler()}
+	level 3 overlay:
+		left: 29
+		top: { 92 + lv_3_coordinate()}
+		height: { lv_3_height()}
+		width: 314
+		z index: 0
+		render style: image
+		image: {overlay2()}
+		visible: {is_leveler()}
+	arrow 1:
+		z index: 5
+		left: {arrow_left()}
+		top: {l1_center() - 16 + arrow_offset(0)}
+		width: {if card.level_0 != "" then arrow_width() else 0}
+		height:	{arrow_height(0)}
+		render style: image
+		image: {if loy_leveler() then loyalty_image_name(card.level_0) else if box_leveler() then card_ptbox() else arrow_background()}
+	arrow 2:
+		z index: 5
+		left: {arrow_left()}
+		top: {l2_center() - 16 + arrow_offset(1)}
+		width: {if card.level_1 != "" then arrow_width() else 0}
+		height:	{arrow_height(1)}
+		render style: image
+		image: {if loy_leveler() then loyalty_image_name(card.level_1) else if box_leveler() then card_ptbox() else arrow_background()}
+	arrow 3:
+		z index: 5
+		left: {arrow_left()}
+		top: {l3_center() - 16 + arrow_offset(2)}
+		width: {if card.level_2 != "" then arrow_width() else 0}
+		height:	{arrow_height(2)}
+		render style: image
+		image: {if loy_leveler() then loyalty_image_name(card.level_2) else if box_leveler() then card_ptbox() else arrow_background()}
+	lvl label 5:
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 48 else 21}
+		top: {l5_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(0)}
+		width:  {if back_leveler() or card.level_5 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
+		height: {if loy_leveler2() then 10 else if center_label2(0) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler2() then 15 else if length(level_label(3)) < 8 or box_leveler2() then 7 else 6}
+			color: black
+			weight: {if loy_leveler2() then "" else "bold"}
+		visible: {card.level_5 != ""}
+	lvl label 6:
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 48 else 21}
+		top: {l6_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(1)}
+		width: {if back_leveler() or card.level_6 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
+		height: {if loy_leveler2() then 10 else if center_label2(1) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler2() then 15 else if length(level_label(4)) < 8 or box_leveler2() then 7 else 6}
+			color: black
+			weight: {if loy_leveler2() then "" else "bold"}
+		visible: {card.level_6 != ""}
+	lvl label 7:
+		left: {if box_leveler2() then 8 else if loy_leveler2() then 48 else 21}
+		top: {l7_center() - (if loy_leveler2() then 2 else 10) + arrow_offset2(2)}
+		width: {if back_leveler() or card.level_7 != "" then (if loy_leveler2() then 10 else 34 + (if box_leveler2() then 30 else 0)) else 0}
+		height: {if loy_leveler2() then 10 else if center_label2(2) then 0 else 10}
+		z index: 6
+		alignment: middle center
+		font:
+			name: {if loy_leveler2() then "MPlantin" else "Beleren Small Caps"}
+			size: {if loy_leveler2() then 15 else if length(level_label(5)) < 8 or box_leveler2() then 7 else 6}
+			color: black
+			weight: {if loy_leveler2() then "" else "bold"}
+		visible: {card.level_7 != ""}
+	level 6 overlay:
+		left: 29
+		top: { 338 + lv_6_coordinate()}
+		height: { lv_6_height()}
+		width: 314
+		z index: 0
+		render style: image
+		image: {overlay6()}
+		visible: {back_leveler()}
+	level 7 overlay:
+		left: 29
+		top: { 338 + lv_7_coordinate()}
+		height: { lv_7_height()}
+		width: 314
+		z index: 0
+		render style: image
+		image: {overlay7()}
+		visible: {back_leveler()}
+	arrow 5:
+		z index: 5
+		left: {arrow_left2()}
+		top: {l5_center() - 16 + arrow_offset2(0)}
+		width: {if card.level_5 != "" then arrow_width2() else 0}
+		height:	{arrow_height2(0)}
+		render style: image
+		image: {if loy_leveler2() then loyalty_image_name(card.level_5) else if box_leveler2() then card_ptbox() else arrow_background()}
+	arrow 6:
+		z index: 5
+		left: {arrow_left2()}
+		top: {l6_center() - 16 + arrow_offset2(1)}
+		width: {if card.level_6 != "" then arrow_width2() else 0}
+		height:	{arrow_height2(1)}
+		render style: image
+		image: {if loy_leveler2() then loyalty_image_name(card.level_6) else if box_leveler2() then card_ptbox() else arrow_background()}
+	arrow 7:
+		z index: 5
+		left: {arrow_left2()}
+		top: {l7_center() - 16 + arrow_offset2(2)}
+		width: {if card.level_7 != "" then arrow_width2() else 0}
+		height:	{arrow_height2(3)}
+		render style: image
+		image: {if loy_leveler2() then loyalty_image_name(card.level_7) else if box_leveler2() then card_ptbox() else arrow_background()}
 
