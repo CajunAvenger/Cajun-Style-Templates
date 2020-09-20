@@ -2811,7 +2811,7 @@ extra card style:
 		left: 0
 		top: 0
 		width: 375
-		height: 523
+		height: 253
 		render style: image
 		image: {miracle_background()}
 		z index: 1
@@ -2838,15 +2838,15 @@ extra card style:
 		visible: {back_nyx()}
 		mask: {"nyx/" + (if back_walker() then "pw_" else if back_saga() then "full") + "mask2.png"}
 	miracle overlay 2:
-		left: 377
-		top: 0
+		left: 0
+		top: 253
 		width: 375
-		height: 523
+		height: 271
 		render style: image
 		image: {miracle_background2()}
 		z index: 1
 		visible: {back_miracle()}
-		mask: nodemask.png
+		mask: nodemask2.png
 	legend overlay 2:
 		left: 0
 		top: 253
