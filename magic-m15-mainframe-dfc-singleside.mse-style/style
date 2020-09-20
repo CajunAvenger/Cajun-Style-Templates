@@ -34,19 +34,13 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" nyx2: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp: "" stamp2: "normal/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" nyx2: "nyx2.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
-	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
-	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" nyx2: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" map: "maps/" map2: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" card5: "card3.jpg" card6: "card4.jpg" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" nyx2: "nyx2.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown2.png" map: "card.png" map2: "card2.png" mappt: "pt.png" saga:"card.jpg" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png"]
+	template      := { template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
+	land_template := { template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	landless := {if input == "arrow" or input == "nyx" or input == "nyx2" or input == "comcrown" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
-	crown_lead := {
-		if input != "legend" and input != "legend2" then ""
-		else if (styling.legend_crown == "custom" and styling.custom_crown_location != "")
-			then "/magic-mainframe-extras.mse-include/" + styling.custom_crown_location
-		else ""
-	}
 	crown_follow := {
 		if input != "legend" and input != "legend2" then ""
 		else if styling.legend_crown == "nyx" or (check_nyx(input) and chosen(styling.other_options, choice:"auto nyx crowns"))
@@ -101,7 +95,6 @@ init script:
 	card_ptbox2 := { color_background(type:"pt2",       base_hybrid:pt_hybrid) }
 	card_mapbox := { color_background(type:"mappt",       base_hybrid:pt_hybrid) }
 	card_mapbox2 := { color_background(type:"mappt",       base_hybrid:pt_hybrid) }
-	# doublecast flag scripts
 	arrow_background := { color_background(type:"arrow",     base_hybrid:pt_hybrid) }
 
 
@@ -125,8 +118,6 @@ init script:
 	
 	card_shape := {"double faced"}
 	
-	# Is the card a promo card?
-	is_promo := { chosen(styling.other_options, choice:"promo") }
 	is_plwalker := {contains(styling.front_style, match:"planeswalker")}
 	back_walker := {contains(styling.back_style, match:"planeswalker")}
 	comma_count := filter_text@(match:",")
@@ -139,8 +130,6 @@ init script:
 	has_two_abilities := { styling.front_style == "2 ability planeswalker" }
 	is_normal := { not contains(styling.front_style, match:"planeswalker") }
 	has_three_abilities := {styling.front_style == "3 ability planeswalker" }
-	is_stamped := { is_rare() and chosen(styling.other_options, choice:"use holofoil stamps") }
-	is_normal_size := { not chosen(styling.other_options, choice:"wider planeswalker images") }
 	lv_chop := { pull_comma_array(input, cell:cell, end:0, default:0)}
 	loyal_move := { pull_comma_array(input, cell:cell, end:0, default:0)}
 
@@ -188,14 +177,14 @@ init script:
 	has_identity := { chosen(styling.other_options, choice:"front color indicator")}
 	has_identity2 := { chosen(styling.other_options, choice:"back color indicator") and not contains(card.card_color_2, match:"colorless")}
 	is_unsorted := {chosen(styling.other_options, choice:"remove from autocount")}
-	is_miracle := {styling.front_style == "miracle"}
-	is_nyx := {styling.front_style == "nyx" or chosen(styling.other_options, choice:"nyx front")}
-	is_vehicle := {styling.front_style == "vehicle" or chosen(styling.other_options, choice:"vehicle front")}
+	is_miracle := {styling.front_effect == "miracle"}
+	is_nyx := {styling.front_effect == "nyx"}
+	is_vehicle := {styling.front_effect == "vehicle"}
 	is_map := {styling.front_style == "map"}
 	is_saga := {two_boxes() or three_boxes() or four_boxes()}
-	back_miracle := {styling.back_style == "miracle"}
-	back_nyx := {styling.back_style == "nyx" or chosen(styling.other_options, choice:"nyx back")}
-	back_vehicle := {styling.back_style == "vehicle" or chosen(styling.other_options, choice:"vehicle back")}
+	back_miracle := {styling.back_effect == "miracle"}
+	back_nyx := {styling.back_effect == "nyx"}
+	back_vehicle := {styling.back_effect == "vehicle"}
 	back_map := {styling.back_style == "map"}
 	back_saga := {back_two_boxes() or back_three_boxes() or back_four_boxes()}
 	is_legend := {is_normal() and not is_map() and (chosen(styling.other_options, choice:"legendary front") or (contains(card.super_type, match:"Legendary") and set.auto_legends)) }
@@ -288,11 +277,6 @@ init script:
 	chapter5b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:4, end:true, default:600)) }
 	chapter6b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:5, end:true, default:600)) }
 	
-	chapter_custom := { to_number(pull_comma_array(styling.custom_chapter_coordinate, cell:0, end:false, default:600)) }
-	chapter_customb := { to_number(pull_comma_array(styling.custom_chapter_coordinate, cell:1, end:false, default:600)) }
-	custom_chapter_node := {if contains(styling.custom_chapter_location, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_chapter_location else "chapter6.png"}
-	custom_name := {if styling.custom_chapter_name == "" then "C" else styling.custom_chapter_name}
-
 	two_boxes := {styling.front_style == "2 box saga"}
 	three_boxes := {styling.front_style == "3 box saga"}
 	four_boxes := {styling.front_style == "4 box saga"}
@@ -314,7 +298,6 @@ init script:
 		+(if build_array((if chapter4() != "" then chapter4() else 600)) == input then "IV, " else "")
 		+(if build_array((if chapter5() != "" then chapter5() else 600)) == input then "V, " else "")
 		+(if build_array((if chapter6() != "" then chapter6() else 600)) == input then "VI, " else "")
-		+(if build_array((if chapter_custom() != "" then chapter_custom() else 600)) == input then custom_name() + ", " else "")
 	}
 	build_array2 := {
 		if input +17 >= (if split_34b() != "" then split_34b() else 600) then 4
@@ -330,7 +313,6 @@ init script:
 		+(if build_array((if chapter4b() != "" then chapter4b() else 600)) == input then "IV, " else "")
 		+(if build_array((if chapter5b() != "" then chapter5b() else 600)) == input then "V, " else "")
 		+(if build_array((if chapter6b() != "" then chapter6b() else 600)) == input then "VI, " else "")
-		+(if build_array((if chapter_customb() != "" then chapter_customb() else 600)) == input then custom_name() + ", " else "")
 	}
 	end_leader := replace@(match:", $", replace:" — ")
 
@@ -339,7 +321,6 @@ init script:
 	shrink_name := {if styling.shrink_name_text != "" then to_number(styling.shrink_name_text) else 0 }
 	shrink_type2 := {if styling.shrink_back_typeline_text != "" then to_number(styling.shrink_back_typeline_text) else 0 }
 	shrink_name2 := {if styling.shrink_back_name_text != "" then to_number(styling.shrink_back_name_text) else 0 }
-	is_flagged := {chosen(styling.other_options, choice: "use doublecast flags") }
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
 	ancestral_mana := { chosen(styling.other_options, choice:"ancestral generic mana")}
@@ -418,12 +399,18 @@ styling field:
 	choice: 3 box saga
 	choice: 4 box saga
 	choice: leveler
-	choice: miracle
-	choice: nyx
-	choice: vehicle
 	choice: map
 	initial: normal
 	description: Choose the style for the front face
+styling field:
+	type: choice
+	name: front effect
+	choice: none
+	choice: miracle
+	choice: nyx
+	choice: vehicle
+	initial: none
+	description: Choose the effect to apply on the front face
 styling field:
 	type: choice
 	name: defaults
@@ -492,12 +479,18 @@ styling field:
 	choice: 3 box saga
 	choice: 4 box saga
 	choice: leveler
-	choice: miracle
-	choice: nyx
-	choice: vehicle
 	choice: map
 	initial: normal
 	description: Choose the style for the back face
+styling field:
+	type: choice
+	name: back effect
+	choice: none
+	choice: miracle
+	choice: nyx
+	choice: vehicle
+	initial: none
+	description: Choose the effect to apply on the back face
 styling field:
 	type: text
 	name: back stripe coordinate
@@ -543,77 +536,34 @@ styling field:
 	name: opacity
 	description: set opacity for planeswalkers, from 0 to 255. Formatted as Front,Back,
 styling field:
-	type: text
-	name: custom mask
-	description: Uses a custom mask from data/magic-mainframe-extras.mse-include
-styling field:
-	type: text
-	name: custom mask 2
-	description: Uses a custom mask from data/magic-mainframe-extras.mse-include
-styling field:
-	type: text
-	name: custom symbol one
-	description: Uses a custom DFC symbol from data/magic-mainframe-extras.mse-include
-styling field:
-	type: text
-	name: custom symbol two
-	description: Uses a custom DFC symbol from data/magic-mainframe-extras.mse-include
-styling field:
 	type: multiple choice
 	name: other options
 	description: Additional options
-	choice: promo
-	choice: prerelease stamps
 	choice: remove from autocount
 	choice: use hovering pt
 	choice: use hovering loyalty
-	choice: use holofoil stamps
-	choice: use doublecast flags
 	choice: center front
 	choice: center back
 	choice: center first name
 	choice: center second name
-	choice: nyx front
-	choice: nyx back
-	choice: vehicle front
-	choice: vehicle back
 	choice: legendary front
 	choice: legendary back
-	choice: meld back
 	choice: front color indicator
 	choice: back color indicator
 	choice: front mutate
 	choice: back mutate
-	choice: wider planeswalker images
 	choice: regular pt on levelers
 	choice: ancestral generic mana
 	choice: unindent nonloyalty abilities
 	choice: auto nyx crowns
-	initial: use hovering pt, use holofoil stamps, back color indicator, unindent nonloyalty abilities, auto nyx crowns
+	initial: use hovering pt, back color indicator, unindent nonloyalty abilities, auto nyx crowns
 styling field:
 	type: choice
 	name: legend crown
 	choice: standard
 	choice: nyx
 	choice: companion
-	choice: custom
 	description: The type of legend crown to use for this card.
-styling field:
-	type: text
-	name: custom crown location
-	description: location of custom legend crown images in magic-mainframe-extras
-styling field:
-	type: text
-	name: custom chapter location
-	description: The location of the custom chapter symbol inside magic-mainframe-extras
-styling field:
-	type: text
-	name: custom chapter coordinate
-	description: Set the custom symbol at the given heights, formatted as Front,Back,
-styling field:
-	type: text
-	name: custom chapter name
-	description: Set how this symbol will be called in text exports (ie I, II...). Default is C.
 styling field:
 	type: text
 	name: level label
@@ -1127,7 +1077,7 @@ card style:
 		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else if back_mutate() then (if back_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_5)}
-		top: { if back_leveler() then 337 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
+		top: { if back_leveler() then 339 else if back_saga() then 155 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 342 else if card.pt_4 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() and not back_mutate() then 0 else 343 }
 		bottom: { if back_leveler() then (337+lv_5_height()) else if back_saga() then (if split_12b() == "" then 258 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
 		font:
@@ -1177,7 +1127,7 @@ card style:
 		left: {if back_leveler() then (if card.level_7 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else 63+unindent(card.loyalty_cost_7)}
 		top: { if back_leveler() then (337 + lv_7_coordinate()) else if back_two_abilities() then 0 else (if back_saga() then (if split_23b() == "" then 343 else split_23b()) else if back_normal() then 0 else if back_four_abilities() then stripe32b()+10 else stripe23b()+10) -lv_chop(styling.level_7_chop, cell:0) }
 		right: { -lv_chop(styling.level_7_chop, cell:2) + if back_leveler() then (if card.pt_6 != "" then 277 else 342) else if back_saga() then 183 else if back_normal() then 0 else 343 }
-		bottom: { if back_leveler() then (337 + lv_7_coordinate()+lv_7_height()) else if back_two_abilities() or back_normal() and not back_saga() then 0 else if back_two_boxes() then (if split_23b() == "" then 352 else split_23b()) else (if back_saga() then (if split_34b() == "" then 446 else split_34b()) else if back_normal() then 0 else if back_four_abilities() then stripe33b()+10 else 486) - lv_chop(styling.level_7_chop, cell:1) }
+		bottom: { if back_leveler() then (335 + lv_7_coordinate()+lv_7_height()) else if back_two_abilities() or back_normal() and not back_saga() then 0 else if back_two_boxes() then (if split_23b() == "" then 352 else split_23b()) else (if back_saga() then (if split_34b() == "" then 446 else split_34b()) else if back_normal() then 0 else if back_four_abilities() then stripe33b()+10 else 486) - lv_chop(styling.level_7_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1577,18 +1527,6 @@ extra card field:
 	editable: false
 	choice: loyalty
 	save value: false
-extra card field:
-	type: choice
-	name: stamp
-	script: card.card_color_2
-	editable: false
-	save value: false
-extra card field:
-	type: choice
-	name: foil stamp
-	choice: stamp
-	save value: false
-	editable: false
 extra card field:
 	type: choice
 	name: foil layer
@@ -2044,13 +1982,6 @@ extra card field:
 	show statistics: false
 extra card field:
 	type: choice
-	name: chapter custom
-	choice: chapter
-	editable: false
-	save value: false
-	show statistics: false
-extra card field:
-	type: choice
 	name: linebreak 1
 	choice: line
 	editable: false
@@ -2115,13 +2046,6 @@ extra card field:
 extra card field:
 	type: choice
 	name: chapter 6b
-	choice: chapter
-	editable: false
-	save value: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: chapter customb
 	choice: chapter
 	editable: false
 	save value: false
@@ -2299,25 +2223,6 @@ extra card style:
 		visible: { card.loyalty_2 != "" }
 		choice images:
 			loyalty: loyalty.png
-	stamp:
-		left: {if back_map() then 169 else if back_normal() then 165 else 170 }
-		top: { if back_normal() and not back_map() then 481 else 491 }
-		width: { if back_map() then 38 else if back_normal() then 46 else 36.5 }
-		height: { if back_map() then 24 else if back_normal() then 26 else 22.5 }
-		z index: 3
-		visible: { is_stamped() }
-		render style: image
-		image: { if back_saga() then "saga_stamp.png" else if back_map() then "maps/holo_stamp.png" else if back_normal() then card_stamp2() else card_stamp() }
-		mask: stamp_mask.png
-	foil stamp:
-		left: { if back_normal() then 165 else 170 }
-		top: { if back_normal() then 481 else 482 }
-		width: { if back_normal() then 46 else 36.5 }
-		height: { if back_normal() then 26 else 22.5 }
-		z index: 4
-		visible: { is_stamped() and not back_map()}
-		render style: image
-		image: foil_stamp.png
 	foil layer:
 		left: 0
 		top : 0
@@ -2543,7 +2448,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png") }
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() }
 	bot stripe:
 		left: 46
 		top: { if has_four_abilities() then stripe32() else stripe23() }
@@ -2553,7 +2458,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_three_abilities() or has_four_abilities() }
 	fourth stripe:
 		left: 46
 		top: { stripe33() }
@@ -2563,7 +2468,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_four_abilities() }
 	stripe color:
 		left: 46
 		top: 102
@@ -2571,7 +2476,7 @@ extra card style:
 		bottom: { if has_four_abilities() then stripe31() else if has_two_abilities() then stripe01() else stripe12() }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() }
 	stripe color 2:
 		left: 46
 		top: { (if has_four_abilities() then stripe32() else stripe23()) + 20 }
@@ -2579,7 +2484,7 @@ extra card style:
 		bottom: { if has_four_abilities() then stripe33() else 218 }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_three_abilities() or has_four_abilities() }
 	top color:
 		left: 26
 		top: 79
@@ -2587,7 +2492,7 @@ extra card style:
 		height: 23
 		z index: 2
 		mask: mask_top.png
-		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_two_abilities() or has_three_abilities() or has_four_abilities() }
 	bottom color:
 		left: 26
 		top: 218
@@ -2595,7 +2500,7 @@ extra card style:
 		height: 18
 		z index: 2
 		mask: mask_bot.png
-		visible: { has_three_abilities() and not contains(styling.custom_mask, match:".png")}
+		visible: { has_three_abilities() }
 	top stripe back:
 		left: 46
 		top: { if back_four_abilities() then stripe31b() else if back_two_abilities() then stripe01b() else stripe12b() }
@@ -2605,7 +2510,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png") }
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() }
 	bot stripe back:
 		left: 46
 		top: { if back_four_abilities() then stripe32b() else stripe23b() }
@@ -2615,7 +2520,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_three_abilities() or back_four_abilities() }
 	fourth stripe back:
 		left: 46
 		top: { stripe33b() }
@@ -2625,7 +2530,7 @@ extra card style:
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_four_abilities() }
 	stripe color back:
 		left: 46
 		top: 344
@@ -2633,7 +2538,7 @@ extra card style:
 		bottom: { if back_four_abilities() then stripe31b() else if back_two_abilities() then stripe01b() else stripe12b() }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() }
 	stripe color 2 back:
 		left: 46
 		top: { (if back_four_abilities() then stripe32b() else stripe23b()) + 20 }
@@ -2641,7 +2546,7 @@ extra card style:
 		bottom: { if back_four_abilities() then stripe33b() else 469 }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_three_abilities() or back_four_abilities() }
 	top color back:
 		left: 26
 		top: 321
@@ -2649,7 +2554,7 @@ extra card style:
 		height: 23
 		z index: 2
 		mask: mask_top.png
-		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_two_abilities() or back_three_abilities() or back_four_abilities() }
 	bottom color back:
 		left: 26
 		top: 469
@@ -2657,7 +2562,7 @@ extra card style:
 		height: 18
 		z index: 2
 		mask: mask_bot.png
-		visible: { back_three_abilities() and not contains(styling.custom_mask_2, match:".png")}
+		visible: { back_three_abilities() }
 	pt box:
 		left: { if is_leveler() and not lone_pt() then 278 else if is_map() then 270 else 273}
 		top: { if is_leveler() and not lone_pt() then (l1_center() - (if is_map() then 26 else 18)) else if is_map() then 212 else 227}
@@ -2940,15 +2845,6 @@ extra card style:
 #		z index: 5
 #		image: saga/chapter6.png
 #		visible: {is_saga()}
-#	chapter custom:
-#		left: 14
-#		top: { if chapter_custom() == "" then 600 else chapter_custom() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: {custom_chapter_node()}
-#		visible: {is_saga()}
 ####pulls double duty as saga line and mutate bar to reduce fields
 #	linebreak 1:
 #		left: {if is_mutate() then 28 else 43}
@@ -3040,15 +2936,6 @@ extra card style:
 #		render style: image
 #		z index: 5
 #		image: saga/chapter6.png
-#		visible: {back_saga()}
-#	chapter customb:
-#		left: 391
-#		top: { if chapter_customb() == "" then 600 else chapter_customb() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: {custom_chapter_node()}
 #		visible: {back_saga()}
 #	linebreak 1b:
 #		left: {if back_mutate() then 405 else 420}
@@ -3208,7 +3095,7 @@ extra card style:
 		visible: {card.level_7 != ""}
 	level 6 overlay:
 		left: 29
-		top: { 338 + lv_6_coordinate()}
+		top: { 336 + lv_6_coordinate()}
 		height: { lv_6_height()}
 		width: 314
 		z index: 0
@@ -3217,7 +3104,7 @@ extra card style:
 		visible: {back_leveler()}
 	level 7 overlay:
 		left: 29
-		top: { 338 + lv_7_coordinate()}
+		top: { 336 + lv_7_coordinate()}
 		height: { lv_7_height()}
 		width: 314
 		z index: 0
