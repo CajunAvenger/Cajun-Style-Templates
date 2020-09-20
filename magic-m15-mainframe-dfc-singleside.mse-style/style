@@ -956,59 +956,59 @@ card style:
 		line height soft: 0.9
 		line height hard max: 1.3
 		line height line max: 1.6
-	chapter text:
-		left: 30
-		top: 60
-		width: 153
-		height: 96
-		z index: 3
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13 }
-			scale down to: 6
-			color: black
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13}
-		alignment:
-			script:	if chosen(styling.other_options, choice:"center front") then "middle center" else "middle left"
-		z index: 5
-		padding left:   3
-		padding right:  1
-		line height hard: {if is_modal(card.chapter_text) then 0.9 else 1.2 }
-		line height line: 1.5
-		line height soft: 0.85
-		line height hard max: 1.3
-		line height line max: 1.6
-		visible: {is_saga()}
-		mask: textmask.png
-	chapter text 2:
-		left: 407
-		top: 60
-		width: 153
-		height: 96
-		z index: 3
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
-			scale down to: 6
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
-		alignment:
-			script:	if chosen(styling.other_options, choice:"center back") then "middle center" else "middle left"
-		z index: 5
-		padding left:   3
-		padding right:  1
-		line height hard: {if is_modal(card.chapter_text_2) then 0.9 else 1.2 }
-		line height line: 1.5
-		line height soft: 0.85
-		line height hard max: 1.3
-		line height line max: 1.6
-		visible: {back_saga()}
-		mask: textmask.png
+#	chapter text:
+#		left: 30
+#		top: 60
+#		width: 153
+#		height: 96
+#		z index: 3
+#		font:
+#			name: MPlantin
+#			italic name: MPlantin-Italic
+#			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13 }
+#			scale down to: 6
+#			color: black
+#		symbol font:
+#			name: { styling.text_box_mana_symbols }
+#			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13}
+#		alignment:
+#			script:	if chosen(styling.other_options, choice:"center front") then "middle center" else "middle left"
+#		z index: 5
+#		padding left:   3
+#		padding right:  1
+#		line height hard: {if is_modal(card.chapter_text) then 0.9 else 1.2 }
+#		line height line: 1.5
+#		line height soft: 0.85
+#		line height hard max: 1.3
+#		line height line max: 1.6
+#		visible: {is_saga()}
+#		mask: textmask.png
+#	chapter text 2:
+#		left: 407
+#		top: 60
+#		width: 153
+#		height: 96
+#		z index: 3
+#		font:
+#			name: MPlantin
+#			italic name: MPlantin-Italic
+#			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
+#			scale down to: 6
+#		symbol font:
+#			name: { styling.text_box_mana_symbols }
+#			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
+#		alignment:
+#			script:	if chosen(styling.other_options, choice:"center back") then "middle center" else "middle left"
+#		z index: 5
+#		padding left:   3
+#		padding right:  1
+#		line height hard: {if is_modal(card.chapter_text_2) then 0.9 else 1.2 }
+#		line height line: 1.5
+#		line height soft: 0.85
+#		line height hard max: 1.3
+#		line height line max: 1.6
+#		visible: {back_saga()}
+#		mask: textmask.png
 	watermark:
 		left: { if is_saga() then 45 else if is_map() then 40 else 19}
 		top : { if is_saga() then 60 else if is_plwalker() then 87 else 95 }
