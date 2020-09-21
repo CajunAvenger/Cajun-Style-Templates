@@ -257,25 +257,21 @@ init script:
 	}
 
 	##### saga stuff
-	split_12 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:0, end:true, default:(if two_boxes() then 296 else if four_boxes() then 225 else 249)))}
-	split_23 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:1, end:true, default:(if two_boxes() then 437 else if four_boxes() then 296 else 343)))}
-	split_34 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:2, end:true, default:(if three_boxes() then 437 else if four_boxes() then 367 else 600)))}
+	split_12 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:0, end:true, default:(if two_boxes() then 172 else if four_boxes() then 133 else 146)))}
+	split_23 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:1, end:true, default:(if two_boxes() then 249 else if four_boxes() then 171 else 197)))}
+	split_34 := {to_number(pull_comma_array(styling.stripe_coordinate, cell:2, end:true, default:(if four_boxes() then 209 else 248)))}
 	split_12b := {to_number(pull_comma_array(styling.back_stripe_coordinate, cell:0, end:true, default:(if back_two_boxes() then 296 else if back_four_boxes() then 225 else 249)))}
 	split_23b := {to_number(pull_comma_array(styling.back_stripe_coordinate, cell:1, end:true, default:(if back_two_boxes() then 437 else if back_four_boxes() then 296 else 343)))}
 	split_34b := {to_number(pull_comma_array(styling.back_stripe_coordinate, cell:2, end:true, default:(if back_three_boxes() then 437 else if back_four_boxes() then 367 else 600)))}
 
-	chapter1 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:0, end:true, default:(if two_boxes() then 183 else 185))) }
-	chapter2 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:1, end:true, default:(if two_boxes() then 223 else 279))) }
-	chapter3 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:2, end:true, default:(if two_boxes() then 329 else 373))) }
-	chapter4 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:3, end:true, default:600)) }
-	chapter5 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:4, end:true, default:600)) }
-	chapter6 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:5, end:true, default:600)) }
+	chapter1 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:0, end:true, default:(if two_boxes() then 118 else if four_boxes() then 97 else 104))) }
+	chapter2 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:1, end:true, default:(if two_boxes() then 195 else if four_boxes() then 135 else 155))) }
+	chapter3 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:2, end:true, default:(if four_boxes() then 173 else 206))) }
+	chapter4 := { to_number(pull_comma_array(styling.move_loyalty_costs, cell:3, end:true, default:211)) }
 	chapter1b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:0, end:true, default:(if back_two_boxes() then 183 else 185))) }
 	chapter2b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:1, end:true, default:(if back_two_boxes() then 223 else 279))) }
 	chapter3b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:2, end:true, default:(if back_two_boxes() then 329 else 373))) }
 	chapter4b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:3, end:true, default:600)) }
-	chapter5b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:4, end:true, default:600)) }
-	chapter6b := { to_number(pull_comma_array(styling.move_back_loyalty_costs, cell:5, end:true, default:600)) }
 	
 	two_boxes := {styling.front_style == "2 box saga"}
 	three_boxes := {styling.front_style == "3 box saga"}
@@ -285,16 +281,16 @@ init script:
 	back_four_boxes := {styling.back_style == "4 box saga"}
 
 	build_array := {
-		if input +17 >= (if split_34() != "" then split_34() else 600) then 4
+		if input +17 >= (if split_34() != "" then split_34() else 248) then 4
 		else if input +17 >= (if split_23() != "" then split_23() else 343) then 3
-		else if input +17 >= (if split_12() != "" then split_12() else 249) then 2
-		else if input +17 <= (if split_12() != "" then split_12() else 249) then 1
+		else if input +17 >= (if split_12() != "" then split_12() else 146) then 2
+		else if input +17 <= (if split_12() != "" then split_12() else 146) then 1
 		else 0
 	}
 	level_leader := {
-		(if build_array((if chapter1() != "" then chapter1() else 185)) == input then "I, " else "")
-		+(if build_array((if chapter2() != "" then chapter2() else 279)) == input then "II, " else "")
-		+(if build_array((if chapter3() != "" then chapter3() else 373)) == input then "III, " else "")
+		(if build_array((if chapter1() != "" then chapter1() else 104)) == input then "I, " else "")
+		+(if build_array((if chapter2() != "" then chapter2() else 155)) == input then "II, " else "")
+		+(if build_array((if chapter3() != "" then chapter3() else 206)) == input then "III, " else "")
 		+(if build_array((if chapter4() != "" then chapter4() else 600)) == input then "IV, " else "")
 		+(if build_array((if chapter5() != "" then chapter5() else 600)) == input then "V, " else "")
 		+(if build_array((if chapter6() != "" then chapter6() else 600)) == input then "VI, " else "")
@@ -732,7 +728,7 @@ card style:
 	############################# Card type
 	indicator:
 		left: { if is_map() then 18 else 31 }
-		top: { if is_saga() then 449 else if is_map() then 63 else if is_plwalker() then 57 else 65 }
+		top: { if is_map() then 63 else if is_plwalker() then 57 else 65 }
 		width: 17
 		height: 17
 		z index: 2
@@ -750,7 +746,7 @@ card style:
 		image: { card_identity_2() }
 	type:
 		left: { if is_map() then 85 else if has_identity() then 52 else 32 }
-		top: { (if is_map() then 62.5 else if is_saga() then 444 else if is_plwalker() then 53 else 61) + shrink_type() }
+		top: { (if is_map() then 62.5 else if is_plwalker() then 53 else 61) + shrink_type() }
 		width: { if is_map() then 205 else (if has_identity() then 290 else 310) - max(22,card_style.rarity.content_width) }
 		height: { if is_map() then 18 - shrink_type() else 20 - shrink_type() }
 		alignment: { if is_map() then "center top shrink-overflow" else "top shrink-overflow"}
@@ -780,7 +776,7 @@ card style:
 			separator color: red
 	rarity:
 		right: { if is_map() then 199 else 345 }
-		top: { if is_saga() then 445 else if is_map() then 82 else if is_plwalker() then 55 else 62 }
+		top: { if is_map() then 82 else if is_plwalker() then 55 else 62 }
 		width: { if is_normal() then 44 else 42 }
 		height: { if is_normal() then 22 else 21 }
 		z index: 3
@@ -906,64 +902,11 @@ card style:
 		line height soft: 0.9
 		line height hard max: 1.3
 		line height line max: 1.6
-#	chapter text:
-#		left: 30
-#		top: 60
-#		width: 153
-#		height: 96
-#		z index: 3
-#		font:
-#			name: MPlantin
-#			italic name: MPlantin-Italic
-#			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13 }
-#			scale down to: 6
-#			color: black
-#		symbol font:
-#			name: { styling.text_box_mana_symbols }
-#			size: { if styling.front_font_cap != "" then styling.front_font_cap else 13}
-#		alignment:
-#			script:	if chosen(styling.other_options, choice:"center front") then "middle center" else "middle left"
-#		z index: 5
-#		padding left:   3
-#		padding right:  1
-#		line height hard: {if is_modal(card.chapter_text) then 0.9 else 1.2 }
-#		line height line: 1.5
-#		line height soft: 0.85
-#		line height hard max: 1.3
-#		line height line max: 1.6
-#		visible: {is_saga()}
-#		mask: textmask.png
-#	chapter text 2:
-#		left: 407
-#		top: 60
-#		width: 153
-#		height: 96
-#		z index: 3
-#		font:
-#			name: MPlantin
-#			italic name: MPlantin-Italic
-#			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
-#			scale down to: 6
-#		symbol font:
-#			name: { styling.text_box_mana_symbols }
-#			size: { if styling.back_font_cap != "" then styling.back_font_cap else 13 }
-#		alignment:
-#			script:	if chosen(styling.other_options, choice:"center back") then "middle center" else "middle left"
-#		z index: 5
-#		padding left:   3
-#		padding right:  1
-#		line height hard: {if is_modal(card.chapter_text_2) then 0.9 else 1.2 }
-#		line height line: 1.5
-#		line height soft: 0.85
-#		line height hard max: 1.3
-#		line height line max: 1.6
-#		visible: {back_saga()}
-#		mask: textmask.png
 	watermark:
-		left: { if is_saga() then 45 else if is_map() then 40 else 19}
-		top : { if is_saga() then 60 else if is_plwalker() then 87 else 95 }
-		width: { if is_saga() then 133 else if is_map() then 287 else 334}
-		height: { if is_saga() then 378 else if is_map() then 154 else if is_plwalker() then 148 else 152 }
+		left: { if is_map() then 40 else 19}
+		top : { if is_plwalker() then 87 else 95 }
+		width: { if is_map() then 287 else 334}
+		height: { if is_map() then 154 else if is_plwalker() then 148 else 152 }
 		z index: 4
 		render style: image
 		alignment: middle center
@@ -980,9 +923,9 @@ card style:
 	############################# Levels
 	level 1 text:
 		left: {if is_leveler() then (if card.level_0 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else if is_mutate() then (if is_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_1)}
-		top: { if is_leveler() then 93 else if is_saga() then 155 else if is_mutate() then 329 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
-		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 183 else if is_normal() and not is_mutate() then 0 else 343 }
-		bottom: { if is_leveler() then (93+lv_1_height()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_mutate() then 391 else if is_normal() then 0 else bottom_of_walker_textbox() }
+		top: { if is_leveler() then 93 else if is_saga() then 95 else if is_mutate() then 329 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
+		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 343 else if is_normal() and not is_mutate() then 0 else 343 }
+		bottom: { if is_leveler() then (93+lv_1_height()) else if is_saga() then (if split_12() == "" then 146 else split_12()) else if is_mutate() then 391 else if is_normal() then 0 else bottom_of_walker_textbox() }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1004,8 +947,8 @@ card style:
 		line height line max: 1.6
 	level 2 text:
 		left: {if is_leveler() then (if card.level_1 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 63+unindent(card.loyalty_cost_2)}
-		top: { (if is_leveler() then (93 + lv_2_coordinate()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_normal() then 0 else if has_four_abilities() then stripe31()+10 else if has_two_abilities() then stripe01()+11 else stripe12()+10) -lv_chop(styling.level_2_chop, cell:0) }
-		right: { -lv_chop(styling.level_2_chop, cell:2) + if is_leveler() then (if card.pt_2 != "" then 277 else 342) else if is_saga() then 183 else if is_normal() then 0 else 343 }
+		top: { (if is_leveler() then (93 + lv_2_coordinate()) else if is_saga() then (if split_12() == "" then 146 else split_12()) else if is_normal() then 0 else if has_four_abilities() then stripe31()+10 else if has_two_abilities() then stripe01()+11 else stripe12()+10) -lv_chop(styling.level_2_chop, cell:0) }
+		right: { -lv_chop(styling.level_2_chop, cell:2) + if is_leveler() then (if card.pt_2 != "" then 277 else 342) else if is_normal() and not is_saga() then 0 else 343 }
 		bottom: { if is_leveler() then card_style.level_2_text.top + lv_2_height()-2 else if is_normal() and not is_saga() then 0 else (if is_saga() then (if split_23() == "" then 108 else split_23()) else if is_normal() then 0 else if has_four_abilities() then stripe32()+10 else if has_two_abilities() then 235 else stripe23()+10) - lv_chop(styling.level_2_chop, cell:1) }
 		font:
 			name: MPlantin
@@ -1029,8 +972,8 @@ card style:
 	level 3 text:
 		left: {if is_leveler() then (if card.level_2 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 63+unindent(card.loyalty_cost_3)}
 		top: {if is_leveler() then (93 + lv_3_coordinate()) else if has_two_abilities() then 0 else (if is_saga() then (if split_23() == "" then 343 else split_23()) else if is_normal() then 0 else if has_four_abilities() then stripe32()+10 else stripe23()+10) -lv_chop(styling.level_3_chop, cell:0) }
-		right: { -lv_chop(styling.level_3_chop, cell:2) + if is_leveler() then (if card.pt_3 != "" then 277 else 342) else if is_saga() then 183 else if is_normal() then 0 else 343 }
-		bottom: { if is_leveler() then (93 + lv_3_coordinate()+lv_3_height()-2) else if has_two_abilities() or is_normal() and not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 108 else split_23()) else (if is_saga() then (if split_34() == "" then 202 else split_34()) else if has_four_abilities() then stripe33()+10 else 235) - lv_chop(styling.level_3_chop, cell:1) }
+		right: { -lv_chop(styling.level_3_chop, cell:2) + if is_leveler() then (if card.pt_3 != "" then 277 else 342) else if is_normal() and not is_saga() then 0 else 343 }
+		bottom: { if is_leveler() then (93 + lv_3_coordinate()+lv_3_height()-2) else if has_two_abilities() or is_normal() and not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 108 else split_23()) else (if is_saga() then (if split_34() == "" then 248 else split_34()) else if has_four_abilities() then stripe33()+10 else 235) - lv_chop(styling.level_3_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1052,9 +995,9 @@ card style:
 		line height line max: 1.6
 	level 4 text:
 		left: {if is_saga() then 45 else 63+unindent(card.loyalty_cost_4)}
-		top: { if is_saga() then (if split_34() == "" then 437 else split_34()) else if is_normal() then 0 else if has_four_abilities() then stripe33()+10 -lv_chop(styling.level_4_chop, cell:0) else 0}
-		width: {if is_leveler() then 0 else -lv_chop(styling.level_4_chop, cell:2)-unindent(card.loyalty_cost_4) + if is_saga() then 138 else if has_four_abilities() then 282 else 0 }
-		bottom: { if three_boxes() then (if split_34() == "" then 202 else split_34()) else if is_saga() then 202 else if is_normal() then 0 else if has_four_abilities() then 235 - lv_chop(styling.level_4_chop, cell:1) else 0 }
+		top: { if is_saga() then (if split_34() == "" then 248 else split_34()) else if is_normal() then 0 else if has_four_abilities() then stripe33()+10 -lv_chop(styling.level_4_chop, cell:0) else 0}
+		width: {if is_leveler() then 0 else -lv_chop(styling.level_4_chop, cell:2)-unindent(card.loyalty_cost_4) + if has_four_abilities() or is_saga() then 282 else 0 }
+		bottom: { if three_boxes() then (if split_34() == "" then 248 else split_34()) else if is_saga() then 248 else if is_normal() then 0 else if has_four_abilities() then 235 - lv_chop(styling.level_4_chop, cell:1) else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1281,7 +1224,7 @@ card style:
 		z index: 300
 		left: {if is_leveler() and not lone_pt() then 291 else 286}
 		top: { if is_leveler() and not lone_pt() then (l1_center() - 14) else if is_map() then 224 else 230}
-		width: { if is_normal() or card.pt != "" then 60 else 0}
+		width: { if is_normal() and not is_saga() or card.pt != "" then 60 else 0}
 		height:	28
 		alignment: center middle shrink-overflow
 		font:
@@ -2791,60 +2734,42 @@ extra card style:
 		image: bar.png
 		visible: { card.rule_text_2 != "" and remove_tags(card.flavor_text_2) != "" and set.use_flavor_bar }
 
-#	chapter 1:
-#		left: 14
-#		top: { if chapter1() == "" then 185 else chapter1() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter1.png
-#		visible: {is_saga()}
-#	chapter 2:
-#		left: 14
-#		top: { if chapter2() == "" then 279 else chapter2() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter2.png
-#		visible: {is_saga()}
-#	chapter 3:
-#		left: 14
-#		top: { if chapter3() == "" then 373 else chapter3() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter3.png
-#		visible: {is_saga()}
-#	chapter 4:
-#		left: 14
-#		top: { if chapter4() == "" then 600 else chapter4() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter4.png
-#		visible: {is_saga()}
-#	chapter 5:
-#		left: 14
-#		top: { if chapter5() == "" then 600 else chapter5() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter5.png
-#		visible: {is_saga()}
-#	chapter 6:
-#		left: 14
-#		top: { if chapter6() == "" then 600 else chapter6() }
-#		width: 30
-#		height: 34
-#		render style: image
-#		z index: 5
-#		image: saga/chapter6.png
-#		visible: {is_saga()}
+	chapter 1:
+		left: 14
+		top: { if chapter1() == "" then 104 else chapter1() }
+		width: 30
+		height: 34
+		render style: image
+		z index: 5
+		image: saga/chapter1.png
+		visible: {is_saga()}
+	chapter 2:
+		left: 14
+		top: { if chapter2() == "" then 155 else chapter2() }
+		width: 30
+		height: 34
+		render style: image
+		z index: 5
+		image: saga/chapter2.png
+		visible: {is_saga()}
+	chapter 3:
+		left: 14
+		top: { if chapter3() == "" then 206 else chapter3() }
+		width: 30
+		height: 34
+		render style: image
+		z index: 5
+		image: saga/chapter3.png
+		visible: {is_saga() and three_boxes()}
+	chapter 4:
+		left: 14
+		top: { if chapter4() == "" then 211 else chapter4() }
+		width: 30
+		height: 34
+		render style: image
+		z index: 5
+		image: saga/chapter4.png
+		visible: {is_saga() and four_boxes()}
 ####pulls double duty as saga line and mutate bar to reduce fields
 #	linebreak 1:
 #		left: {if is_mutate() then 28 else 43}
