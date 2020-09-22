@@ -597,7 +597,7 @@ extra card style:
 		top: 0
 		width: 375
 		height: 523
-		z index: 3
+		z index: 0
 		render style: image
 		visible: {is_legend()}
 		image: {"crown" + (if is_m20() then "_m20") + ".png"}
