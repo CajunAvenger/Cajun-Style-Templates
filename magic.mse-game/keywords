@@ -382,7 +382,7 @@ keyword:
 	mode: core
 	reminder:
 		To scry {param1}, look at the top {
-		 if param1.value==1 then "card of your library. You may put that card on the bottom of your library."
+		 if param1.value=="1" then "card of your library. You may put that card on the bottom of your library."
 		 else "{english_number(param1)} cards of your library, then put any number of them on the bottom of your library and the rest on top in any order."
 		}
 keyword:
@@ -582,7 +582,7 @@ keyword:
 	mode: action
 	reminder:
 		To fateseal {param1}, look at the top {
-		 if param1.value==1 then "card of an opponent’s library, then you may put it on the bottom of that player’s library."
+		 if param1.value=="1" then "card of an opponent’s library, then you may put it on the bottom of that player’s library."
 		 else "{english_number(param1)} cards of an opponent’s library, then put any number of them on the bottom of that player’s library and the rest on top in any order."
 		}
 keyword:
@@ -704,7 +704,7 @@ keyword:
 	keyword: Devour
 	match: Devour <atom-param>number</atom-param>
 	mode: expert
-	reminder: As this enters the battlefield, you may sacrifice any number of creatures. This creature enters the battlefield with { if param1.value == 1 then "" else if param1.value == 2 then "twice " else english_number(param1) + " times " }that many +1/+1 counters on it.
+	reminder: As this enters the battlefield, you may sacrifice any number of creatures. This creature enters the battlefield with { if param1.value == "1" then "" else if param1.value == "2" then "twice " else english_number(param1) + " times " }that many +1/+1 counters on it.
 keyword:
 	keyword: Exalted
 	match: Exalted
@@ -1335,7 +1335,7 @@ keyword:
 	mode: action
 	reminder:
 		Look at the top {
-		 if param1.value==1 then "card of your library. You may put that card into your graveyard."
+		 if param1.value=="1" then "card of your library. You may put that card into your graveyard."
 		 else "{english_number(param1)} cards of your library, then put any number of them into your graveyard and the rest on top of your library in any order."
 		}
 keyword:
