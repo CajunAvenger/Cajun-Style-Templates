@@ -151,10 +151,10 @@ init script:
 		else 490
 	}
 	
-	top_of_textbox := {if is_normal() then (if is_map() then 105 else if is_mutate() then 395 else 92)-lv_chop(styling.level_1_chop, cell:0) else 0}
+	top_of_textbox := {if is_normal() then (if is_map() then 105 else if is_mutate() then 158 else 92)-lv_chop(styling.level_1_chop, cell:0) else 0}
 	bottom_of_textbox := {if is_normal() then (if is_map() then 240 else 246)-lv_chop(styling.level_1_chop, cell:1) else 0}
 
-	top_of_textbox2 := {if back_normal() then (if back_map() then 349 else if back_mutate() then 394 else 336)-lv_chop(styling.level_5_chop, cell:0) else 0}
+	top_of_textbox2 := {if back_normal() then (if back_map() then 349 else if back_mutate() then 407 else 336)-lv_chop(styling.level_5_chop, cell:0) else 0}
 	bottom_of_textbox2 := {if back_normal() then (if back_map() then 484 else 490)-lv_chop(styling.level_5_chop, cell:1) else 0}
 
 	text_size := { 14 -(if styling.front_font_cap == "" then 0 else if contains(styling.front_font_cap, match: ".5") then to_int(split_text(match:".5", styling.separated_text_size).0) else styling.front_font_cap) }
@@ -920,9 +920,9 @@ card style:
 	############################# Levels
 	level 1 text:
 		left: {if is_leveler() then (if card.level_0 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else if is_mutate() then (if is_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_1)}
-		top: { if is_leveler() then 93 else if is_saga() then 95 else if is_mutate() then 329 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
+		top: { if is_leveler() then 93 else if is_saga() then 95 else if is_mutate() then 94 else if is_normal() then 0 else 87-lv_chop(styling.level_1_chop, cell:0) }
 		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 343 else if is_normal() and not is_mutate() then 0 else 343 }
-		bottom: { if is_leveler() then (93+lv_1_height()) else if is_saga() then (if split_12() == "" then 146 else split_12()) else if is_mutate() then 391 else if is_normal() then 0 else bottom_of_walker_textbox() }
+		bottom: { if is_leveler() then (93+lv_1_height()) else if is_saga() then (if split_12() == "" then 146 else split_12()) else if is_mutate() then 156 else if is_normal() then 0 else bottom_of_walker_textbox() }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1017,9 +1017,9 @@ card style:
 		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 45 else if back_mutate() then (if back_bumped() then 47 else 29) else 63+unindent(card.loyalty_cost_5)}
-		top: { if back_leveler() then 339 else if back_saga() then 339 else if back_mutate() then 329 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
+		top: { if back_leveler() then 339 else if back_saga() then 339 else if back_mutate() then 338 else if back_normal() then 0 else if back_four_abilities() then 329-lv_chop(styling.level_5_chop, cell:0) else 329-lv_chop(styling.level_5_chop, cell:0) }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 342 else if card.pt_4 != "" then 277 else 342) else if back_normal() and not back_mutate() and not back_saga() then 0 else 343 }
-		bottom: { if back_leveler() then (337+lv_5_height()) else if back_saga() then (if split_12b() == "" then 390 else split_12b()) else if back_mutate() then 400 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
+		bottom: { if back_leveler() then (337+lv_5_height()) else if back_saga() then (if split_12b() == "" then 390 else split_12b()) else if back_mutate() then 405 else if back_normal() then 0 else bottom_of_walker_textbox_2() }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1922,7 +1922,7 @@ extra card field:
 	show statistics: false
 extra card field:
 	type: choice
-	name: linebreak 1
+	name: mutate bar
 	choice: line
 	editable: false
 	save value: false
@@ -1992,7 +1992,7 @@ extra card field:
 	show statistics: false
 extra card field:
 	type: choice
-	name: linebreak 1b
+	name: mutate bar 2
 	choice: line
 	editable: false
 	save value: false
@@ -2641,7 +2641,7 @@ extra card style:
 		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
-		mask: {"nyx/" + (if is_plwalker() then "pw_" else if is_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if is_plwalker() then "pw_") + "mask.png"}
 	legend overlay:
 		left: 0
 		top: 0
@@ -2681,7 +2681,7 @@ extra card style:
 		image: {nyx_background2()}
 		z index: 0
 		visible: {back_nyx()}
-		mask: {"nyx/" + (if back_walker() then "pw_" else if back_saga() then "full") + "mask2.png"}
+		mask: {"nyx/" + (if back_walker() then "pw_") + "mask2.png"}
 	miracle overlay 2:
 		left: 0
 		top: 253
@@ -2757,7 +2757,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: saga/chapter3.png
-		visible: {is_saga() and three_boxes()}
+		visible: {is_saga() and (three_boxes() or four_boxes())}
 	chapter 4:
 		left: 14
 		top: { if chapter4() == "" then 211 else chapter4() }
@@ -2769,7 +2769,7 @@ extra card style:
 		visible: {is_saga() and four_boxes()}
 	mutate bar:
 		left: 28
-		top: 393
+		top: 158
 		width: 317
 		height: 2
 		render style: image
@@ -2829,7 +2829,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: saga/chapter3.png
-		visible: {back_saga() and back_three_boxes()}
+		visible: {back_saga() and (back_three_boxes() or back_four_boxes())}
 	chapter 4b:
 		left: 14
 		top: { if chapter4b() == "" then 455 else chapter4b() }
@@ -2839,9 +2839,9 @@ extra card style:
 		z index: 5
 		image: saga/chapter4.png
 		visible: {back_saga() and back_four_boxes()}
-	mutate barb:
+	mutate bar 2:
 		left: 28
-		top: 393
+		top: 406
 		width: 317
 		height: 2
 		render style: image
