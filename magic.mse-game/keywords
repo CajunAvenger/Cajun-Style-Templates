@@ -792,7 +792,7 @@ keyword:
 	keyword: Living weapon
 	match: Living weapon
 	mode: expert
-	reminder: When this Equipment enters the battlefield, put a 0/0 black Germ creature token onto the battlefield, then attach this to it.
+	reminder: When this Equipment enters the battlefield, create a 0/0 black Germ creature token, then attach this to it.
 # Commander
 keyword:
 	keyword: Join forces
@@ -868,7 +868,7 @@ keyword:
 	keyword: Populate
 	match: populate
 	mode: action
-	reminder: Put a token onto the battlefield that's a copy of a creature token you control.
+	reminder: Create a token that's a copy of a creature token you control.
 # Gatecrash
 keyword:
 	keyword: Extort
@@ -1374,7 +1374,7 @@ keyword:
 	keyword: Amass
 	match: Amass <atom-param>number</atom-param>
 	mode: action
-	reminder: Put {english_number_a(param1)} counter(s) on an Army you control. If you don't control one, create a 0/0 black Zombie Army creature token first.
+	reminder: Put {english_number_a(param1)} +1/+1f counter(s) on an Army you control. If you don't control one, create a 0/0 black Zombie Army creature token first.
 #Throne of Eldraine
 keyword:
 	keyword: Adamant
@@ -1415,3 +1415,9 @@ keyword:
 	match: party
 	mode: action
 	reminder: Your party consists of up to one of each Cleric, Rogue, Warrior and Wizard.
+#Commander Legends
+keyword:
+	keyword: Encore
+	match: Encore <atom-param>cost</atom-param>
+	mode: action
+	reminder: {param1}, Exile this card from your graveyard: For each opponent, create a token copy that attacks that opponent this turn if able. They gain haste. Sacrifice them at the beginning of the next end step. Activate only as a sorcery.
