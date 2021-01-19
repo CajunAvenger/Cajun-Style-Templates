@@ -5,12 +5,13 @@
 ########################################################################
 # Filenames and other defaults
 ########################################################################
+	include file: mask_names.txt
 
 	mask_hybrid_with_land			:=	{ false }
 	mask_hybrid_with_gold			:=	{ false }
 	mask_multi_land_with_color		:=	{ false }
-	template						:=	{		input								+  "{type}.jpg" }
-	land_template					:=	{ (if	input == "a" then "c" else input)	+ "l{type}.jpg" }
+	template						:=	{  		input								+  "{type}.jpg" }
+	land_template					:=	{ ( if	input == "a" then "c" else input)	+ "l{type}.jpg" }
 
 # For what value should thumbnails of hybrids be made?
 	hybrid_previews					:= "hybrid"
@@ -674,20 +675,20 @@ identity_horizontal_hybrid := [
 		light: masked_blend(
 		light:								template(						colors[0]), 
 		dark:								template(						colors[2]), 
-		mask:									"/magic-identity-new.mse-include/imask_32.png"),
+		mask:									id_mask[32]),
 		dark:								template(						colors[1]), 
-		mask:									"/magic-identity-new.mse-include/imask_33.png"
+		mask:									id_mask[33]
 		)}
 	4: {masked_blend(
 		light: masked_blend(
 			light: masked_blend(
 				light:						template(						colors[1]), 
 				dark:						template(						colors[0]),
-				mask:							"/magic-identity-new.mse-include/imask_42.png" ),
+				mask:							id_mask[42] ),
 			dark:							template(						colors[2]),
-			mask:								"/magic-identity-new.mse-include/imask_43.png" ),
+			mask:								id_mask[43] ),
 		dark:								template(						colors[3]),
-		mask:									"/magic-identity-new.mse-include/imask_44.png"
+		mask:									id_mask[44]
 		)}
 	5: {masked_blend(
 		light: masked_blend(
@@ -695,13 +696,13 @@ identity_horizontal_hybrid := [
 				light: masked_blend(
 					light:					template(						colors[0]),
 					dark:					template(						colors[4]),
-					mask:						"/magic-identity-new.mse-include/imask_52.png"),
+					mask:						id_mask[52]),
 				dark:						template(						colors[1]),
-				mask:							"/magic-identity-new.mse-include/imask_53.png"),
+				mask:							id_mask[53]),
 			dark:							template(						colors[2]),
-			mask:								"/magic-identity-new.mse-include/imask_54.png"),
+			mask:								id_mask[54]),
 		dark:								template(						colors[3]),
-		mask:									"/magic-identity-new.mse-include/imask_55.png")
+		mask:									id_mask[55])
 		}
 	6: {									template(						"m") }
 
