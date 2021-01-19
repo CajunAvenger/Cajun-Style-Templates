@@ -175,6 +175,7 @@ set field:
 	description: Language for the cards
 	choice: English
 	choice: Français
+	choice: Russian
 	initial: English
 set field:
 	type: boolean
@@ -376,6 +377,7 @@ default set style:
 		choice images:
 			English:  /magic.mse-game/icons/language-en.png
 			Français: /magic.mse-game/icons/language-fr.png
+			Russian: /magic.mse-game/icons/language-ru.png
 	mana symbol options:
 		render style: checklist
 		direction: vertical
