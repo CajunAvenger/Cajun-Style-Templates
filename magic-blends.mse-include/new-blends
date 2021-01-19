@@ -351,6 +351,7 @@ pt_hybrid := [
 	overlay: overlay_hybrid
 ]
 
+
 ########################################################################
 # P/T boxes of flip cards
 ########################################################################
@@ -460,7 +461,48 @@ flip_pt_hybrid2 := [
 	]
 	overlay: overlay_hybrid
 ]
+	########################################################################
+# P/T boxes for leveler cards
+########################################################################
 
+leveler_pt_hybrid := [
+	radial: [
+		0: {								template(						"c")       }
+		1: {								template(						colors[0]) }
+		2: {								template(						colors[1]) }
+		3: { linear_blend(
+				image1:						template(						colors[1])	,
+				image2:						template(						colors[2])	,
+												x1: 0,			y1: 0
+												x2: 0,			y2: 1
+		)}
+		4: {								template(						colors[2]) }
+		5: {								template(						colors[2]) }
+		6: {								template(						colors[2]) }
+		7: {								template(						colors[4]) }
+	]
+	horizontal: horizontal_pt_hybrid
+	vertical: [
+		1: {								template(						colors[0]) }
+		2: {								template(						colors[1]) }
+		3: { linear_blend(
+				image1:						template(						colors[1])	,
+				image2:						template(						colors[2])	,
+												x1: 0,			y1: 0
+												x2: 0,			y2: 1
+		)}
+		4: {								template(						colors[2]) }
+		5: {								template(						colors[3]) }
+		6: { linear_blend(
+				image1:						template(						colors[3])	,
+				image2:						template(						colors[4])	,
+												x1: 0,			y1: 0
+												x2: 0,			y2: 0.25
+		)}
+		7: {								template(						colors[5]) }
+	]
+	overlay: overlay_hybrid
+]
 
 ########################################################################
 # P/T boxes for leveler cards
@@ -583,6 +625,7 @@ leveler_pt_hybrid3 := [
 	overlay: overlay_hybrid
 ]
 
+
 ########################################################################
 # Textbox and typeline for FPM templates and Futureshifts
 ########################################################################
@@ -633,17 +676,16 @@ identity_horizontal_hybrid := [
 		dark:								template(						colors[2]), 
 		mask:									"/magic-identity-new.mse-include/imask_32.png"),
 		dark:								template(						colors[1]), 
-		mask:									"/magic-identity-new.mse-include/imask_33.png")}
+		mask:									"/magic-identity-new.mse-include/imask_33.png"
+		)}
 	4: {masked_blend(
 		light: masked_blend(
 			light: masked_blend(
 				light:						template(						colors[1]), 
 				dark:						template(						colors[0]),
-				mask:							"/magic-identity-new.mse-include/imask_42.png"
-			),
+				mask:							"/magic-identity-new.mse-include/imask_42.png" ),
 			dark:							template(						colors[2]),
-			mask:								"/magic-identity-new.mse-include/imask_43.png"
-			)
+			mask:								"/magic-identity-new.mse-include/imask_43.png" ),
 		dark:								template(						colors[3]),
 		mask:									"/magic-identity-new.mse-include/imask_44.png"
 		)}
@@ -670,7 +712,6 @@ identity_hybrid := [
 	horizontal:		identity_horizontal_hybrid
 	overlay:		identity_horizontal_hybrid
 ]
-
 ########################################################################
 # Promo Stamp
 ########################################################################
@@ -757,7 +798,6 @@ stamp_hybrid := [
 	]
 	overlay: overlay_hybrid
 ]
-
 ########################################################################
 # Putting it all together.
 ########################################################################
