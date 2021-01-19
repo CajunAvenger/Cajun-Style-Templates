@@ -85,18 +85,17 @@ vertical_card_hybrid	:= {
 	card_hybrid.horizontal[color_count]()
 }
 
-
 horizontal_card_hybrid := [
 	1:	{ 									template(						colors[0])}
 	2:										card_hybrid_2
 
 	3: {linear_blend(
-			image1:							template(						colors[0])	,
+			image1:							template(						colors[("{offset}" + 0) mod 3])	,
 												x1: 0.22,		y1: 0
 												x2: 0.4,		y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[1])	,
-				image2: 					template(						colors[2])	,
+				image1:						template(						colors[("{offset}" + 1) mod 3])	,
+				image2: 					template(						colors[("{offset}" + 2) mod 3])	,
 												x1: 0.6,		y1: 0
 												x2: 0.78,		y2: 0
 			)
@@ -104,85 +103,85 @@ horizontal_card_hybrid := [
 	}
 
 	4: {linear_blend(
-			image1:							template(						colors[0])	,
+			image1:							template(						colors[("{offset}" + 0) mod 4])	,
 												x1: 0.15,		y1: 0
 												x2: 0.31,		y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 1) mod 4])	,
 												x1: 0.42,		y1: 0
 												x2: 0.58,		y2: 0
 				image2: linear_blend(
-					image1:					template(						colors[2])	,
-					image2:					template(						colors[3])	,
+					image1:					template(						colors[("{offset}" + 2) mod 4])	,
+					image2:					template(						colors[("{offset}" + 3) mod 4])	,
 												x1: 0.69,		y1: 0
 												x2: 0.85,		y2: 0
 	)))}
 
 	5: {linear_blend(
-			image1: 						template(						colors[0])	,
+			image1: 						template(						colors[("{offset}" + 0) mod 5])	,
 												x1:  2.0 / 15,	y1: 0
 												x2:  4.0 / 15,	y2: 0
 			image2: linear_blend(
-				image1: 					template(						colors[1])	,
+				image1: 					template(						colors[("{offset}" + 1) mod 5])	,
 												x1:  5.0 / 15,	y1: 0
 												x2:  7.0 / 15,	y2: 0
 				image2: linear_blend(
-					image1: 				template(						colors[2])	,
+					image1: 				template(						colors[("{offset}" + 2) mod 5])	,
 												x1:  8.0 / 15,	y1: 0
 												x2: 10.0 / 15,	y2: 0
 					image2: linear_blend(
-						image1:				template(						colors[3])	,
-						image2:				template(						colors[4])	,
+						image1:				template(						colors[("{offset}" + 3) mod 5])	,
+						image2:				template(						colors[("{offset}" + 4) mod 5])	,
 												x1: 11.0 / 15,	y1: 0
 												x2: 13.0 / 15,	y2: 0
 	))))}
 
 	6: {linear_blend(
-			image1:							template(						colors[0])	,
+			image1:							template(						colors[("{offset}" + 0) mod 6])	,
 												x1:  1.5 / 15,	y1: 0
 												x2:  3.1 / 15,	y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 1) mod 6])	,
 												x1:  4.1 / 15,	y1: 0
 												x2:  5.7 / 15,	y2: 0
 				image2: linear_blend(
-					image1:					template(						colors[2])	,
+					image1:					template(						colors[("{offset}" + 2) mod 6])	,
 												x1:  6.7 / 15,	y1: 0
 												x2:  8.3 / 15,	y2: 0
 					image2: linear_blend(
-						image1:				template(						colors[3])	,
+						image1:				template(						colors[("{offset}" + 3) mod 6])	,
 												x1:  9.3 / 15,	y1: 0
 												x2: 10.9 / 15,	y2: 0
 						image2: linear_blend(
-							image1:			template(						colors[4])	,
-							image2:			template(						colors[5])	,
+							image1:			template(						colors[("{offset}" + 4) mod 6])	,
+							image2:			template(						colors[("{offset}" + 5) mod 6])	,
 												x1: 11.9 / 15,	y1: 0
 												x2: 13.5 / 15,	y2: 0
 	)))))}
 
 	7: {linear_blend(
-			image1:							template(						colors[0])	,
+			image1:							template(						colors[("{offset}" + 0) mod 7])	,
 												x1:  1.3 / 15,	y1: 0
 												x2:  2.7 / 15,	y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 1) mod 7])	,
 												x1:  3.5 / 15,	y1: 0
 												x2:  4.9 / 15,	y2: 0
 				image2: linear_blend(
-					image1:					template(						colors[2])	,
+					image1:					template(						colors[("{offset}" + 2) mod 7])	,
 												x1:  5.7 / 15,	y1: 0
 												x2:  7.1 / 15,	y2: 0
 					image2: linear_blend(
-						image1:				template(						colors[3])	,
+						image1:				template(						colors[("{offset}" + 3) mod 7])	,
 												x1:  7.9 / 15,	y1: 0
 												x2:  9.3 / 15,	y2: 0
 						image2: linear_blend(
-							image1:			template(						colors[4])	,
+							image1:			template(						colors[("{offset}" + 4) mod 7])	,
 												x1: 10.1 / 15,	y1: 0
 												x2: 11.5 / 15,	y2: 0
 							image2: linear_blend(
-								image1:		template(						colors[5])	,
-								image2:		template(						colors[6])	,
+								image1:		template(						colors[("{offset}" + 5) mod 7])	,
+								image2:		template(						colors[("{offset}" + 6) mod 7])	,
 												x1: 12.3 / 15,	y1: 0
 												x2: 13.7 / 15,	y2: 0
 		))))))}
@@ -198,39 +197,39 @@ card_hybrid := [
 		2:	card_hybrid_2
 
 		3:{linear_blend(
-			image1: 						card_hybrid_2(					colors: colors[0] + colors[1]	)	,
-			image2: 						template(						colors[2]						)	,
+			image1: 						card_hybrid_2(					colors: colors[("{offset}" + 0) mod 3] + colors[("{offset}" + 1) mod 3]	)	,
+			image2: 						template(						colors[("{offset}" + 2) mod 3]						)	,
 												x1: 0,			y1: 0.55
 												x2: 0,			y2: 0.77
 		)}
 
 		4:{linear_blend(
-			image1:							card_hybrid_2(					colors: colors[0] + colors[1]	)	,
-			image2: 						card_hybrid_2(					colors: colors[3] + colors[2]	)	,
+			image1:							card_hybrid_2(					colors: colors[("{offset}" + 0) mod 4]  + colors[("{offset}" + 1) mod 4] 	)	,
+			image2: 						card_hybrid_2(					colors: colors[("{offset}" + 3) mod 4]  + colors[("{offset}" + 2) mod 4] 	)	,
 												x1: 0,			y1: 0.4
 												x2: 0,			y2: 0.62
 		)}
 
 		5: {linear_blend(
 				image1: linear_blend(
-					image1:					card_hybrid_2(					colors: colors[0] + colors[1]	)	,
-					image2:					card_hybrid_2(					colors: colors[4] + colors[2]	)	,
+					image1:					card_hybrid_2(					colors: colors[(offset + 0) mod 5]  + colors[("{offset}" + 1) mod 5] 	)	,
+					image2:					card_hybrid_2(					colors: colors[(offset + 4) mod 5]  + colors[("{offset}" + 2) mod 5] 	)	,
 												x1: 0,			y1: 0.19
 												x2: 0,			y2: 0.35
 				),
-				image2:						template(						colors[3]						)	,
+				image2:						template(						colors[("{offset}" + 3) mod 5] 						)	,
 												x1: 0,			y1: 0.777
 												x2: 0,			y2: 0.937
 		)}
 
 		6: {linear_blend(
 				image1: linear_blend(
-					image1:					card_hybrid_2(					colors: colors[0] + colors[1]	)	,
-					image2:					card_hybrid_2(					colors: colors[5] + colors[2]	)	,
+					image1:					card_hybrid_2(					colors: colors[("{offset}" + 0) mod 6]  + colors[("{offset}" + 1) mod 6] 	)	,
+					image2:					card_hybrid_2(					colors: colors[("{offset}" + 5) mod 6]  + colors[("{offset}" + 2) mod 6] 	)	,
 												x1: 0,			y1: 0.19
 												x2: 0,			y2: 0.35
 				),
-				image2:						card_hybrid_2(					colors: colors[4] + colors[3]	)	,
+				image2:						card_hybrid_2(					colors: colors[("{offset}" + 4) mod 6]  + colors[("{offset}" + 3) mod 6] 	)	,
 												x1: 0,			y1: 0.777
 												x2: 0,			y2: 0.937
 		)}
@@ -238,16 +237,16 @@ card_hybrid := [
 		7: {linear_blend(
 				image1: linear_blend(
 					image1: linear_blend(
-						image1:				card_hybrid_2(					colors: colors[0] + colors[1]	)	,
-						image2:				card_hybrid_2(					colors: colors[6] + colors[3]	)	,
+						image1:				card_hybrid_2(					colors: colors[("{offset}" + 0) mod 7]  + colors[("{offset}" + 1) mod 7] 	)	,
+						image2:				card_hybrid_2(					colors: colors[("{offset}" + 6) mod 7]  + colors[("{offset}" + 2) mod 7] 	)	,
 												x1: 0,			y1: 0.34
 												x2: 0,			y2: 0.50
 					),
-					image2:					card_hybrid_2(					colors: colors[5] + colors[3]	)	,
+					image2:					card_hybrid_2(					colors: colors[("{offset}" + 5) mod 7]  + colors[("{offset}" + 3) mod 7] 	)	,
 												x1: 0,			y1: 0.877
 												x2: 0,			y2: 0.937
 				),
-				image2:						template(						colors[4]						)	,
+				image2:						template(						colors[("{offset}" + 4) mod 7] 						)	,
 												x1: 0,			y1: 1.140
 												x2: 0,			y2: 1.300
 		   )}
@@ -281,37 +280,37 @@ horizontal_pt_hybrid := [
 	1: {									template(						colors[0]) }
 	2: {									template(						colors[1]) }
 	3: { linear_blend(
-			image1:							template(						colors[1])	,
-			image2:							template(						colors[2])	,
+			image1:							template(						colors[("{offset}" + 1) mod 3] )	,
+			image2:							template(						colors[("{offset}" + 2) mod 3] )	,
 												x1: -0.51,		y1: 0
 												x2:  0.26,		y2: 0
 	)}
 	4: { linear_blend(
-			image1:							template(						colors[2])	,
-			image2:							template(						colors[3])	,
+			image1:							template(						colors[("{offset}" + 2) mod 4] )	,
+			image2:							template(						colors[("{offset}" + 3) mod 4] )	,
 												x1: -0.1,		y1: 0
 												x2:  0.6,		y2: 0
 	)}
 	5: { linear_blend(
-			image1:							template(						colors[3])	,
-			image2:							template(						colors[4])	,
+			image1:							template(						colors[("{offset}" + 3) mod 5] )	,
+			image2:							template(						colors[("{offset}" + 4) mod 5] )	,
 												x1: 0.08,		y1: 0
 												x2: 0.65,		y2: 0
 	)}
 	6: { linear_blend(
-			image1:							template(						colors[4])	,
-			image2:							template(						colors[5])	,
+			image1:							template(						colors[("{offset}" + 4) mod 6] )	,
+			image2:							template(						colors[("{offset}" + 5) mod 6] )	,
 												x1: 0.07,		y1: 0
 												x2: 0.7,		y2: 0
 	)}
 	7: {linear_blend(
 			image1: linear_blend(
-				image1:						template(						colors[4])	,
-				image2:						template(						colors[5])	,
+				image1:						template(						colors[("{offset}" + 4) mod 7] )	,
+				image2:						template(						colors[("{offset}" + 5) mod 7] )	,
 												x1: -0.2,		y1: 0
 												x2:  0.2,		y2: 0
 			),
-			image2:							template(						colors[6]),
+			image2:							template(						colors[("{offset}" + 6) mod 7] ),
 												x1: 0.5,		y1: 0
 												x2: 0.7,		y2: 0
 	)}
@@ -323,31 +322,31 @@ pt_hybrid := [
 		0: {								template(						"c")		}
 		1: {								template(						colors[0])	}
 		2: {								template(						colors[1])	}
-		3: {								template(						colors[2])	}
-		4: {								template(						colors[2])	}
+		3: {								template(						colors[colors[("{offset}" + 2) mod 3] ])	}
+		4: {								template(						colors[colors[("{offset}" + 2) mod 4] ])	}
 		5: { linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors[colors[("{offset}" + 2) mod 5] ])	,
+				image2:						template(						colors[colors[("{offset}" + 3) mod 5] ])	,
 												x1: 0,		y1: -1.5
 												x2: 0,		y2:  0.7
 		)}
 		6: { linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors[("{offset}" + 2) mod 6] )	,
+				image2:						template(						colors[("{offset}" + 3) mod 6] )	,
 												x1: 0,			y1: -1.5
 												x2: 0,			y2:  0.7
 		)}
-		7: {								template(						colors[4]) }
+		7: {								template(						colors[("{offset}" + 4) mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								template(						colors[0])	}
 		2: {								template(						colors[1])	}
-		3: {								template(						colors[2])	}
-		4: {								template(						colors[3])	}
-		5: {								template(						colors[4])	}
-		6: {								template(						colors[5])	}
-		7: {								template(						colors[6])	}
+		3: {								template(						colors[("{offset}" + 2) mod 7] )	}
+		4: {								template(						colors[("{offset}" + 3) mod 7] )	}
+		5: {								template(						colors[("{offset}" + 4) mod 7] )	}
+		6: {								template(						colors[("{offset}" + 5) mod 7] )	}
+		7: {								template(						colors[("{offset}" + 6) mod 7] )	}
 	]
 	overlay: overlay_hybrid
 ]
@@ -362,46 +361,46 @@ flip_pt_hybrid := [
 		0: {								template(						"c")		}
 		1: {								template(						colors[0])	}
 		2: {								template(						colors[1])	}
-		3: {								template(						colors[1])	}
-		4: {								template(						colors[1])	}
+		3: {								template(						colors[("{offset}" + 1) mod 3] )	}
+		4: {								template(						colors[("{offset}" + 1) mod 4] )	}
 		5: {linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors[("{offset}" + 1) mod 5] )	,
+				image2:						template(						colors[("{offset}" + 2) mod 5] )	,
 												x1: 0,			y1: -1
 												x2: 0,			y2:  1.8
 		)}
 		6: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors[("{offset}" + 1) mod 6] )	,
+				image2:						template(						colors[("{offset}" + 2) mod 6] )	,
 												x1: 0,			y1: -1
 												x2: 0,			y2:  1.8
 		)}
-		7: {								template(						colors[4]) }
+		7: {								template(						colors[("{offset}" + 4) mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[0]) }
 		3: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 0) mod 3] )	,
+				image2:						template(						colors[("{offset}" + 1) mod 3] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 2
 		)}
 		4: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 0) mod 4] )	,
+				image2:						template(						colors[("{offset}" + 1) mod 4] )	,
 												x1: 0,		y1: -1.5
 												x2: 0,		y2:  1
 		)}
 		5: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 0) mod 5] )	,
+				image2:						template(						colors[("{offset}" + 1) mod 5] )	,
 												x1: 0,			y1: -1.1
 												x2: 0,			y2:  0.2
 		)}
-		6: {								template(						colors[1]) } # Probably not right
-		7: {								template(						colors[2]) }
+		6: {								template(						colors[("{offset}" + 1) mod 6] ) } # Probably not right
+		7: {								template(						colors[("{offset}" + 2) mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -412,53 +411,53 @@ flip_pt_hybrid2 := [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[0]) }
 		3: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors[("{offset}" + 0) mod 3] )	,
+				image2:						template(						colors[("{offset}" + 2) mod 3] )	,
 												x1: 0,			y1: -1
 												x2: 0,			y2:  1.1
 		)}
-		4: {								template(						colors[3]) }
-		5: {								template(						colors[4]) }
-		6: {								template(						colors[5]) }
-		7: {								template(						colors[5]) }
+		4: {								template(						colors[("{offset}" + 3) mod 4] ) }
+		5: {								template(						colors[("{offset}" + 4) mod 5] ) }
+		6: {								template(						colors[("{offset}" + 5) mod 6] ) }
+		7: {								template(						colors[("{offset}" + 6) mod 7] ) }
 	]
 	horizontal: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[0]) }
-		3: {								template(						colors[0]) }
+		3: {								template(						colors[("{offset}" + 0) mod 3] ) }
 		4: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 0) mod 4] )	,
+				image2:						template(						colors[("{offset}" + 1) mod 4] )	,
 												x1: 0.4,		y1: 0
 												x2: 1.5,		y2: 0
 		)}
 		5: { linear_blend(
-				image1:						template(						colors[0])	,
-				image2:						template(						colors[1])	,
+				image1:						template(						colors[("{offset}" + 0) mod 5] )	,
+				image2:						template(						colors[("{offset}" + 1) mod 5] )	,
 												x1: 0.08,		y1: 0
 												x2: 0.65,		y2: 0
 		)}
-		6: {								template(						colors[5]) } #TODO
-		7: {								template(						colors[6]) } #TODO
+		6: {								template(						colors[("{offset}" + 5) mod 6] ) } #TODO
+		7: {								template(						colors[("{offset}" + 6) mod 7] ) } #TODO
 	]
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
 		3: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors[("{offset}" + 1) mod 3] )	,
+				image2:						template(						colors[("{offset}" + 2) mod 3] )	,
 												x1: 0,			y1: -1
 												x2: 0,			y2:  1.5
 		)}
 		4: { linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors[("{offset}" + 2) mod 4] )	,
+				image2:						template(						colors[("{offset}" + 3) mod 4] )	,
 												x1: 0,			y1: 0.5
 												x2: 0,			y2: 3
 		)}
-		5: {								template(						colors[3]) }
-		6: {								template(						colors[5]) } # Probably not right
-		7: {								template(						colors[6]) }
+		5: {								template(						colors[("{offset}" + 3) mod 5] ) }
+		6: {								template(						colors[("{offset}" + 5) mod 6] ) } # Probably not right
+		7: {								template(						colors[("{offset}" + 6) mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -472,35 +471,35 @@ leveler_pt_hybrid := [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
 		3: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors["{offset}" + 1 mod 3] )	,
+				image2:						template(						colors["{offset}" + 2 mod 3] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		)}
-		4: {								template(						colors[2]) }
-		5: {								template(						colors[2]) }
-		6: {								template(						colors[2]) }
-		7: {								template(						colors[4]) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
+		5: {								template(						colors["{offset}" + 2 mod 5] ) }
+		6: {								template(						colors["{offset}" + 2 mod 6] ) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
 		3: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors["{offset}" + 1 mod 3] )	,
+				image2:						template(						colors["{offset}" + 2 mod 3] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		)}
-		4: {								template(						colors[2]) }
-		5: {								template(						colors[3]) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
+		5: {								template(						colors["{offset}" + 3 mod 5] ) }
 		6: { linear_blend(
-				image1:						template(						colors[3])	,
-				image2:						template(						colors[4])	,
+				image1:						template(						colors["{offset}" + 2 mod 6] )	,
+				image2:						template(						colors["{offset}" + 4 mod 6] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 0.25
 		)}
-		7: {								template(						colors[5]) }
+		7: {								template(						colors["{offset}" + 5 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -515,35 +514,35 @@ leveler_pt_hybrid := [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
 		3: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors["{offset}" + 1 mod 3] )	,
+				image2:						template(						colors["{offset}" + 2 mod 3] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		)}
-		4: {								template(						colors[2]) }
-		5: {								template(						colors[2]) }
-		6: {								template(						colors[2]) }
-		7: {								template(						colors[4]) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
+		5: {								template(						colors["{offset}" + 2 mod 5] ) }
+		6: {								template(						colors["{offset}" + 2 mod 6] ) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
 		3: { linear_blend(
-				image1:						template(						colors[1])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors["{offset}" + 1 mod 3] )	,
+				image2:						template(						colors["{offset}" + 2 mod 3] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		)}
-		4: {								template(						colors[2]) }
-		5: {								template(						colors[3]) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
+		5: {								template(						colors["{offset}" + 3 mod 5] ) }
 		6: { linear_blend(
-				image1:						template(						colors[3])	,
-				image2:						template(						colors[4])	,
+				image1:						template(						colors["{offset}" + 3 mod 6] )	,
+				image2:						template(						colors["{offset}" + 4 mod 6] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 0.25
 		)}
-		7: {								template(						colors[5]) }
+		7: {								template(						colors["{offset}" + 5 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -553,31 +552,31 @@ leveler_pt_hybrid2 := [
 		0: {								template(						"c")       }
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
-		3: {								template(						colors[2]) }
-		4: {								template(						colors[2]) }
-		5: {								template(						colors[2]) }
-		6: {								template(						colors[2]) }
-		7: {								template(						colors[4]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
+		5: {								template(						colors["{offset}" + 2 mod 5] ) }
+		6: {								template(						colors["{offset}" + 2 mod 6] ) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
-		3: {								template(						colors[2]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
 		4: { linear_blend(
-				image1:						template(						colors[2])
-				image2:						template(						colors[3])
+				image1:						template(						colors["{offset}" + 2 mod 4] )
+				image2:						template(						colors["{offset}" + 3 mod 4] )
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		   )}
 		5: { linear_blend(
-				image1:						template(						colors[3])
-				image2:						template(						colors[4])
+				image1:						template(						colors["{offset}" + 3 mod 5] )
+				image2:						template(						colors["{offset}" + 4 mod 5] )
 												x1: 0,			y1: 0
 												x2: 0,			y2: 0.75
 		   )}
-		6: {								template(						colors[4]) }
-		7: {								template(						colors[5]) }
+		6: {								template(						colors["{offset}" + 4 mod 6] ) }
+		7: {								template(						colors["{offset}" + 5 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -587,41 +586,41 @@ leveler_pt_hybrid3 := [
 		0: {								template(						"c")       }
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
-		3: {								template(						colors[2]) }
-		4: {								template(						colors[2]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
+		4: {								template(						colors["{offset}" + 2 mod 4] ) }
 		5: { linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3]	,)
+				image1:						template(						colors["{offset}" + 2 mod 5] )	,
+				image2:						template(						colors["{offset}" + 3 mod 5] 	,)
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		   )}
 		6: { linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors["{offset}" + 2 mod 6] )	,
+				image2:						template(						colors["{offset}" + 3 mod 6] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 1
 		   )}
-		7: {								template(						colors[4]) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_pt_hybrid
 	vertical: [
 		1: {								 template(						colors[0]) }
 		2: {								 template(						colors[1]) }
-		3: {								 template(						colors[2]) }
-		4: {								 template(						colors[3]) }
+		3: {								 template(						colors["{offset}" + 2 mod 3] ) }
+		4: {								 template(						colors["{offset}" + 3 mod 4] ) }
 		5: { linear_blend(
-				image1:						template(						colors[3])	,
-				image2:						template(						colors[4])	,
+				image1:						template(						colors["{offset}" + 3 mod 5] )	,
+				image2:						template(						colors["{offset}" + 4 mod 5] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 0.5
 		   )}
 		6: { linear_blend(
-				image1:						template(						colors[4])	,
-				image2:						template(						colors[5])	,
+				image1:						template(						colors["{offset}" + 4 mod 6] )	,
+				image2:						template(						colors["{offset}" + 5 mod 6] )	,
 												x1: 0,			y1: 0
 												x2: 0,			y2: 0.5
 		   )}
-		7: {								template(						colors[5]) }
+		7: {								template(						colors["{offset}" + 5 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -636,22 +635,22 @@ textbox_hybrid := [
 		0: {								template(						"c")       }
 		1: {								template(						colors[0]) }
 		2:									card_hybrid_2
-		3: {								template(						colors[2]) }
-		4: {								card_hybrid_2(					colors: colors[3] + colors[2]) }
-		5: {								template(colors[3]) }
-		6: {								card_hybrid_2(					colors: colors[4] + colors[3]) }
-		7: {								template(						colors[4]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
+		4: {								card_hybrid_2(					colors: colors["{offset}" + 0 mod 4]  + colors["{offset}" + 0 mod 4] ) }
+		5: {								template(						colors["{offset}" + 3 mod 5] ) }
+		6: {								card_hybrid_2(					colors: colors["{offset}" + 0 mod 6]  + colors["{offset}" + 0 mod 6] ) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_card_hybrid
 	vertical:  [
 		0: {								template(						"c")       }
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
-		3: {								template(						colors[2]) } # TODO
-		4: {								template(						colors[3]) }
-		5: {								template(						colors[4]) }
-		6: {								template(						colors[5]) }
-		7: {								template(						colors[6]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) } # TODO
+		4: {								template(						colors["{offset}" + 3 mod 4] ) }
+		5: {								template(						colors["{offset}" + 4 mod 5] ) }
+		6: {								template(						colors["{offset}" + 5 mod 6] ) }
+		7: {								template(						colors["{offset}" + 6 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -726,36 +725,36 @@ horizontal_stamp_hybrid := [
 												x1: -0.3,		y1: 0
 												x2:  1.3,		y2: 0
 	)}
-	3: {									template(						colors[1]) }
+	3: {									template(						colors["{offset}" + 1 mod 3] ) }
 	4: { linear_blend(
-			image1:							template(						colors[1])	,
-			image2:							template(						colors[2])	,
+			image1:							template(						colors["{offset}" + 1 mod 4] )	,
+			image2:							template(						colors["{offset}" + 2 mod 4] )	,
 												x1: -0.3,		y1: 0
 												x2:  1.3,		y2: 0
 	)}
 	5: {linear_blend(
-			image1:							template(						colors[1])
+			image1:							template(						colors["{offset}" + 1 mod 5] )
 												x1: -0.55,		y1: 0
 												x2:  0.2,		y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[2])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors["{offset}" + 2 mod 5] )	,
+				image2:						template(						colors["{offset}" + 3 mod 5] )	,
 												x1: 0.8,		y1: 0
 												x2: 1.55,		y2: 0
 	))}
 	6: { linear_blend(
-			image1:							template(						colors[2])	,
-			image2:							template(						colors[3])	,
+			image1:							template(						colors["{offset}" + 2 mod 6] )	,
+			image2:							template(						colors["{offset}" + 3 mod 6] )	,
 												x1: 0.1,		y1: 0
 												x2: 0.9,		y2: 0
 	)}
 	7: {linear_blend(
-			image1:							template(						colors[2])	,
+			image1:							template(						colors["{offset}" + 2 mod 7] )	,
 												x1: -0.55,		y1: 0
 												x2:  0.2,		y2: 0
 			image2: linear_blend(
-				image1:						template(						colors[3])	,
-				image2:						template(						colors[4])	,
+				image1:						template(						colors["{offset}" + 3 mod 7] )	,
+				image2:						template(						colors["{offset}" + 5 mod 7] )	,
 												x1: 0.8,		y1: 0
 												x2: 1.55,		y2: 0
 	))}
@@ -771,31 +770,31 @@ stamp_hybrid := [
 												x1: -0.3,		y1: 0
 												x2:  1.3,		y2: 0
 		   )}
-		3: {								template(						colors[2]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
 		4: { linear_blend(
-				image1:						template(						colors[3])	,
-				image2:						template(						colors[2])	,
+				image1:						template(						colors["{offset}" + 3 mod 4] )	,
+				image2:						template(						colors["{offset}" + 2 mod 4] )	,
 												x1: -0.3,		y1: 0
 												x2:  1.3,		y2: 0
 		)}
-		5: {								template(						colors[3]) }
+		5: {								template(						colors["{offset}" + 3 mod 5] ) }
 		6: { linear_blend(
-				image1:						template(						colors[4])	,
-				image2:						template(						colors[3])	,
+				image1:						template(						colors["{offset}" + 4 mod 6] )	,
+				image2:						template(						colors["{offset}" + 3 mod 6] )	,
 													x1: -0.3,	y1: 0
 													x2:  1.3,	y2: 0
 		   )}
-		7: {								template(						colors[4]) }
+		7: {								template(						colors["{offset}" + 4 mod 7] ) }
 	]
 	horizontal: horizontal_stamp_hybrid
 	vertical: [
 		1: {								template(						colors[0]) }
 		2: {								template(						colors[1]) }
-		3: {								template(						colors[2]) }
-		4: {								template(						colors[3]) }
-		5: {								template(						colors[4]) }
-		6: {								template(						colors[5]) }
-	#	7: {								template(						colors[6]) }
+		3: {								template(						colors["{offset}" + 2 mod 3] ) }
+		4: {								template(						colors["{offset}" + 3 mod 4] ) }
+		5: {								template(						colors["{offset}" + 4 mod 5] ) }
+		6: {								template(						colors["{offset}" + 5 mod 6] ) }
+	#	7: {								template(						colors["{offset}" + 6 mod 7] ) }
 	]
 	overlay: overlay_hybrid
 ]
@@ -870,7 +869,6 @@ color_combination := {
 			dark:							base,
 			mask:								"hybrid_blend_{type}.png",
 		)
-	#	7: {								template(						colors[6]) }
 	else if multi and artifact then
 		masked_blend(
 			light:							masked_blend(
@@ -934,19 +932,19 @@ color_combination := {
 # Specific types
 ########################################################################
 
-card_background		:= { color_background(type:"card",			base_hybrid:card_hybrid)			}
-card_ptbox			:= { color_background(type:"pt",			base_hybrid:pt_hybrid)				}
-flip_ptbox			:= { color_background(type:"pt",			base_hybrid:flip_pt_hybrid)			}
-flip_ptbox2			:= { color_background(type:"pt2",			base_hybrid:flip_pt_hybrid2)		}
-leveler_ptbox		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid)		}
-leveler_ptbox2		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid2)		}
-leveler_ptbox3		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid3)		}
-card_textbox		:= { color_background(type:"textbox",		base_hybrid:textbox_hybrid)			}
-card_typeline		:= { color_background(type:"typeline",		base_hybrid:typeline_hybrid)		}
-card_identity		:= { color_background(type:"identity",		base_hybrid:identity_hybrid)		}
-card_identity_2		:= { color_background(type:"identity2",		base_hybrid:identity_hybrid)		}
-card_stamp			:= { color_background(type:"stamp",			base_hybrid:stamp_hybrid)			}
-card_stamp2			:= { color_background(type:"stamp2",		base_hybrid:stamp_hybrid)			}
+card_background		:= { color_background(type:"card",			base_hybrid:card_hybrid)			}@(offset:0)
+card_ptbox			:= { color_background(type:"pt",			base_hybrid:pt_hybrid)				}@(offset:0)
+flip_ptbox			:= { color_background(type:"pt",			base_hybrid:flip_pt_hybrid)			}@(offset:0)
+flip_ptbox2			:= { color_background(type:"pt2",			base_hybrid:flip_pt_hybrid2)		}@(offset:0)
+leveler_ptbox		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid)		}@(offset:0)
+leveler_ptbox2		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid2)		}@(offset:0)
+leveler_ptbox3		:= { color_background(type:"pt",			base_hybrid:leveler_pt_hybrid3)		}@(offset:0)
+card_textbox		:= { color_background(type:"textbox",		base_hybrid:textbox_hybrid)			}@(offset:0)
+card_typeline		:= { color_background(type:"typeline",		base_hybrid:typeline_hybrid)		}@(offset:0)
+card_identity		:= { color_background(type:"identity",		base_hybrid:identity_hybrid)		}@(offset:0)
+card_identity_2		:= { color_background(type:"identity2",		base_hybrid:identity_hybrid)		}@(offset:0)
+card_stamp			:= { color_background(type:"stamp",			base_hybrid:stamp_hybrid)			}@(offset:0)
+card_stamp2			:= { color_background(type:"stamp2",		base_hybrid:stamp_hybrid)			}@(offset:0)
 
 flip_background := {
 	linear_blend(
