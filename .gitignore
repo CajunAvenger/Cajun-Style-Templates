@@ -1,6 +1,4 @@
 archenemy.mse-game
-*.mse-locale
-!ru.mse-locale
 archenemy-standard.mse-style
 magic-m15-altered-ru.mse-style
 packages
