@@ -17,6 +17,21 @@ languages := [
 		is_planeswalker   : match@(match: "(?i)Planeswalker|Emblem")
 		is_plane		  : match@(match: "(?i)Plane(?!swalker)")
 	],
+	Russian: [
+		code              : "ru",
+		spellcheck_code   : "",
+		pt_separator      : "/",
+		type_separator    : " — ",
+		subtype_separator : " ",
+		is_creature       : match@(match: "(?i)Существо")
+		is_tribal         : match@(match: "(?i)Tribal")
+		is_artifact       : match@(match: "(?i)Артефакт")
+		is_land           : match@(match: "(?i)Земля")
+		is_enchantment    : match@(match: "(?i)Чары")
+		is_spell          : match@(match: "(?i)Instant|Sorcery")
+		is_planeswalker   : match@(match: "(?i)Planeswalker|Emblem")
+		is_plane		  : match@(match: "(?i)Plane(?!swalker)")
+	],
 	
 	Français: [
 		code              : "fr",
