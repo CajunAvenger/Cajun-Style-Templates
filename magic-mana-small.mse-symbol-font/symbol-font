@@ -776,6 +776,7 @@ insert symbol menu:
 	item: G
 	item: C
 	item: S
+	item: A
 	item:
 		type: line
 	item:

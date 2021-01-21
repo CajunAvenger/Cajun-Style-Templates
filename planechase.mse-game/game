@@ -14,9 +14,9 @@ init script:
 	############################################################## Sorting mana symbols
 	
 	# correctly sort a mana symbol (no guild mana)
-	mana_sort       := sort_text@(order: "XYZI[0123456789]HS(WUBRG)")
+	mana_sort       := sort_text@(order: "XYZI[0123456789]HSVA(WUBRG)")
 	# correctly sort guild mana
-	mana_sort_guild := sort_text@(order: "[XYZI01234567890HSWUBRG/|]") +
+	mana_sort_guild := sort_text@(order: "[XYZI01234567890HSVAWUBRG/|]") +
 			replace@(
 				match: "./.|././.|./././.|.[|]",
 				in_context: "(^|[^/])<match>($|[^/])",
@@ -42,7 +42,7 @@ init script:
 	for_mana_costs := format_cost := {
 		if input.separator_before == "—" and contains(input.param, " ") then (
 			if contains(input.param, match:",") then (
-				if match(match: "^[HSCTQXYZIWUBRG0-9/|]+,", input.param) then
+				if match(match: "^[HSCTQXYZIWUBRGAV0-9/|]+,", input.param) then
 					"{add}<param-cost>{combined_cost(input.param)}</param-cost>"
 				else "<param-cost>{combined_cost(input.param)}</param-cost>"
 			) else
@@ -53,7 +53,7 @@ init script:
 	alternative_cost := replace@(match:"^[A-Z]", replace: { to_lower() })
 	combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
 		replace@(match:",", replace:" and")+
-		replace@(match:"^[SCTQXYZIWUBRG0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
+		replace@(match:"^[SCTQXYZIWUBRGAV0-9/|]", in_context: "(^|[[:space:]])<match>", replace: "<sym-auto>&</sym-auto>")+
 		replace@(match:"^[A-Z]", replace: { to_lower() })
 	long_dash := replace@(match:"-", replace:"—")
 	
@@ -94,7 +94,7 @@ init script:
 		    |adds?|pay(ed)?[ ](with|using)
 		    )
 		    ([ ]either)?			 # pay either X or Y
-		    ([ ]<sym[^>]*>[CTQHSXYZIWUBRG0-9/|]+</sym[^>]*>[ ](and|or))* # pay X or Y
+		    ([ ]<sym[^>]*>[CTQHSXYZIWUBRGAV0-9/|]+</sym[^>]*>[ ](and|or))* # pay X or Y
 		    [ ]<match> 
 		    ([,.)]|$				# (end of word)
 		    |[ ][^ .,]*$			# still typing...
@@ -153,16 +153,16 @@ init script:
 			) +
 		# step 4.5 : explict non mana symbols
 		replace@(
-			match: "\\][HSCTQXYZIWUBRG0-9/|]+\\[",
+			match: "\\][HSCTQXYZIWUBRGAV0-9/|]+\\[",
 			replace: {"<nosym>" + mana_filter_t() + "</nosym>"} ) +
 		# step 5 : add mana & tap symbols
 		replace@(
-			match: "[HSCTQXYZIWUBRG0-9/|]+",
+			match: "[HSCTQXYZIWUBRGAV0-9/|]+",
 			in_context: mana_context,
 			replace: {"<sym-auto>" + mana_filter_t() + "</sym-auto>"} ) +
 		# step 5b : add explict mana symbols
 		replace@(
-			match: "\\[[HSCTQXYZIWUBRG0-9/|]+\\]",
+			match: "\\[[HSCTQXYZIWUBRGAV0-9/|]+\\]",
 			replace: {"<sym>" + mana_filter_t() + "</sym>"} ) +
 		# step 7 : italic reminder text
 		replace@(
@@ -271,6 +271,14 @@ init script:
 	card_shape := { "plane card" }
 	is_nom := {card.supertype == "Phenomenon"}
 	ancestral_mana := {"false"}
+	use_v_mana := {contains(set.custom_mana_symbol_name, match:".png")}
+	use_large_v_mana := { use_v_mana() and contains(set.mana_symbol_options, match:"casting")}
+	use_small_v_mana := { use_v_mana() and contains(set.mana_symbol_options, match:"text")}
+	use_color_v_mana := { use_v_mana() and contains(set.mana_symbol_options, match:"colored") and not use_hybrid_v_mana()}
+	use_hybrid_v_mana := { use_v_mana() and contains(set.mana_symbol_options, match:"hybrid")}
+	v_mana_name := {if not use_v_mana() then "" else replace(set.custom_mana_symbol_name, match:"(.+/|\\.png)", replace:"")}
+	v_mana_loc := {if not use_v_mana() then "" else replace(set.custom_mana_symbol_name, match:"{v_mana_name()}\\.png", replace:"")}
+
 ############################################################## Set fields
 set field:
 	type: info
@@ -338,8 +346,8 @@ set field:
 	initial: old, pseudo, custom
 	# Convert from older mse versions
 	script:
-		if value = "yes" then "old, core, expert, custom"
-		else if value = "no" then ""
+		if value == "yes" then "old, core, expert, custom"
+		else if value == "no" then ""
 		else value
 	description: For which kinds of keywords should reminder text be added by default? Note: you can enable/disable reminder text by right clicking the keyword.
 set field:
@@ -359,6 +367,33 @@ set field:
 	choice: after other cards
 	choice: separate numbering
 	initial: after other cards
+set field:
+	type: text
+	name: custom mana symbol name
+	description: Use mana symbols from magic-mainframe-extras.mse-include. Input NAME.png here, check help below for file instructions.
+set field:
+	type: multiple choice
+	name: mana symbol options
+	choice: enable in casting costs
+	choice: enable in text boxes
+	choice: colored mana symbols
+	choice: hybrid with colors
+set field:
+	type: choice
+	name: mana symbol help
+	choice: Click here for mana symbol help!
+	choice: In your mainframe-extrasfolder, create folders named "large" and/or "small" depending on your usage
+	choice: Large is for only mana costs, small for only text, create both if you use both
+	choice: Additionally, you can create a "future" folder for M15 Future mana costs
+	choice: Save NAME.png to the relevant folders. Remember that large symbols have dropshadows
+	choice: For the name option above, set the address of the image, minus mainframe-extras and large/small/future
+	choice: Ex: magic-mainframe-extras/cajun/large/hazard.png would use cajun/hazard.png
+	choice: Standard size is 160x160 for small, 200x200 for small hybrid and future, 165x178 for large, 205x218 for large hybrid
+	choice: If your symbol mixes with colors (such as Phyrexian mana): Save NAME_w.png, NAME_u.png, etc to those folders too.
+	choice: If your symbol hybrids with colors (like 2/W): [Note, doesn't work on M15 Future mana costs.]
+	choice: Save NAME_h.png to those folders too. See mana_bb.png and similar for how this image should look.
+	choice: Your mana symbol will now be keyed to V (and V/W, V/U, etc. for colored/hybrid symbols).
+
 ############################# Default style
 default set style:
 	title:
@@ -848,7 +883,7 @@ keyword mode:
 
 keyword parameter type:
 	name: mana
-	match: [HSCTQXYZI0-9WUBRG/|]+
+	match: [HSCTQXYZI0-9WUBRGAV/|]+
 	refer script:
 		name: normal
 		description: No changes made
