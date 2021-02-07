@@ -510,9 +510,9 @@ card style:
 					else symbol_variation(symbol: set.masterpiece_symbol, variation: "mythic rare")
 	############################# Text box
 	text:
-		left: 49
+		left: 48
 		top: { top_of_textbox() }
-		width: 296
+		width: 300
 		bottom: {477-global_chop_bot()-(if is_stamped() then 2 else 0)}
 		font:
 			name: MPlantin
