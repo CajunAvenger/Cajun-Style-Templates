@@ -103,7 +103,6 @@ keyword parameter type:
 keyword parameter type:
 	name: p
 	match: [p](?!ped)(?!ment)
-
 keyword parameter type:
 	name: name
 	match: ([^(.:;\n—]+|[ ])
@@ -131,7 +130,7 @@ keyword parameter type:
 	optional: false
 #	match: [A-Z][a-z, ]*([A-Z][a-z, ]*\xEB00) # commented out because it stopped prefix param from working, version below allows all "walks", including "Dame Judi Denchwalk", doesn't trigger #in middle of sentences, and doesn't trigger in chains of keywords.
 #	match: [A-Z][A-Z,a-z’ ]* # commented out due to still not working
-	match: [^(.:;\n—]+
+	match: [^(.,”":;\n—]+
 	example: Forest
 keyword parameter type:
 	name: english_number
@@ -144,8 +143,8 @@ keyword parameter type:
 	name: a
 	match: [an?]*
 keyword parameter type:
-	name: s
-	match: s*
+	name: *s
+	match: [a-z]s?
 keyword parameter type:
 	name: nonland
 	match: ( n?o?n?l?a?n?d? ?)
@@ -1318,6 +1317,11 @@ keyword:
 	match: Commander ninjutsu <atom-param>cost</atom-param>
 	mode: expert
 	reminder: {param1}, Return an unblocked attacker you control to hand: Put this card onto the battlefield from your hand or the command zone tapped and attacking.
+keyword:
+	keyword: Treasure token
+	match: Treasure toke<atom-param>*s</atom-param>
+	mode: core
+	reminder: {if param1.value == "ns" then "They’re artifacts" else "It’s an artifact"} with "T, Sacrifice this artifact: Add one mana of any color."
 #Guilds of Ravnica
 keyword:
 	keyword: Jump-start
@@ -1381,12 +1385,22 @@ keyword:
 	match: Adamant
 	mode: pseudo
 	rules: Adamant — If at least three [color] mana was spent to cast this spell, [effect].
+keyword:
+	keyword: Food token
+	match: Food toke<atom-param>*s</atom-param>
+	mode: core
+	reminder: {if param1.value == "ns" then "They’re artifacts" else "It’s an artifact"} with "2, T, Sacrifice this artifact: You gain 3 life."
 #Theros Beyond Death
 keyword:
 	keyword: Escape
 	match: Escape <atom-param>cost</atom-param>
 	mode: expert
 	reminder: You may cast this card from your graveyard for its escape cost.
+keyword:
+	keyword: Gold token
+	match: Gold toke<atom-param>*s</atom-param>
+	mode: core
+	reminder: {if param1.value == "ns" then "They’re artifacts" else "It’s an artifact"} with "Sacrifice this artifact: Add one mana of any color."
 #Ikoria: Lair of Behemoths
 keyword:
 	keyword: Mutate
@@ -1414,10 +1428,26 @@ keyword:
 	keyword: Party
 	match: party
 	mode: action
-	reminder: Your party consists of up to one of each Cleric, Rogue, Warrior and Wizard.
+	reminder: Your party consists of up to one of each of Cleric, Rogue, Warrior, and Wizard.
 #Commander Legends
 keyword:
 	keyword: Encore
 	match: Encore <atom-param>cost</atom-param>
 	mode: action
 	reminder: {param1}, Exile this card from your graveyard: For each opponent, create a token copy that attacks that opponent this turn if able. They gain haste. Sacrifice them at the beginning of the next end step. Activate only as a sorcery.
+#Kaldheim
+keyword:
+	keyword: Shard token
+	match: Shard toke<atom-param>*s</atom-param>
+	mode: core
+	reminder: {if param1.value == "ns" then "They’re enchantments" else "It’s an enchantment"} with "2, Sacrifice this enchantment: Scry 1, then draw a card."
+keyword:
+	keyword: Boast
+	match: Boast
+	mode: expert
+	reminder: Activate this ability only if this creature attacked this turn and only once each turn.
+keyword:
+	keyword: Foretell
+	match: Foretell <atom-param>cost</atom-param>
+	mode: expert
+	reminder: During your turn, you may pay [2] and exile this card from your hand face down. Cast it on a later turn for its foretell cost.

@@ -33,9 +33,10 @@ card dpi: 150
 init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
-	
-	template_prefix := [card: "" card2: "" card3: "fullart/" card4: "fullart/" nyx:"nyx/" stamp: "" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.jpg" card4: "card2.jpg" nyx:"nyx.png" stamp: "stamp.jpg" identity: "identity.png"]
+	mainframe_walker := {true}
+	text_filter := text_filter + {apply_margins(input, name:margin_code)} + {add_spacers(input, name:margin_code)}
+	template_prefix := [card: "" card2: "" card3: "fullart/" card4: "fullart/" nyx:"nyx/" stamp: "" alias: "alias/" identity: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.png" card2: "card2.png" card3: "card.jpg" card4: "card2.jpg" nyx:"nyx.png" stamp: "stamp.png" alias:"alias.png", identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	land_template := { template_prefix[type] + "c" + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -43,6 +44,7 @@ init script:
 
 	# This will create two seperate card faces
 	card_background2 := { color_background(type:"card2", base_hybrid:card_hybrid) }
+	alias_bar := { color_background(type:"alias", base_hybrid:card_hybrid) }
 	nyx_background := { color_background(type:"nyx", base_hybrid:card_hybrid) }
 	
 	# Use the normal tap symbol
@@ -72,87 +74,117 @@ init script:
 	is_promo := { styling.promo }
 	
 	# Does the card have four abilities?
-	has_four_abilities := { styling.use_separate_textboxes == "four" or contains(paragraph_count(card.rule_text), match: "~~~") }
-	has_two_abilities := { styling.use_separate_textboxes == "two" }
+	has_four_abilities := { max_level() > 3 }
+	has_two_abilities := { max_level() < 3 }
 	is_stamped := { is_rare() and styling.holofoil_stamped_rares }
 	is_normal_size := { styling.default_image_size }
-	lv1_chop_top := { pull_comma_array(styling.level_1_chop, cell:0, end:0, default:0)}
-	lv1_chop_bot := { pull_comma_array(styling.level_1_chop, cell:1, end:0, default:0)}
-	lv1_chop_right := { pull_comma_array(styling.level_1_chop, cell:2, end:0, default:0)}
-	lv2_chop_top := { pull_comma_array(styling.level_2_chop, cell:0, end:0, default:0)}
-	lv2_chop_bot := { pull_comma_array(styling.level_2_chop, cell:1, end:0, default:0)}
-	lv2_chop_right := { pull_comma_array(styling.level_2_chop, cell:2, end:0, default:0)}
-	lv3_chop_top := { pull_comma_array(styling.level_3_chop, cell:0, end:0, default:0)}
-	lv3_chop_bot := { pull_comma_array(styling.level_3_chop, cell:1, end:0, default:0)}
-	lv3_chop_right := { pull_comma_array(styling.level_3_chop, cell:2, end:0, default:0)}
-	lv4_chop_top := { pull_comma_array(styling.level_4_chop, cell:0, end:0, default:0)}
-	lv4_chop_bot := { pull_comma_array(styling.level_4_chop, cell:1, end:0, default:0)}
-	lv4_chop_right := { pull_comma_array(styling.level_4_chop, cell:2, end:0, default:0)}
-	loyal_move := { pull_comma_array(styling.move_loyalty_costs, cell:0, end:0, default:0)}
-	loyal_move2 := { pull_comma_array(styling.move_loyalty_costs, cell:1, end:0, default:0)}
-	loyal_move3 := { pull_comma_array(styling.move_loyalty_costs, cell:2, end:0, default:0)}
-	loyal_move4 := { pull_comma_array(styling.move_loyalty_costs, cell:3, end:0, default:0)}
-	is_level_walker := { not contains(styling.use_separate_textboxes, match:"no") }
+	loyal_move := { pull_comma_array(styling.shift_loyalty_costs, cell:0, end:0, default:0)}
+	loyal_move2 := { if card.level_2_text == "" or card.level_2_text == "​" then -15 else pull_comma_array(styling.shift_loyalty_costs, cell:1, end:0, default:0)}
+	loyal_move3 := { if max_level() < 2 then 30 else if card.level_3_text == "" or card.level_3_text == "​" then -5 else pull_comma_array(styling.shift_loyalty_costs, cell:2, end:0, default:0)}
+	loyal_move4 := { if max_level() < 4 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:3, end:0, default:0)}
+	loyal_move5 := { if max_level() < 5 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:4, end:0, default:0)}
+	loyal_move6 := { if max_level() < 6 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:5, end:0, default:0)}
+	is_level_walker := { true }
+	unindent := { contains(styling.other_options, match:"un-indent nonloyalty abilities")}
 
 	comma_count := filter_text@(match:",")
 	paragraph_count := 
 		replace@(match:"<soft-line>\n", replace:"")+
 		filter_text@(match:"\n")
 
-
-	bottom_of_textbox := { if heavy_levels() then stripe30()+10-lv1_chop_bot()
-		else if level_four() then stripe31()+10-lv1_chop_bot()
-		else if slide_two() then stripe01()+10-lv1_chop_bot()
-		else if contains(styling.use_separate_textboxes, match:"two") then 404-lv1_chop_bot()
-		else if level_three() then stripe12()+10-lv1_chop_bot()
-		else if has_four_abilities() then 472
-		else 478
-	}
+	global_chop_top := { to_int(pull_comma_array(styling.combined_chop, cell:0, end:0, default:0))}
+	global_chop_bot := { to_int(pull_comma_array(styling.combined_chop, cell:1, end:0, default:0))}
+	top_of_textbox := {if has_four_abilities() then 292+global_chop_top()+(if is_clear() then 5 else 0) else 329+global_chop_top()}
 	use_full_art := { contains(styling.other_options, match:"mythic edition fullart") }
-	mask_script := { if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
-		else if is_clear() then "imagemask_clear.png"
-		else if use_full_art() and has_four_abilities() and is_level_walker() and is_rare() and styling.holofoil_stamped_rares then "4tress_imagemask_rare_level.png"
-		else if use_full_art() and has_four_abilities() and is_level_walker() then "4tress_imagemask_level.png"
-		else if use_full_art() and has_four_abilities() and is_rare() and styling.holofoil_stamped_rares then "4tress_imagemask_rare.png"
-		else if use_full_art() and has_four_abilities() then "4tress_imagemask.png"
-		else if use_full_art() and is_level_walker() and is_rare() and styling.holofoil_stamped_rares then "fortress_imagemask_rare_level.png"
-		else if use_full_art() and is_rare() and styling.holofoil_stamped_rares then "fortress_imagemask_rare.png"
-		else if use_full_art() and is_level_walker() then "fortress_imagemask_level.png"
-		else if use_full_art() then "fortress_imagemask.png"
-		else "imagemask"
-			+ ( if has_two_abilities() and not has_four_abilities() and not slide_two() then "_2abil" else "" )
-			+ ( if has_four_abilities() then "_4abil" else "" )
-			+ ( if is_normal_size() then "" else "_wide" ) 
-			+ ( if level_three() or level_four() or slide_two() or slide_three() or slide_four() then "_level") + ".png"
+	mask_script := {
+		if use_full_art() then "fortress_imagemask.png"
+		else ""
 	}
-	text_size := { 14 -(if styling.separated_text_size == "" then 0 else if contains(styling.separated_text_size, match: ".5") then to_int(split_text(match:".5", styling.separated_text_size).0) else styling.separated_text_size) }
-	stripe01 := { 345 + min(pull_comma_array(styling.stripe_coordinate, cell: 0, default:48),105)}
-	stripe12 := { 345 + min(pull_comma_array(styling.stripe_coordinate, cell: 0, default:27),stripe23()-365)}
-	stripe23 := { 345 + min(pull_comma_array(styling.stripe_coordinate, cell: 1, default:80),95)}
-	stripe30 := { 309 + min(pull_comma_array(styling.stripe_coordinate, cell: 0, default:(if heavy_levels() then 15 else 0)),stripe31()-329)}
-	stripe31 := { 309 + min(pull_comma_array(styling.stripe_coordinate, cell: (if heavy_levels() then 1 else 0), default:(if stagger_levels() then 50 else 21)),stripe32()-329)}
-	stripe32 := { 309 + min(pull_comma_array(styling.stripe_coordinate, cell: (if heavy_levels() then 2 else 1), default:(if stagger_levels() then 100 else 69)),stripe33()-329)}
-	stripe33 := { 309 + min(pull_comma_array(styling.stripe_coordinate, cell: 2, default:(if stagger_levels() then 150 else 119)),151)}
+	text_size := { 14 -(if styling.font_size == "" then 0 else if contains(styling.font_size, match: ".5") then to_int(split_text(match:".5", styling.font_size).0) else styling.font_size) }
+	stripe01 := {if length(card_style.text.layout.separators) or else 0 > 0 then card_style.text.top + card_style.text.layout.separators[0] + stripe_adj(top:0, bot:1) else 0}
+	stripe12 := {if length(card_style.text.layout.separators) or else 0 > 1 then card_style.text.top + card_style.text.layout.separators[1] + stripe_adj(top:0, bot:1) else 0}
+	stripe23 := {if length(card_style.text.layout.separators) or else 0 > 2 then card_style.text.top + card_style.text.layout.separators[2] + stripe_adj(top:0, bot:1) else 0}
+	stripe34 := {if length(card_style.text.layout.separators) or else 0 > 3 then card_style.text.top + card_style.text.layout.separators[3] + stripe_adj(top:0, bot:1) else 0}
+	stripe45 := {if length(card_style.text.layout.separators) or else 0 > 4 then card_style.text.top + card_style.text.layout.separators[4] + stripe_adj(top:0, bot:1) else 0}
+	stripe_adj := {-4}
 
-	level_three := { styling.use_separate_textboxes == "three" }
-	level_four := { styling.use_separate_textboxes == "four" or (level_three() and has_four_abilities())}
-	slide_two := { styling.use_separate_textboxes == "two" and comma_count(styling.stripe_coordinate) == "," }
-	slide_three := { styling.use_separate_textboxes == "no" and not has_four_abilities() and comma_count(styling.stripe_coordinate) == ",," }
-	slide_four := { styling.use_separate_textboxes == "no" and has_four_abilities() and comma_count(styling.stripe_coordinate) == ",,," }
-	stagger_levels := {styling.use_separate_textboxes == "four" and styling.four_textbox_alternates != "normal"}
-	heavy_levels := {styling.use_separate_textboxes == "four" and styling.four_textbox_alternates == "double passive"}
+	abil_center := { if card_style.text.layout.blocks[input].bottom or else 0 > 0 then
+			card_style.text.top + card_style.text.layout.blocks[input].middle + overlap_check(input)
+		else 0	
+	}
+	overlap_check := {
+		if input == 0
+			then 0
+		else if card_style.text.layout.blocks[input].middle == card_style.text.layout.blocks[input-1].middle
+			then 40*(input-1)
+		else 0
+	}
+	max_level_function := [
+		"auto": {
+			if card.level_6_text != "" and card.level_6_text != "​" then 6
+			else if card.level_5_text != "" and card.level_5_text != "​" then 5
+			else if card.level_4_text != "" and card.level_4_text != "​" then 4
+			else if card.level_3_text != "" and card.level_3_text != "​" then 3
+			else 2
+		},
+		"one": {1},
+		"two": {2},
+		"three": {3},
+		"four": {4},
+		"five": {5},
+		"six": {6},
+	]
+	max_level := {max_level_function[force_level()]()}
+	mainframe_walker_text_script := {
+		if max_level() == 1 or (max_level() == 2 and card.level_2_text == "") or force_level() == "two" then 
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text)
+		else if max_level() == 2 or force_level() == "three" then 
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text)
+		else if max_level() == 3 or force_level() == "four" then 
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text, separator3: "<line>\n</line>", field4: card.level_4_text)
+		else if max_level() == 4 or force_level() == "five" then 
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text, separator3: "<line>\n</line>", field4: card.level_4_text, separator4: "<line>\n</line>", field5: card.level_5_text)
+		else if max_level() > 4 or force_level() == "six" then 
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text, separator3: "<line>\n</line>", field4: card.level_4_text, separator4: "<line>\n</line>", field5: card.level_5_text, separator5: "<line>\n</line>", field6: card.level_6_text)
+		else
+			combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text)
+	}
+	margin_left := {
+		if input == "lv1" then (if card.loyalty_cost_1 == "" and unindent() then 0 else 130)
+		else if input == "lv2" then (if card.loyalty_cost_2 == "" and unindent() then 0 else 130)
+		else if input == "lv3" then (if card.loyalty_cost_3 == "" and unindent() then 0 else 130)
+		else if input == "lv4" then (if card.loyalty_cost_4 == "" and unindent() then 0 else 130)
+		else if input == "lv5" then (if card.loyalty_cost_5 == "" and unindent() then 0 else 130)
+		else if input == "lv6" then (if card.loyalty_cost_6 == "" and unindent() then 0 else 130)
+		else 0
+	}
+	add_spacers := { if input == "" and inner_level(name) then "​" else input}
+	inner_level := {
+		if input == "lv5" and max_level() > 5 then true
+		else if input == "lv4" and max_level() > 4 then true
+		else if input == "lv3" and max_level() > 3 then true
+		else if input == "lv2" and max_level() > 2 then true
+		else if input == "lv1" and max_level() > 1 then true
+		else false
+	}
 
+	force_level := {
+		if styling.override_levels == "one ability" then "one"
+		else if styling.override_levels == "two abilities" then "two"
+		else if styling.override_levels == "three abilities" then "three"
+		else if styling.override_levels == "four abilities" then "four"
+		else if styling.override_levels == "five abilities" then "five"
+		else if styling.override_levels == "six abilities" then "six"
+		else "auto"
+	}
 	has_identity := { styling.color_indicator_dot}
 	is_unsorted := {styling.remove_from_autocount}
-	two_clear := {is_clear() and styling.use_separate_textboxes == "two" and not slide_two()}
-	fort_two := {contains(styling.other_options, match:"mythic edition fullart") and styling.use_separate_textboxes == "two" and not slide_two()}
 	shrink_type := {if styling.shrink_typeline_text != "" then to_int(styling.shrink_typeline_text) else 0 }
 	shrink_name := {if styling.shrink_name_text != "" then to_int(styling.shrink_name_text) else 0 }
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
 	ancestral_mana := { contains(styling.other_options, match:"ancestral generic")}
 	opacity := {pull_comma_array(styling.opacity, cell:input, end:false, default:50)}
-	unindent := { contains(styling.other_options, match:"un-indent nonloyalty abilities")}
 	is_skinned := {contains(styling.other_options, match:"godzilla style alias")}
 	use_evobar := {contains(styling.other_options, match: "pokemon evobar") and not is_skinned()}
 	is_clear := {styling.clear or contains(styling.other_options, match:"clear frame")}
@@ -166,7 +198,7 @@ init script:
 			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2 else "")
 			+ (if has_four_abilities() then "\n" + (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3 else "") else "")
 	}
-	pw_font_size := { if styling.separated_text_size != "" then styling.separated_text_size else 12 }
+	pw_font_size := { if styling.font_size != "" then styling.font_size else 12 }
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -183,52 +215,39 @@ styling field:
 	description: The styling instructions for the popout image field, formatted as "left,top,width,height,". The text MUST end with a comma.
 styling field:
 	type: text
-	name: stripe coordinate
-	description: Overrides the coordinates for the ability stripes. Defaults are "48," and "27,80," and "21,69,119,". The text MUST end with a ,
+	name: combined chop
+	description: Formatted "X,Y", shrinks the top X pixels and bottom Y pixels toward center.
 styling field:
 	type: text
-	name: move loyalty costs
-	description: Moves loyalty costs up the specified amount. Use negative to move down. Formatted as "1,2,3,4," MUST end with a comma.
-styling field:
-	type: choice
-	name: use separate textboxes
-	choice: no
-	choice: two
-	choice: three
-	choice: four
-	initial: three
-	description: Uses a separate textbox for each ability, allowing for different sizes
-styling field:
-	type: choice
-	name: four textbox alternates
-	choice: normal
-	choice: three tall abilities
-	choice: double passive
-	description: Use 4 ability height with three stripes for taller abilities or double passives like Gideon Blackblade
-styling field:
-	type: text
-	name: separated text size
-	description: Use to standardize the font size of separated abilities. Default is size 12.
-styling field:
-	type: text
-	name: level 1 chop
-	description: Changes the start/stop points of the first textbox. Use negative to move down. Formatted as "1,2," MUST end with a comma.
-styling field:
-	type: text
-	name: level 2 chop
-	description: Changes the start/stop points of the second textbox. Use negative to move down. Formatted as "1,2," MUST end with a comma.
-styling field:
-	type: text
-	name: level 3 chop
-	description: Changes the start/stop points of the third textbox. Use negative to move down. Formatted as "1,2," MUST end with a comma.
-styling field:
-	type: text
-	name: level 4 chop
-	description: Changes the start/stop points of the fourth textbox. Use negative to move down. Formatted as "1,2," MUST end with a comma.
+	name: shift loyalty costs
+	description: Moves loyalty costs up the specified amount. Use negative to move down. Formatted as "1,2,3,4,"
 styling field:
 	type: text
 	name: opacity
 	description: set opacity for stripes, from 0 to 255.
+styling field:
+	type: text
+	name: shrink name text
+	description: reduces the name text N points.
+styling field:
+	type: text
+	name: shrink typeline text
+	description: reduces the typeline text N points.
+styling field:
+	type: text
+	name: font size
+	description: Use to overwrite the font size. Default is size 12.
+styling field:
+	type: choice
+	name: override levels
+	choice: automatic
+	choice: one ability
+	choice: two abilities
+	choice: three abilities
+	choice: four abilities
+	choice: five abilities
+	choice: six abilities
+	description: Automatically apply layers, force four abilities, or force one ability
 styling field:
 	type: multiple choice
 	name: other options
@@ -242,14 +261,6 @@ styling field:
 	choice: nyx
 	choice: vehicle
 	initial: un-indent nonloyalty abilities
-styling field:
-	type: text
-	name: shrink name text
-	description: reduces the name text N points.
-styling field:
-	type: text
-	name: shrink typeline text
-	description: reduces the typeline text N points.
 styling field:
 	type: text
 	name: custom mask
@@ -371,10 +382,11 @@ card style:
 		render style: image
 		popup style: in place
 		image: { if is_clear() then "" else if has_four_abilities() then card_background2() else card_background() }
+		mask: {(if max_level() > 3 then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
 	############################# Name line
 	name:
 		left: { if card.card_symbol=="none" then 31 else 48 }
-		top: 23
+		top: 22
 		right: { 339 - card_style.casting_cost.content_width }
 		height: { 23 - (0.5 * shrink_name()) }
 		alignment: bottom shrink-overflow
@@ -386,20 +398,21 @@ card style:
 			color: black
 	alias: 
 		left: {if is_skinned() then 45 else 36}
-		top: 46
+		top: 47
 		width: {if is_skinned() then 285 else if use_evobar() then max(100, card_style.alias.content_width) else 0}
 		height: 20
 		alignment: { (if is_skinned() then "center") + "bottom shrink-overflow"}
 		padding bottom: 0
 		z index: 3
 		font:
-			name: Matrix
-			size: 10
-			style: italic
-			color: black
+			name: {if use_evobar() then "Matrix" else "MPlantin-Italic"}
+			size: {if use_evobar() then 10 else 9}
+			style: {if use_evobar() then "italic" else "bold"}
+			weight: {if use_evobar() then "italic" else "bold"}
+			color: {if use_evobar() then "black" else "white"}
 	casting cost:
 		right: 347
-		top: 22
+		top: 21
 		width: { max(30, card_style.casting_cost.content_width) + 5 }
 		height: 23
 		alignment: middle right
@@ -425,8 +438,7 @@ card style:
 		top: { if use_full_art() or is_clear() then 0 else if is_normal_size() then 52 else 15 }
 		width: { if use_full_art() or is_clear() then 375 else if is_normal_size() then 324 else 345 }
 		height:	{ if use_full_art() or is_clear() then 523 else if is_normal_size() then 427.5 else 493 }
-		z index: 1
-		mask: { mask_script() }
+		z index: -1
 	image 2:
 		left: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).0 else "0"}
 		top: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).1 else "0"}
@@ -498,20 +510,19 @@ card style:
 					else symbol_variation(symbol: set.masterpiece_symbol, variation: "mythic rare")
 	############################# Text box
 	text:
-		left: 63
-		top: { if has_four_abilities() then 289-lv1_chop_top()+(if is_clear() then 5 else 0) else 330-lv1_chop_top() }
-		width: { if contains(styling.use_separate_textboxes, match: "no") then 282 else 0 }
-		bottom: { if contains(styling.use_separate_textboxes, match: "no") then bottom_of_textbox() else 0}
+		left: 49
+		top: { top_of_textbox() }
+		width: 296
+		bottom: {477-global_chop_bot()-(if is_stamped() then 2 else 0)}
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
-			size: { if styling.separated_text_size != "" then styling.separated_text_size else if has_four_abilities() then 13.8 else 14 }
+			size: { if styling.font_size != "" then styling.font_size else if has_four_abilities() then 13.8 else 14 }
 			scale down to: 6
-			color: { if has_four_abilities() and not level_four() then rgba(0,0,0,0) else "black" }
+			color: black
 		symbol font:
-			name: { if has_four_abilities() and not level_four() then "" else styling.text_box_mana_symbols }
-			size: { if styling.separated_text_size != "" then styling.separated_text_size else if has_four_abilities() then 13.8 else 14 }
-		paragraph height: 49
+			name: { styling.text_box_mana_symbols }
+			size: { if styling.font_size != "" then styling.font_size else if has_four_abilities() then 13.8 else 14 }
 		alignment:
 			script:
 				if (styling.center_text == "short text only" and
@@ -521,15 +532,16 @@ card style:
 				   styling.center_text == "always"
 				then "middle center"
 				else "middle left"
+		mask: {"walker_text_mask.png"}
 		z index: 6
-		mask: { if not is_level_walker() then "walker_text_mask.png" else "" }
 		padding left:   6
 		padding right:  4
+		padding top: 4
 		line height hard: 1.2
-		line height line: 1.5
+		line height line: 1.3
 		line height soft: { if has_four_abilities() then 0.85 else 0.9 }
-		line height hard max: 1.3
-		line height line max: 1.6
+		line height hard max: 1.4
+		line height line max: 2.0
 	watermark:
 		left: 19
 		top : { if has_four_abilities() then 314 else 331 }
@@ -539,137 +551,11 @@ card style:
 		render style: image
 		alignment: middle center
 		include file: /magic-watermarks.mse-include/watermarks
-	############################# Levels
-	level 1 text:
-		left: {if unindent() and card.loyalty_cost_1 == "" then 49 else 63 }
-		top: { if has_four_abilities() then 289-lv1_chop_top()+(if is_clear() then 5 else 0) else 330-lv1_chop_top() }
-		width: { if contains(styling.use_separate_textboxes, match: "no") then 0 else 282+(if unindent() and card.loyalty_cost_1 == "" then 14 else 0)-(lv1_chop_right()) }
-		bottom: { if contains(styling.use_separate_textboxes, match: "no") then 0 else bottom_of_textbox() }
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { pw_font_size() }
-			scale down to: 6
-			color: { if has_four_abilities() and not level_four() then rgba(0,0,0,0) else "black" }
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { pw_font_size() }
-		alignment:
-			script:
-				if (styling.center_text == "short text only" and
-				   not contains(match:"\n", card.rule_text) and
-				   card.flavor_text == "<i-flavor></i-flavor>" and
-				   card_style.text.content_lines <= 2) or
-				   styling.center_text == "always"
-				then "middle center"
-				else "middle left"
-		z index: 5
-		padding left:   6
-		padding right:  4
-		line height hard: 1.2
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: 1.3
-		line height line max: 1.6
-	level 2 text:
-		left: { if is_level_walker() then (if unindent() and card.loyalty_cost_2 == "" then 49 else 63) else 0 }
-		top: { (if heavy_levels() then stripe30()+10 else if level_four() then stripe31()+10 else if slide_two() then stripe01()+10 else if has_two_abilities() then 404 else stripe12()+10) -lv2_chop_top() }
-		width: { if is_level_walker() then 282+(if unindent() and card.loyalty_cost_2 == "" then 14 else 0)-(lv2_chop_right()) else 0 }
-		bottom: { (if heavy_levels() then stripe31()+10 else if level_four() then stripe32()+10 else if has_two_abilities() then 478 else stripe23()+10) - lv2_chop_bot() }
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { pw_font_size() }
-			scale down to: 6
-			color: black
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { pw_font_size() }
-		alignment:
-			script:
-				if (styling.center_text == "short text only" and
-				   not contains(match:"\n", card.rule_text) and
-				   card.flavor_text == "<i-flavor></i-flavor>" and
-				   card_style.text.content_lines <= 2) or
-				   styling.center_text == "always"
-				then "middle center"
-				else "middle left"
-		z index: 5
-		padding left:   6
-		padding right:  4
-		line height hard: 1.2
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: 1.3
-		line height line max: 1.6
-	level 3 text:
-		left: { if is_level_walker() then (if unindent() and card.loyalty_cost_3 == "" then 49 else 63) else 0 }
-		top: { if has_two_abilities() then 0 else (if heavy_levels() then stripe31()+10 else if has_four_abilities() then stripe32()+10 else if is_level_walker() then stripe23()+10 else 430) -lv3_chop_top() }
-		width: { if is_level_walker() then 282+(if unindent() and card.loyalty_cost_3 == "" then 14 else 0)-(lv3_chop_right()) else 0 }
-		bottom: { if has_two_abilities() then 0 else (if heavy_levels() then stripe32()+10 else if has_four_abilities() then stripe33()+10 else if is_level_walker() then 478 else 482) - lv3_chop_bot() }
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { pw_font_size() }
-			scale down to: 6
-			color: black
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { pw_font_size() }
-		alignment:
-			script:
-				if (styling.center_text == "short text only" and
-				   not contains(match:"\n", card.rule_text) and
-				   card.flavor_text == "<i-flavor></i-flavor>" and
-				   card_style.text.content_lines <= 2) or
-				   styling.center_text == "always"
-				then "middle center"
-				else "middle left"
-		z index: 5
-		padding left:   6
-		padding right:  4
-		line height hard: 1.2
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: 1.3
-		line height line max: 1.6
-	level 4 text:
-		left: {if unindent() and card.loyalty_cost_4 == "" then 49 else 63}
-		top: { (if heavy_levels() then stripe32()+10 else stripe33()+10) -lv4_chop_top() }
-		width: { if level_four() then 282+(if unindent() and card.loyalty_cost_4 == "" then 14 else 0)-(lv4_chop_right()) else 0 }
-		bottom: { if heavy_levels() or level_four() then 475 - lv4_chop_bot() else 0 }
-		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
-			size: { pw_font_size() }
-			scale down to: 6
-			color: black
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: { pw_font_size() }
-		alignment:
-			script:
-				if (styling.center_text == "short text only" and
-				   not contains(match:"\n", card.rule_text) and
-				   card.flavor_text == "<i-flavor></i-flavor>" and
-				   card_style.text.content_lines <= 2) or
-				   styling.center_text == "always"
-				then "middle center"
-				else "middle left"
-		z index: 5
-		padding left:   6
-		padding right:  4
-		line height hard: 1.2
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: 1.3
-		line height line max: 1.6
-		mask: walker_text_mask.png
 	############################# Loyalty
 	loyalty:
 		z index: 7
-		left: 326
-		top: 462
+		left: 328
+		top: 466
 		width: 13.16
 		height:	34.63
 		alignment: center middle
@@ -679,10 +565,10 @@ card style:
 			color: white
 	loyalty cost 1:
 		z index: 7
-		left: 32
-		top: { -loyal_move() +(if has_four_abilities() then 297 else if has_two_abilities() then 348 else 335)  }
-		width: 13.16
-		height:	34.63
+		left: 28
+		top: { abil_center(0) - 17.3 - 2 - loyal_move() }
+		width: 18
+		height:	35
 		alignment: center middle
 		font:
 			name: Beleren Bold
@@ -690,10 +576,10 @@ card style:
 			color: white
 	loyalty cost 2:
 		z index: 7
-		left: 32
-		top: { -loyal_move2() +(if has_four_abilities() then 344 else if has_two_abilities() then 420 else 386) }
-		width: 13.16
-		height:	34.63
+		left: 28
+		top: { abil_center(1) - 17.3 - 2 - loyal_move2() }
+		width: 18
+		height:	35
 		alignment: center middle
 		font:
 			name: Beleren Bold
@@ -701,10 +587,10 @@ card style:
 			color: white
 	loyalty cost 3:
 		z index: 7
-		left: 32
-		top: { -loyal_move3() +(if has_four_abilities() then 391 else 435) }
-		width: {if has_two_abilities() then 0 else 13.16 }
-		height:	34.63
+		left: 28
+		top: { abil_center(2) - 17.3 - 2 - loyal_move3() }
+		width: {if card.loyalty_cost_3 != "" or max_level() > 1 then 18 else 0}
+		height:	35
 		alignment: center middle
 		font:
 			name: Beleren Bold
@@ -712,10 +598,32 @@ card style:
 			color: white
 	loyalty cost 4:
 		z index: 7
-		left: 32
-		top: { -loyal_move4() +438 }
-		width: { if has_four_abilities() then 13.16 else 0 }
-		height:	{ if has_four_abilities() then 34.63 else 0 }
+		left: 28
+		top: { abil_center(3) - 17.3 - 2 - loyal_move4() }
+		width: {if card.loyalty_cost_4 != "" or max_level() > 2 then 18 else 0}
+		height:	35
+		alignment: center middle
+		font:
+			name: Beleren Bold
+			size: 11
+			color: white
+	loyalty cost 5:
+		z index: 7
+		left: 28
+		top: { abil_center(4) - 17.3 - 2 - loyal_move5() }
+		width: {if card.loyalty_cost_5 != "" or max_level() > 3 then 18 else 0}
+		height:	35
+		alignment: center middle
+		font:
+			name: Beleren Bold
+			size: 11
+			color: white
+	loyalty cost 6:
+		z index: 7
+		left: 28
+		top: { abil_center(5) - 17.3 - 2 - loyal_move6() }
+		width: {if card.loyalty_cost_6 != "" or max_level() > 4 then 18 else 0}
+		height:	35
 		alignment: center middle
 		font:
 			name: Beleren Bold
@@ -746,7 +654,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: 498
+		top: 500
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 6
@@ -821,6 +729,18 @@ extra card field:
 	script: loyalty_image(card.loyalty_cost_4)
 	save value: false
 extra card field:
+	type: choice
+	name: loyalty cost box 5
+	editable: false
+	script: loyalty_image(card.loyalty_cost_5)
+	save value: false
+extra card field:
+	type: choice
+	name: loyalty cost box 6
+	editable: false
+	script: loyalty_image(card.loyalty_cost_6)
+	save value: false
+extra card field:
 	type: text
 	name: colon 1
 	editable: false
@@ -846,26 +766,43 @@ extra card field:
 	save value: false
 extra card field:
 	type: text
-	name: second text
+	name: colon 5
 	editable: false
-	multi line: true
+	script: ":"
 	save value: false
-	script: card.text
+extra card field:
+	type: text
+	name: colon 6
+	editable: false
+	script: ":"
+	save value: false
 extra card field:
 	type: choice
-	name: top stripe
+	name: bottom first
 	editable: false
 	save value: false
 	choice: stripe
 extra card field:
 	type: choice
-	name: bot stripe
+	name: top third
 	editable: false
 	save value: false
 	choice: stripe
 extra card field:
 	type: choice
-	name: fourth stripe
+	name: bottom third
+	editable: false
+	save value: false
+	choice: stripe
+extra card field:
+	type: choice
+	name: top fifth
+	editable: false
+	save value: false
+	choice: stripe
+extra card field:
+	type: choice
+	name: bottom fifth
 	editable: false
 	save value: false
 	choice: stripe
@@ -890,6 +827,12 @@ extra card field:
 extra card field:
 	type: color
 	name: stripe color 2
+	script: if is_clear() then rgb(230,230,230) else rgb(200,200,200)
+	editable: false
+	save value: false
+extra card field:
+	type: color
+	name: stripe color 3
 	script: if is_clear() then rgb(230,230,230) else rgb(200,200,200)
 	editable: false
 	save value: false
@@ -929,6 +872,25 @@ extra card field:
 	save value: false
 extra card field:
 	type: choice
+	name: alias bar
+	script: card.card_color
+	save value: false
+	editable: false
+extra card field:
+	type: choice
+	name: vehicle overlay
+	choice: car door
+	save value: false
+	editable: false
+extra card field:
+	type: choice
+	name: nyx overlay
+	choice: nyx
+	save value: false
+	editable: false
+	script: card.card_color
+extra card field:
+	type: choice
 	name: evobar
 	choice: evo
 	save value: false
@@ -945,19 +907,6 @@ extra card field:
 	choice: evo
 	save value: false
 	editable: false
-extra card field:
-	type: choice
-	name: vehicle overlay
-	choice: car door
-	save value: false
-	editable: false
-extra card field:
-	type: choice
-	name: nyx overlay
-	choice: nyx
-	save value: false
-	editable: false
-	script: card.card_color
 extra card style:
 	card code:
 		left: 24
@@ -979,8 +928,8 @@ extra card style:
 		render style: image
 		image: artist_arrow.png
 	loyalty box:
-		right: 362
-		top: 460
+		right: 364
+		top: 464
 		width: 60
 		height: 38
 		z index: 6
@@ -989,19 +938,19 @@ extra card style:
 		choice images:
 			loyalty: loyalty.png
 	stamp:
-		left: 170
-		top: 473
-		width: 36.5
-		height: 22.5
+		left: 166
+		top: 471.5
+		width: 43.5
+		height: 23
 		z index: 6
 		visible: { is_stamped() and not is_clear() }
 		render style: image
 		image: { card_stamp() }
 		mask: {(if use_full_art() then "mythic" else "") + "stamp_mask.png"}
 	foil stamp:
-		left: 170
+		left: 169
 		top: 473
-		width: 36.5
+		width: 37
 		height: 22.5
 		z index: 7
 		visible: { is_stamped() and not is_clear() }
@@ -1012,14 +961,14 @@ extra card style:
 		top : 0
 		width: 375
 		height: 523
-		z index: 4
+		z index: 10
 		render style: image
 		image: {if styling.overlay == "" then nil else styling.overlay + "/overlay.png"}
 	loyalty cost box 1:
-		left: 18
-		top: { -loyal_move() +(if has_four_abilities() then 295 else if has_two_abilities() then 346 else 333) }
-		width: 42
-		height: 40
+		left: 15
+		top: { abil_center(0) - 17.3 - 2 - loyal_move() }
+		width: 45
+		height: 36
 		z index: 6
 		render style: image
 		visible: { card.loyalty_cost_1 != "" }
@@ -1028,10 +977,10 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 2:
-		left: 18
-		top: { -loyal_move2() +(if has_four_abilities() then 342 else if has_two_abilities() then 417 else 383) }
-		width: 42
-		height: 40
+		left: 15
+		top: { abil_center(1) - 17.3 - 2 - loyal_move2() }
+		width: 45
+		height: 36
 		z index: 6
 		render style: image
 		visible: { card.loyalty_cost_2 != "" }
@@ -1040,10 +989,10 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 3:
-		left: 18
-		top: { -loyal_move3() +(if has_four_abilities() then 389 else 432) }
-		width: { if has_two_abilities() then 0 else 42 }
-		height: { if has_two_abilities() then 0 else 40 }
+		left: 15
+		top: { abil_center(2) - 17.3 - 2 - loyal_move3() }
+		width: 45
+		height: 36
 		z index: 6
 		render style: image
 		visible: { card.loyalty_cost_3 != "" }
@@ -1052,10 +1001,10 @@ extra card style:
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
 	loyalty cost box 4:
-		left: 18
-		top: { -loyal_move4() +436 }
-		width: { if has_four_abilities() then 42 else 0 }
-		height: 40
+		left: 15
+		top: { abil_center(3) - 17.3 - 2 - loyal_move4() }
+		width: 45
+		height: 36
 		z index: 6
 		render style: image
 		visible: { card.loyalty_cost_4 != "" }
@@ -1063,9 +1012,33 @@ extra card style:
 			loyalty up: loyaltyup.png
 			loyalty down: loyaltydown.png
 			loyalty naught: loyaltynaught.png
+	loyalty cost box 5:
+		left: 15
+		top: { abil_center(4) - 17.3 - 2 - loyal_move5() }
+		width: 45
+		height: 36
+		z index: 6
+		render style: image
+		visible: { card.loyalty_cost_5 != "" }
+		choice images:
+			loyalty up: loyaltyup.png
+			loyalty down: loyaltydown.png
+			loyalty naught: loyaltynaught.png
+	loyalty cost box 6:
+		left: 15
+		top: { abil_center(5) - 17.3 - 2 - loyal_move6() }
+		width: 45
+		height: 36
+		z index: 6
+		render style: image
+		visible: { card.loyalty_cost_6 != "" }
+		choice images:
+			loyalty up: loyaltyup.png
+			loyalty down: loyaltydown.png
+			loyalty naught: loyaltynaught.png
 	colon 1:
 		left: 59
-		top: { -loyal_move() +(if has_four_abilities() then 309 else if has_two_abilities() then 360 else 347) }
+		top: { abil_center(0) - 17.3 + 10 - loyal_move() }
 		width: 5
 		height: 10
 		z index: 6
@@ -1078,7 +1051,7 @@ extra card style:
 		visible: { card.loyalty_cost_1 != "" }
 	colon 2:
 		left: 59
-		top: { -loyal_move2() +(if has_four_abilities() then 356 else if has_two_abilities() then 431 else 397) }
+		top: { abil_center(1) - 17.3 + 10 - loyal_move2() }
 		width: 5
 		height: 10
 		z index: 6
@@ -1091,7 +1064,7 @@ extra card style:
 		visible: { card.loyalty_cost_2 != "" }
 	colon 3:
 		left: 59
-		top: { -loyal_move3() +(if has_four_abilities() then 403 else 446) }
+		top: { abil_center(2) - 17.3 + 10 - loyal_move3() }
 		width: {if has_two_abilities() then 0 else 5}
 		height: 10
 		z index: 6
@@ -1104,7 +1077,7 @@ extra card style:
 		visible: { card.loyalty_cost_3 != "" }
 	colon 4:
 		left: 59
-		top: { -loyal_move4() +450 }
+		top: { abil_center(3) - 17.3 + 10 - loyal_move4() }
 		width: { if has_four_abilities() then 5 else 0 }
 		height: 10
 		z index: 6
@@ -1115,119 +1088,140 @@ extra card style:
 			color: black
 		alignment: middle center
 		visible: { card.loyalty_cost_4 != "" }
-	second text:
-		left: 63
-		top: 293
-		width: 282
-		height: 183
+	colon 5:
+		left: 59
+		top: { abil_center(4) - 17.3 + 10 - loyal_move5() }
+		width: { if has_four_abilities() then 5 else 0 }
+		height: 10
+		z index: 6
 		font:
 			name: MPlantin
-			italic name: MPlantin-Italic
-			size: 14
-			scale down to: 6
+			size: 15
+			scale down to: 15
 			color: black
-		symbol font:
-			name: { styling.text_box_mana_symbols }
-			size: 14
-		paragraph height: 47
-		alignment:
-			script:
-				if (styling.center_text == "short text only" and
-				   not contains(match:"\n", card.rule_text) and
-				   card.flavor_text == "<i-flavor></i-flavor>" and
-				   card_style.text.content_lines <= 2) or
-				   styling.center_text == "always"
-				then "middle center"
-				else "middle left"
-		z index: 4
-		mask: walker_text_mask.png
-		padding left:   6
-		padding right:  4
-		padding bottom: 2
-		line height hard: 1.2
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: 1.3
-		line height line max: 1.6
-		visible: { has_four_abilities() and not is_level_walker()}
+		alignment: middle center
+		visible: { card.loyalty_cost_5 != "" }
+	colon 6:
+		left: 59
+		top: { abil_center(5) - 17.3 + 10 - loyal_move6() }
+		width: { if has_four_abilities() then 5 else 0 }
+		height: 10
+		z index: 6
+		font:
+			name: MPlantin
+			size: 15
+			scale down to: 15
+			color: black
+		alignment: middle center
+		visible: { card.loyalty_cost_6 != "" }
+###Curve of first textbox
+	top color:
+		left: {if is_clear() then 28 else 26}
+		top: {if is_clear() and max_level() > 4 then 288 else if has_four_abilities() then 288 else if is_clear() then 322 else 324 }
+		width: {if is_clear() then 320 else 324}
+		height: { if is_clear() and max_level() > 4 then 19 else 21 }
+		z index: 2
+		mask: mask_top.png
+###Block of first textbox
+	stripe color:
+		left: { if is_clear() then 47 else 45}
+		top: { (if has_four_abilities() then 309 else 345)-(if is_clear() then 2 else 0) }
+		width: { if is_clear() then 298 else 302}
+		bottom: { max(if force_level() == "one" then 465 else to_int(stripe01()-3)+(if is_clear() then 2 else 0), (if has_four_abilities() then 309 else 345)-(if is_clear() then 2 else 0)) }
+		z index: 2
+		mask: stripe_mask.png
 ###Bottom of first textbox
-	top stripe:
-		left: 47
-		top: {if level_four() then stripe31() else if slide_two() or two_clear() or fort_two() then stripe01() else stripe12() }
-		width: 298
+	bottom first:
+		left: { if is_clear() then 47 else 45}
+		top: { max(to_int(stripe01()-3)+(if is_clear() then 2 else 0), (if has_four_abilities() then 309 else 345)-(if is_clear() then 2 else 0)) }
+		width: { if is_clear() then 298 else 302}
 		height: 20
 		image: { (if is_clear() then "clear_" else "") + "top_stripe_test.png" }
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { slide_two() or two_clear() or fort_two() or slide_three() or slide_four() or level_three() or level_four() and not contains(styling.custom_mask, match:".png") }
+		visible: { force_level() != "one" }
 ###Top of third textbox
-	bot stripe:
-		left: 47
-		top: {if level_four() then stripe32() else stripe23() }
-		width: 298
-		height: 20
+	top third:
+		left: { if is_clear() then 47 else 45}
+		top: {to_int(stripe12()-3) }
+		width: { if is_clear() then 298 else 302}
+		height: 13
 		image: { (if is_clear() then "clear_" else "") + "bot_stripe_test.png" }
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { slide_three() or slide_four() or level_three() or level_four() and not contains(styling.custom_mask, match:".png")}
+		visible: { card.level_3_text != ""}
+###Block of third textbox
+	stripe color 2:
+		left: { if is_clear() then 47 else 45}
+		top: { to_int(stripe12()+10) }
+		width: { if is_clear() then 298 else 302}
+		bottom: { if max_level() == 3 then 465 else to_int(min(465, stripe23()-3)) }
+		z index: 2
+		mask: stripe_mask.png
+		visible: { card.level_3_text != ""}
 ###Bottom of third textbox
-	fourth stripe:
-		left: 47
-		top: {stripe33() }
-		width: 298
+	bottom third:
+		left: { if is_clear() then 47 else 45}
+		top: {to_int(min(465, stripe23()-3)) }
+		width: { if is_clear() then 298 else 302}
 		height: 20
 		image: { (if is_clear() then "clear_" else "") + "top_stripe_test.png" }
 		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { slide_four() or level_four() and not stagger_levels() and not contains(styling.custom_mask, match:".png") and not level_three()}
-###Block of first textbox
-	stripe color:
-		left: 47
-		top: { if level_four() then 309 else 345 }
-		width: 298
-		bottom: { if level_four() then stripe31() else if slide_two() or two_clear() or fort_two() then stripe01() else stripe12() }
+		visible: { max_level() > 3}
+###Top of fifth textbox
+	top fifth:
+		left: { if is_clear() then 47 else 45}
+		top: {to_int(stripe34()-3)}
+		width: { if is_clear() then 298 else 302}
+		height: 13
+		image: { (if is_clear() then "clear_" else "") + "bot_stripe_test.png" }
+		render style: image
 		z index: 2
 		mask: stripe_mask.png
-		visible: { slide_two() or two_clear() or fort_two() or slide_three() or slide_four() or level_three() or level_four() and not contains(styling.custom_mask, match:".png")}
-###Block of second textbox
-	stripe color 2:
-		left: 47
-		top: { (if level_four() then stripe32() else stripe23()) +20 }
-		width: 298
-		bottom: { if stagger_levels() then 460 else if level_four() and not level_three() then stripe33() else 460 }
+		visible: { max_level() > 4}
+###Block of fifth textbox
+	stripe color 3:
+		left: { if is_clear() then 47 else 45}
+		top: { to_int(stripe34()+10) }
+		width: { if is_clear() then 298 else 302}
+		bottom: { if max_level() == 5 then 465 else to_int(min(465, stripe45()-2)) }
 		z index: 2
 		mask: stripe_mask.png
-		visible: { slide_three() or slide_four() or level_three() or level_four() and not contains(styling.custom_mask, match:".png")}
-###Curve of first textbox
-	top color:
-		left: 26
-		top: {if is_clear() and level_four() then 288 else if level_four() then 286 else 322 }
-		width: 324
-		height: { if is_clear() and level_four() then 21 else 23 }
+		visible: { max_level() > 4 and to_int(stripe34()+10) <= 465 }
+###Bottom of fifth textbox
+	bottom fifth:
+		left: { if is_clear() then 47 else 45}
+		top: {to_int(min(465, stripe45()-2)) }
+		width: { if is_clear() then 298 else 302}
+		height: 20
+		image: { (if is_clear() then "clear_" else "") + "top_stripe_test.png" }
+		render style: image
 		z index: 2
-		mask: mask_top.png
-		visible: { slide_two() or two_clear() or fort_two() or slide_three() or slide_four() or level_three() or level_four() and not contains(styling.custom_mask, match:".png")}
+		mask: stripe_mask.png
+		visible: { max_level() == 6}
+
 ###Curve of bottom textbox
 	bottom color:
-		left: 26
-		top: 460
-		width: 323
-		height: 18
+		left: { if is_clear() then 28 else 26}
+		top: 465
+		width: {if is_clear() then 319 else 323}
+		height: 13
 		z index: 2
 		mask: mask_bot.png
-		visible: { slide_three() or level_three() or stagger_levels() and not contains(styling.custom_mask, match:".png")}
+		visible: { force_level() == "one" or max_level() == 3 or max_level() == 5}
 	auto copyright:
 		right: 350
-		top: 498
+		top: 500
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 6
 		alignment: middle right shrink-overflow
 		font:
-			name: Matrix
+			name: MPlantin
 			size: 7
 			color: white
 			weight: bold
@@ -1239,7 +1233,7 @@ extra card style:
 		z index: 1
 		render style: image
 		popup style: in place
-		image: { (if has_four_abilities() then "xcard2" else "xcard") + (if not contains(styling.use_separate_textboxes, match: "no") then "_level") + (if is_rare() and styling.holofoil_stamped_rares then "_rare") + ".png" }
+		image: { (if has_four_abilities() then "xcard2" else "xcard") + "_level" + (if is_rare() and styling.holofoil_stamped_rares then "_rare") + ".png" }
 	promo label:
 		left: 40
 		top: { if has_four_abilities() then 225 else 262 }
@@ -1259,34 +1253,43 @@ extra card style:
 		mask: {"opacfilter" + if has_four_abilities() then "_4.png" else ".png"}
 		z index: 1
 		visible: {styling.opacity != ""}
+	alias bar:
+		left: 34
+		top: 49
+		width: 307
+		height: 24
+		z index: 2
+		render style: image
+		image: {if is_clear() then "alias/xalias.png" else alias_bar()}
+		visible: {is_skinned() and not use_evobar()}
 	evobar:
-		left: {if is_skinned() then 75 else 40}
+		left: 40
 		top: 51
-		width: {if is_skinned() then 225 else card_style.alias.content_width}
+		width: {card_style.alias.content_width}
 		height: 27
 		z index: 2
 		render style: image
 		image: evobar.png
-		visible: {is_skinned() or use_evobar()}
+		visible: {use_evobar()}
 	evobar tip:
-		left: {if is_skinned() then 299.6 else 39.6 + card_style.alias.content_width}
+		left: {39.6 + card_style.alias.content_width}
 		top: 51
 		width: 36
 		height: 27
 		z index: 2
 		render style: image
 		image: evobar_tip.png
-		visible: {is_skinned() or use_evobar()}
+		visible: {use_evobar()}
 	evobar start:
-		left: {if is_skinned() then 39.4 else 31}
+		left: 31
 		top: 51
-		width: {if is_skinned() then 36 else 9}
+		width: 9
 		height: 27
 		z index: 2
 		render style: image
-		image: {if is_skinned() then "evobar_flip.png" else "evobar_start.png"}
-		mask: {if is_skinned() then "" else "evobar_mask.png"}
-		visible: {is_skinned() or use_evobar()}
+		image: evobar_start.png
+		mask: evobar_mask.png
+		visible: {use_evobar()}
 	nyx overlay:
 		left: 0
 		top: 0

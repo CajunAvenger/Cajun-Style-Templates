@@ -273,7 +273,7 @@ card field:
 card field:
 	type: text
 	name: rule text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"text")
 	show statistics: false
 	multi line: true
 	description: The rules text for the card
@@ -292,7 +292,10 @@ card field:
 	show statistics: false
 	position hint: 105
 	script:
-		combined_editor(field1: card.rule_text, separator: "<line>\n</line>", field2: card.flavor_text)
+		if mainframe_walker() then
+			mainframe_walker_text_script()
+		else
+			combined_editor(field1: card.rule_text, separator: "<line>\n</line>", field2: card.flavor_text)
 	description: The rules and flavor text for the card; use up and down arrows to switch
 ######################### Watermark
 card field:
@@ -322,7 +325,7 @@ card field:
 	type: text
 	name: level 1 text
 	default: if transfer_levels() then card.rule_text else ""
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"lv1")
 	show statistics: false
 	multi line: true
 	position hint: 110
@@ -341,7 +344,7 @@ card field:
 	type: text
 	name: level 2 text
 	default: if transfer_levels() then card.rule_text_2 else ""
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"lv2")
 	show statistics: false
 	multi line: true
 	position hint: 120
@@ -360,7 +363,7 @@ card field:
 	type: text
 	name: level 3 text
 	default: card.rule_text_3
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"lv3")
 	show statistics: false
 	multi line: true
 	position hint: 130
@@ -378,7 +381,7 @@ card field:
 card field:
 	type: text
 	name: level 4 text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"lv4")
 	show statistics: false
 	multi line: true
 	position hint: 4
@@ -746,21 +749,6 @@ card field:
 	editable: false
 	show statistics: false
 card field:
-	type: choice
-	name: rarity 3
-	icon: stats/rarity.png
-	choice: basic land
-	choice: common
-	choice: uncommon
-	choice: rare
-	choice: mythic rare
-	choice: special
-	choice: masterpiece
-	initial: common
-	# Third rarity is not locked
-	editable: true
-	show statistics: false
-card field:
 	type: multiple choice
 	name: indicator 2
 	empty choice: colorless
@@ -804,35 +792,35 @@ card field:
 card field:
 	type: text
 	name: rule text 2
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"text2")
 	show statistics: false
 	multi line: true
 	description: The rules text of the card
 card field:
 	type: text
 	name: rule text 3
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias != "" then card.alias else card.name, margin_code:"text3")
 	show statistics: false
 	multi line: true
 	description: The rules text of the card
 card field:
 	type: text
 	name: rule text 4
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"text4")
 	show statistics: false
 	multi line: true
 	description: The rules text of the card
 card field:
 	type: text
 	name: rule text 5
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"text5")
 	show statistics: false
 	multi line: true
 	description: The rules text of the card
 card field:
 	type: text
 	name: rule text 6
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"text6")
 	show statistics: false
 	multi line: true
 	description: The rules text of the card
@@ -1009,28 +997,28 @@ card field:
 card field:
 	type: text
 	name: level 5 text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv5")
 	show statistics: false
 	multi line: true
 	description: The fifth level text for the card
 card field:
 	type: text
 	name: level 6 text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv6")
 	show statistics: false
 	multi line: true
 	description: The sixth level text for the card
 card field:
 	type: text
 	name: level 7 text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv7")
 	show statistics: false
 	multi line: true
 	description: The seventh level text for the card
 card field:
 	type: text
 	name: level 8 text
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv8")
 	show statistics: false
 	multi line: true
 	description: The eighth level text for the card
@@ -1195,7 +1183,7 @@ card field:
 	name: chapter text
 	show statistics: false
 	multi line: true
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name, margin_code:"unknown")
 	default: if not a_saga() then "" else if card.rule_text != "" then card.rule_text else "<i-auto>(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)</i-auto>"
 	description: The saga reminder text
 card field:
@@ -1203,6 +1191,6 @@ card field:
 	name: chapter text 2
 	show statistics: false
 	multi line: true
-	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2)
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"unknown")
 	default: if not b_saga() then "" else "<i-auto>(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)</i-auto>"
 	description: The saga reminder text

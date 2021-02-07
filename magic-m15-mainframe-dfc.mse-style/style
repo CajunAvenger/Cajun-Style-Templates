@@ -3249,7 +3249,7 @@ extra card style:
 		render style: image
 		image: {(if is_saga() or is_plwalker() then "full_") + "voverlay.png"}
 		z index: 0
-		mask: {"nyx/" + if is_plwalker() then ((if has_four_abilities() then "4") + "pw_mask.png") else if is_saga() then "fullmask.png" else "v_mask.png"}
+		mask: {if is_plwalker() then ("nyx/" + (if has_four_abilities() then "4") + "pw_mask.png") else if is_saga() then "nyx/fullmask.png" else "vmask.png"}
 		visible: {is_vehicle()}
 	nyx overlay 2:
 		left: 377
@@ -3260,7 +3260,7 @@ extra card style:
 		image: {if back_clear() then "" else nyx_background()}
 		z index: 0
 		visible: {back_nyx()}
-		mask: {"nyx/" + (if back_walker() then ((if back_four_abilities() then "4") + "pw_") else if chosen(styling.other_options, choice:"normal back face") then "notch_") + (if is_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if back_walker() then ((if back_four_abilities() then "4") + "pw_") else if chosen(styling.other_options, choice:"normal back face") then "notch_") + (if back_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
 	miracle overlay 2:
 		left: 377
 		top: 0
