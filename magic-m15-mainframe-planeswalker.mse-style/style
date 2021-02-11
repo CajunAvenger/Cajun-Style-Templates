@@ -29,6 +29,7 @@ depends on:
 card width: 375
 card height: 523
 card dpi: 150
+########## new frames by silverback_ape
 ############################################################## Extra scripts
 init script:
 	# Should hybrids have a grey name?
@@ -80,10 +81,10 @@ init script:
 	is_normal_size := { styling.default_image_size }
 	loyal_move := { pull_comma_array(styling.shift_loyalty_costs, cell:0, end:0, default:0)}
 	loyal_move2 := { if card.level_2_text == "" or card.level_2_text == "​" then -15 else pull_comma_array(styling.shift_loyalty_costs, cell:1, end:0, default:0)}
-	loyal_move3 := { if max_level() < 2 then 30 else if card.level_3_text == "" or card.level_3_text == "​" then -5 else pull_comma_array(styling.shift_loyalty_costs, cell:2, end:0, default:0)}
-	loyal_move4 := { if max_level() < 4 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:3, end:0, default:0)}
-	loyal_move5 := { if max_level() < 5 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:4, end:0, default:0)}
-	loyal_move6 := { if max_level() < 6 then 30 else pull_comma_array(styling.shift_loyalty_costs, cell:5, end:0, default:0)}
+	loyal_move3 := { if card.level_3_text == "" or card.level_3_text == "​" then -5 else pull_comma_array(styling.shift_loyalty_costs, cell:2, end:0, default:0)}
+	loyal_move4 := { pull_comma_array(styling.shift_loyalty_costs, cell:3, end:0, default:0)}
+	loyal_move5 := { pull_comma_array(styling.shift_loyalty_costs, cell:4, end:0, default:0)}
+	loyal_move6 := { pull_comma_array(styling.shift_loyalty_costs, cell:5, end:0, default:0)}
 	is_level_walker := { true }
 	unindent := { contains(styling.other_options, match:"un-indent nonloyalty abilities")}
 
@@ -110,7 +111,7 @@ init script:
 
 	abil_center := { if card_style.text.layout.blocks[input].bottom or else 0 > 0 then
 			card_style.text.top + card_style.text.layout.blocks[input].middle + overlap_check(input)
-		else 0	
+		else -30	
 	}
 	overlap_check := {
 		if input == 0
