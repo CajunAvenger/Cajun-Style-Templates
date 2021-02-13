@@ -25,6 +25,9 @@ depends on:
 depends on:
 	package: magic-mana-small.mse-symbol-font
 	version: 2007-09-23
+depends on:
+	package: magic-mainframe-extras.mse-include
+	version: 2018-01-01
 
 card width: 375
 card height: 523
@@ -174,6 +177,10 @@ styling field:
 	name: color indicator dot 2
 	description: Use the color indicator dot for the adventure half
 	initial: no
+styling field:
+	type: boolean
+	name: use holofoil stamps
+	description: Use holofoil stamps on rares and mythics
 styling field:
 	type: boolean
 	name: grey hybrid name
@@ -460,7 +467,7 @@ card style:
 	text:
 		left: {if is_reversed() then 27 else 200}
 		top: { 328 + to_int(chop_top()) }
-		width: 143
+		width: {if is_reversed() then 157 else 143}
 		bottom: { (if is_spot() then 464 else 481) - to_int(chop_bot()) }
 		font:
 			name: MPlantin
@@ -728,6 +735,7 @@ extra card style:
 		render style: image
 		image: { card_stamp() }
 		mask: { if is_spot() then "spotmask.jpg" else "stampmask.jpg"}
+		visible: {styling.use_holofoil_stamps}
 	foil stamp:
 		left: 165
 		top: 472
@@ -737,6 +745,7 @@ extra card style:
 		visible: { is_rare() }
 		render style: image
 		image: foil_stamp.png
+		visible: {styling.use_holofoil_stamps}
 	foil layer:
 		left: 0
 		top : 0
