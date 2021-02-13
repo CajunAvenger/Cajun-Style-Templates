@@ -85,9 +85,9 @@ init script:
 	starting_loyalty := {chosen(styling.other_options, choice:"use starting loyalty")}
 	
 	is_stamped := { is_rare() and styling.holofoil_stamped_rares }
-	split_12 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:0, end:true, default:(if two_boxes() then 296 else if four_boxes() then 225 else 249)))}
-	split_23 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:1, end:true, default:(if two_boxes() then 437 else if four_boxes() then 296 else 343)))}
-	split_34 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:2, end:true, default:(if three_boxes() then 437 else if four_boxes() then 367 else 437)))}
+	split_12 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:0, end:true, default:(if one_box() then 437 else if two_boxes() then 296 else if four_boxes() then 225 else 249)))}
+	split_23 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:1, end:true, default:(if one_box() then 437 else if two_boxes() then 437 else if four_boxes() then 296 else 343)))}
+	split_34 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:2, end:true, default:(if one_box() then 437 else if three_boxes() then 437 else if four_boxes() then 367 else 437)))}
 
 	coords_map := [
 		1: {[card_style.level_1_text.top, card_style.level_1_text.bottom-card_style.level_1_text.top]},
@@ -163,6 +163,7 @@ init script:
 	}
 	saga_rules_text := { chapter3() + "|" + (if split_12() != "" then split_12() else 249) + "|" + (if split_23() != "" then split_23() else 343) }
 
+	one_box := {styling.chapter_textboxes == "one" }
 	two_boxes := {styling.chapter_textboxes == "two" }
 	three_boxes := {styling.chapter_textboxes == "three" or comma_count(styling.chapter_divider_coordinates) == ",,"}
 	four_boxes := {styling.chapter_textboxes == "four" or comma_count(styling.chapter_divider_coordinates) == ",,,"}
@@ -192,6 +193,7 @@ styling field:
 	type: choice
 	name: chapter textboxes
 	description: How many textboxes does this Saga have?
+	choice: one
 	choice: two
 	choice: three
 	choice: four
@@ -1053,54 +1055,55 @@ extra card style:
 		render style: image
 		z index: 3
 		image: line.png
+		visible: {not un_marked()}
 	linebreak 2:
-		left: 42
+		left: 30
 		top: {if split_12() == "" then 248 else split_12()-1}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 3
 		image: line.png
 	linebreak 3:
-		left: 42
+		left: 30
 		top: {if split_23() == "" then 342 else split_23()-1}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 6
 		image: line.png
 		visible: {three_boxes() or four_boxes()}
 	linebreak 4:
-		left: 42
+		left: 30
 		top: {if split_34() == "" then 600 else split_34()-1}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 5:
-		left: 42
+		left: 30
 		top: {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:3, end:true, default:600))}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 6:
-		left: 42
+		left: 30
 		top: {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:4, end:true, default:600))}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 7:
-		left: 42
+		left: 30
 		top: {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:5, end:true, default:600))}
-		width: 144
+		width: 156
 		height: 3
 		render style: image
 		z index: 3
