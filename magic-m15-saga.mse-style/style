@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "" pt: "" stamp: "" nyx:"nyx/", crown:"legend/" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" pt:"pt.png" stamp: "stamp.jpg" nyx:"nyx.png", crown:"crown.png" identity: "identity.png"]
+	template_prefix := [card: "" pt: "" stamp: "" mark: "bookmark/" nyx:"nyx/", crown:"legend/" identity: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" pt:"pt.png" mark: "mark.png" stamp: "stamp.jpg" nyx:"nyx.png", crown:"crown.png" identity: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -87,15 +87,47 @@ init script:
 	is_stamped := { is_rare() and styling.holofoil_stamped_rares }
 	split_12 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:0, end:true, default:(if two_boxes() then 296 else if four_boxes() then 225 else 249)))}
 	split_23 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:1, end:true, default:(if two_boxes() then 437 else if four_boxes() then 296 else 343)))}
-	split_34 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:2, end:true, default:(if three_boxes() then 437 else if four_boxes() then 367 else 600)))}
+	split_34 := {to_number(pull_comma_array(styling.chapter_divider_coordinates, cell:2, end:true, default:(if three_boxes() then 437 else if four_boxes() then 367 else 437)))}
 
-	chapter1 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:0, end:true, default:(if two_boxes() then 183 else 185))) }
-	chapter2 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:1, end:true, default:(if two_boxes() then 223 else 279))) }
-	chapter3 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:2, end:true, default:(if two_boxes() then 329 else 373))) }
-	chapter4 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:3, end:true, default:600)) }
-	chapter5 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:4, end:true, default:600)) }
-	chapter6 := { to_number(pull_comma_array(styling.chapter_number_coordinates, cell:5, end:true, default:600)) }
-	chapter_custom := { to_number(pull_comma_array(styling.custom_chapter_coordinate, cell:0, end:false, default:600)) }
+	coords_map := [
+		1: {[card_style.level_1_text.top, card_style.level_1_text.bottom-card_style.level_1_text.top]},
+		2: {[card_style.level_2_text.top, card_style.level_2_text.bottom-card_style.level_2_text.top]},
+		3: {[card_style.level_3_text.top, card_style.level_3_text.bottom-card_style.level_3_text.top]},
+		4: {[card_style.level_4_text.top, card_style.level_4_text.bottom-card_style.level_4_text.top]},
+		5: {[card_style.level_5_text.top, card_style.level_5_text.bottom-card_style.level_5_text.top]}
+	]
+	auto_snap := {
+		out := 0
+		snap_array := split_text(replace(styling.snap_chapter_to_box, match:",[^,]+$", replace:","), match:",")
+		abil := to_number(pull_comma_array(styling.snap_chapter_to_box, cell:input-1, end:true))					###textbox to snap too
+		abil_array := saga_lore_count(snap_array)																	###chapters in each box
+		ch_count := abil_array[abil-1]																				###chapters in this box
+		self_index := saga_ch_placement(snap_array)[input-1]														###input's index
+		box_deets := coords_map[abil]()																				###[top, height]
+		remain := box_deets[1] - 30*ch_count																		###remaining space after chapter hexes
+		excess := remain - 10*(ch_count-1)																			###remaining after 10px gaps
+		if excess >= 0 then out := box_deets[0] + excess/2 + 40*(self_index-1)										###top + buffer*index + hex*index-1
+		else (																										###may not be enough room to ten-gap the middle
+			inner_gap := 10
+			squeeze := 0
+			outer_gap := (remain - inner_gap * (ch_count-1))/2
+			if outer_gap < -6 then (
+				squeeze := 2*(outer_gap+6)/(ch_count-1);
+				outer_gap := -6
+			)
+			inner_gap := inner_gap + squeeze
+			out := box_deets[0] + outer_gap + (self_index-1)*(30+inner_gap)
+		)
+		out
+	}
+
+	chapter1 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:0, end:true)) > 0 then auto_snap(1) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:0, end:true, default:(if two_boxes() then 183 else 185))) }
+	chapter2 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:1, end:true)) > 0 then auto_snap(2) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:1, end:true, default:(if two_boxes() then 223 else 279))) }
+	chapter3 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:2, end:true)) > 0 then auto_snap(3) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:2, end:true, default:(if two_boxes() then 329 else 373))) }
+	chapter4 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:3, end:true)) > 0 then auto_snap(4) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:3, end:true, default:600)) }
+	chapter5 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:4, end:true)) > 0 then auto_snap(5) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:4, end:true, default:600)) }
+	chapter6 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:5, end:true)) > 0 then auto_snap(6) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:5, end:true, default:600)) }
+	chapter_custom := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:6, end:true)) > 0 then auto_snap(7) else to_number(pull_comma_array(styling.custom_chapter_coordinate, cell:0, end:false, default:600)) }
 	custom_chapter_node := {if contains(styling.custom_chapter_location, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_chapter_location else "chapter6.png"}
 	custom_name := {if styling.custom_chapter_name == "" then "C" else styling.custom_chapter_name}
 
@@ -139,8 +171,10 @@ init script:
 	a_saga := {true}
 	is_nyx := {contains(styling.other_options, match:"nyx")}
 	is_vehicle := {contains(styling.other_options, match:"vehicle")}
+	un_marked := {contains(styling.other_options, match:"remove bookmark")}
 	is_legend := {set.auto_legends and contains(card.super_type, match:"Legendary") }
 	nyx_background := { color_background(type:"nyx",     base_hybrid:card_hybrid) }
+	bookmark_background := { color_background(type:"mark",     base_hybrid:card_hybrid) }
 	crown_background := { color_background(type:"crown", base_hybrid: card_hybrid)}
 	alt_loc := { if styling.replacement_chapter_location != "" then styling.replacement_chapter_location else "no"}
 	alt_chapters := { (if match(styling.replacement_chapter_location, match:"/$") then "/magic-mainframe-extras.mse-include/" + styling.replacement_chapter_location else "") + "chapter" + input + ".png"}
@@ -164,12 +198,16 @@ styling field:
 	initial: three
 styling field:
 	type: text
-	name: chapter number coordinates
-	description: Sets the chapter symbols at the given height. Formatted as "1,2,3," Defaults are "183,223,329," for two and "185,279,373," for three. Use 40px offset.
+	name: snap chapter to box
+	description: Sets the chapter symbols to the given textbox, fo example "1,1,2," for I, II - Ability 1; III - Ability 2
 styling field:
 	type: text
 	name: chapter divider coordinates
 	description: Sets the position of the chapter breaks. Formatted as "1,2," Defaults are "296," for two "249,343," for three and "225,296,367," for four.
+styling field:
+	type: text
+	name: chapter number coordinates
+	description: Sets the chapter symbols at the given height. Formatted as "1,2,3," Defaults are "183,223,329," for two and "185,279,373," for three. Use 40px offset.
 styling field:
 	type: text
 	name: custom chapter location
@@ -192,6 +230,7 @@ styling field:
 	choice: nyx
 	choice: vehicle
 	choice: use starting loyalty
+	choice: remove bookmark
 styling field:
 	type: text
 	name: shrink name text
@@ -364,7 +403,7 @@ card style:
 		padding top: 0
 	card symbol:
 		left: {if card.card_symbol=="none" then 20 else 29}
-		top: 23
+		top: 31
 		height: 18
 		width: 14
 		z index: 1
@@ -456,7 +495,7 @@ card style:
 		left: 30
 		top: 60
 		width: 153
-		height: 96
+		height: {if un_marked() then 0 else 96}
 		z index: 3
 		font:
 			name: MPlantin
@@ -476,7 +515,7 @@ card style:
 				   styling.center_text == "always"
 				then "middle center"
 				else "middle left"
-		mask: textmask.png
+		mask: {if un_marked() then "" else "textmask.png"}
 		z index: 5
 		padding left:   3
 		padding right:  1
@@ -487,9 +526,9 @@ card style:
 		line height line max: 1.6
 	############################# Levels
 	level 1 text:
-		left: 45
-		top: 155
-		width: 138
+		left: {if un_marked() then 30 else 45}
+		top: { if un_marked() then 60 else 155}
+		width: { if un_marked() then 153 else 138}
 		bottom: { if split_12() == "" then 249 else split_12() }
 		font:
 			name: MPlantin
@@ -520,9 +559,9 @@ card style:
 		line height hard max: 1.3
 		line height line max: 1.6
 	level 2 text:
-		left: 45
+		left: {if un_marked() then 30 else 45}
 		top: { if split_12() == "" then 249 else split_12() }
-		width: 138
+		width: { if un_marked() then 153 else 138}
 		bottom: { if split_23() == "" then 343 else split_23() }
 		font:
 			name: MPlantin
@@ -553,9 +592,9 @@ card style:
 		line height hard max: 1.3
 		line height line max: 1.6
 	level 3 text:
-		left: 45
+		left: {if un_marked() then 30 else 45}
 		top: { if split_23() == "" then 343 else split_23() }
-		width: 138
+		width: { if un_marked() then 153 else 138}
 		bottom: {if split_34() == "" then 437 else split_34() }
 		font:
 			name: MPlantin
@@ -586,9 +625,9 @@ card style:
 		line height hard max: 1.3
 		line height line max: 1.6
 	level 4 text:
-		left: 45
+		left: {if un_marked() then 30 else 45}
 		top: {if split_34() == "" then 437 else split_34() }
-		width: 138
+		width: { if un_marked() then 153 else 138}
 		bottom: 437
 		font:
 			name: MPlantin
@@ -734,6 +773,12 @@ extra card field:
 	show statistics: false
 extra card field:
 	type: choice
+	name: bookmark
+	script: card.card_color
+	editable: false
+	save value: false
+extra card field:
+	type: choice
 	name: chapter 1
 	choice: chapter
 	editable: false
@@ -860,7 +905,13 @@ extra card field:
 	editable: false
 	save value: false
 	show statistics: false
-
+extra card field:
+	type: choice
+	name: stripe
+	choice: stripe
+	editable: false
+	save value: false
+	show statistics: false
 extra card style:
 	card code:
 		left: 24
@@ -939,6 +990,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("1")}
+		visible: {not un_marked()}
 	chapter 2:
 		left: 14
 		top: { if chapter2() == "" then 279 else chapter2() }
@@ -947,6 +999,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("2")}
+		visible: {not un_marked()}
 	chapter 3:
 		left: 14
 		top: { if chapter3() == "" then 373 else chapter3() }
@@ -955,6 +1008,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("3")}
+		visible: {not un_marked()}
 	chapter 4:
 		left: 14
 		top: { if chapter4() == "" then 600 else chapter4() }
@@ -963,6 +1017,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("4")}
+		visible: {not un_marked()}
 	chapter 5:
 		left: 14
 		top: { if chapter5() == "" then 600 else chapter5() }
@@ -971,6 +1026,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("5")}
+		visible: {not un_marked()}
 	chapter 6:
 		left: 14
 		top: { if chapter6() == "" then 600 else chapter6() }
@@ -979,6 +1035,7 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {alt_chapters("6")}
+		visible: {not un_marked()}
 	chapter custom:
 		left: 14
 		top: { if chapter_custom() == "" then 600 else chapter_custom() }
@@ -987,13 +1044,14 @@ extra card style:
 		render style: image
 		z index: 5
 		image: {custom_chapter_node()}
+		visible: {not un_marked()}
 	linebreak 1:
-		left: 43
+		left: 30
 		top: 154
-		width: 143
+		width: 156
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 	linebreak 2:
 		left: 42
@@ -1001,7 +1059,7 @@ extra card style:
 		width: 144
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 	linebreak 3:
 		left: 42
@@ -1018,7 +1076,7 @@ extra card style:
 		width: 144
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 5:
@@ -1027,7 +1085,7 @@ extra card style:
 		width: 144
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 6:
@@ -1036,7 +1094,7 @@ extra card style:
 		width: 144
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	linebreak 7:
@@ -1045,7 +1103,7 @@ extra card style:
 		width: 144
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 		visible: {four_boxes()}
 	nyx overlay:
@@ -1065,6 +1123,7 @@ extra card style:
 		height: 523
 		render style: image
 		image: voverlay_full.png
+		mask: nyx/fullmask.png
 		z index: 0
 		visible: {is_vehicle()}
 	crown:
@@ -1076,4 +1135,21 @@ extra card style:
 		image: {crown_background()}
 		z index: 3
 		visible: {is_legend()}
-
+	bookmark:
+		left: 15
+		top: 60
+		width: 27
+		height: 372
+		render style: image
+		image: {bookmark_background()}
+		z index: 4
+		visible: {not un_marked()}
+	stripe:
+		left: 15
+		top: 60
+		width: 27
+		height: 372
+		render style: image
+		image: bookmark/stripe.png
+		z index: 4
+		visible: {length(write_wubrg(card.card_color))==2 and not un_marked()}
