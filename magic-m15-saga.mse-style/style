@@ -1070,7 +1070,7 @@ extra card style:
 		width: 156
 		height: 3
 		render style: image
-		z index: 6
+		z index: 3
 		image: line.png
 		visible: {three_boxes() or four_boxes()}
 	linebreak 4:
