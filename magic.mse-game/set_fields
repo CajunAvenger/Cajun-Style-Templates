@@ -39,6 +39,10 @@ set field:
 	name: masterpiece symbol
 	description: The symbol for this sets masterpieces, click to edit
 set field:
+	type: boolean
+	name: shorten types for rarity
+	description: Makes the typeline not run into the rarity symbol. Disable if you don't use rarity symbols.
+set field:
 	type: info
 	name: Watermark links
 set field:
@@ -82,6 +86,14 @@ set field:
 	name: custom watermark 10
 	description: Set this image in magic-watermarks.mse-include as Custom Watermark 10
 set field:
+	type: text
+	name: insert 1
+	description: text to replace INSERT1 with
+set field:
+	type: text
+	name: insert 2
+	description: text to replace INSERT2 with
+set field:
 	type: info
 	name: Defaults and Automation
 set field:
@@ -124,7 +136,7 @@ set field:
 set field:
 	type: text
 	name: card number offsets
-	description: Add this number the the card numbers. Formatted as "start,total"
+	description: Add this number to the card numbers. Formatted as "start,total"
 set field:
 	type: boolean
 	name: automatic copyright
@@ -176,6 +188,7 @@ set field:
 	choice: English
 	choice: Français
 	choice: Russian
+	choice: Italiano
 	initial: English
 set field:
 	type: boolean
@@ -377,7 +390,6 @@ default set style:
 		choice images:
 			English:  /magic.mse-game/icons/language-en.png
 			Français: /magic.mse-game/icons/language-fr.png
-			Russian: /magic.mse-game/icons/language-ru.png
 	mana symbol options:
 		render style: checklist
 		direction: vertical
