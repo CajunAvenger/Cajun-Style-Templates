@@ -443,7 +443,7 @@ protection_code := {
 	if match(output, match:"anything [A-Z]") then output := replace(output, match:"anything ", replace:"")
 	if match(output, match:"or les") then output := replace(output, match:"or les$", replace:"or less")
 	if match(output, match:"(anything )?everything") then output := replace(output, match:"(anything )?everything", replace:"anything")
-	output := (if self_pro_check(card.text) then "You can't be" else if is_spell(card.type) then "It can't be" else if is_creature(card.type) then "This creature can't be blocked," else "This permanent can't be") + output
+	output := (if self_pro_check(card.text) then "You can't be" else if is_spell(card.type) then "It can't be blocked," else if is_creaturish(card.type) then "This creature can't be blocked," else "This permanent can't be") + output
 	output
 }
 self_pro_check := match@(match:"You ha(ve|s) <kw-A><nospellcheck>protection")
