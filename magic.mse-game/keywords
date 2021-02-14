@@ -201,7 +201,7 @@ keyword:
 	keyword: Protection from
 	match: Protection from <atom-param>name</atom-param>
 	mode: expert
-	reminder: This {if has_pt() then "creature" else "permanent"} can't be blocked, targeted, dealt damage, enchanted, or equipped by anything {replace(english_singular(param1), match:"and from", replace:"or", in_context:" <match> ")}.
+	reminder: {protection_code(param1.value)}.
 keyword:
 	keyword: Regeneration
 	match: Regenerate

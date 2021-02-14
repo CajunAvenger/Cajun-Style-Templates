@@ -182,6 +182,9 @@ is_sorcery     := match@(match: "(?i)Sorcery")
 is_instant     := match@(match: "(?i)Instant")
 is_planeswalker := match@(match: "(?i)Planeswalker")
 is_legendary := match@(match: "(?i)Legendary")
+match_vehicle := contains@(match:"Vehicle")
+match_snow := contains@(match:"Snow")
+
 # The color of a card
 card_color := {
 	# usually the color of mana
@@ -415,26 +418,35 @@ combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
 	replace@(match:"^[VLHSCETQ\\?XYZIWUBRG0-9/|]+", in_context: "(^|[[:space:]])<match>(?![a-z])", replace: "<sym-auto>&</sym-auto>")+
 	replace@(match:"^[A-Z]", replace: { to_lower() })
 protection_code := {
-	 output := if match(input, match:"(artifacts|creatures|enchantments|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies)") then replace(input, match:"and from", replace:"or", in_context:" <match> ")
+	 output := if match(input, match:"(artifacts|creatures|enchantments|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies|^[A-Z]|^[^ ]* named)") then replace(input, match:"and from", replace:"or", in_context:" <match> ")
+		else if match(input, match:"^(converted|mana|power|toughness)") then "anything with " + replace(input, match:"and from", replace:"or", in_context:" <match> ")
 		else if contains(input, match:"the chosen player") then "anything " + replace(input, match:"the chosen", replace:"controlled by that")
-		else if contains(input, match:"the chosen") then "anything " + replace(input, match:"the chosen", replace:"that")
+		else if contains(input, match:"the chosen") then "anything with " + replace(input, match:"the chosen", replace:"that")
 		else if contains(input, match:"all colors") then "anything " + replace(input, match:"all colors", replace:"that's white, blue, black, red, or green")
+		else if match(input, match:"^you$") then "anything you control"
+		else if match(input, match:"^its owner$") then "anything its owner controls"
 		else if match(input, match:"^(each of )?your opponents$") then "anything " + replace(input, match:"(each of )?your opponents", replace:"controlled by those players")
 		else if match(input, match:"(the|a) [^\n]* of your choice") then "anything " + replace(input, match:"(the|a) ([^\n]*) of your choice", replace:"of that \\2")
 		else "anything " + replace(english_singular(input), match:"and from", replace:"or", in_context:" <match> ")
-	output := "blocked, targeted, dealt damage, enchanted, equipped by " + output
-	if match(output, match:"(artifacts|creatures|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies)") and not match(output, match:"enchantments") then
+	output := " targeted, dealt damage, enchanted, equipped by " + output
+	if match(output, match:"(artifacts|creatures|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies|by [A-Z])") and not match(output, match:"(enchantmentsAura|Curse)") then
 		output := replace(output, match:", enchanted", replace:"")
 		else output := output
-	if match(output, match:"(enchantments|creatures|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies)") and not match(output, match:"artifacts") then
+	if match(output, match:"(enchantments|creatures|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies|by [A-Z])") and not match(output, match:"(artifacts|Equipment)") then
 		output := replace(output, match:" equipped", replace:"")
 		else output := output
 	if match(output, match:"equipped by") then output := replace(output, match:"equipped by", replace:"or equipped by")
 	else if match(output, match:"enchanted, by") then output := replace(output, match:"enchanted, by", replace:"or enchanted by")
 	else if match(output, match:"dealt damage, by") then output := replace(output, match:"dealt damage, by", replace:"or dealt damage by")
 	else ""
+	if match(output, match:"^ targeted, or dealt damage by") then output := replace(output, match:"^ targeted, or dealt damage by", replace:" targeted or dealt damage by")
+	if match(output, match:"anything [A-Z]") then output := replace(output, match:"anything ", replace:"")
+	if match(output, match:"or les") then output := replace(output, match:"or les$", replace:"or less")
+	if match(output, match:"(anything )?everything") then output := replace(output, match:"(anything )?everything", replace:"anything")
+	output := (if self_pro_check(card.text) then "You can't be" else if is_spell(card.type) then "It can't be" else if is_creature(card.type) then "This creature can't be blocked," else "This permanent can't be") + output
 	output
 }
+self_pro_check := match@(match:"You ha(ve|s) <kw-A><nospellcheck>protection")
 long_dash := replace@(match:"-", replace:"—")
 
 # Utilities for keywords
