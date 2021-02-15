@@ -1329,7 +1329,7 @@ extra card style:
 		image: {snow_texture()}
 		z index: 1
 		mask: {"snow/snow_" + (if is_full_art() then "promo" else "fnm") + "_mask.png"}
-		visible: {is_snow() and not pure_snow()}
+		visible: {is_snow() and not pure_snow() and not is_expanded_art()}
 	vehicle overlay:
 		left: 0
 		top: 0
