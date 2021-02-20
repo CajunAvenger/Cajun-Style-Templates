@@ -34,8 +34,8 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	
-	template_prefix := [card: "" pt: "" stamp: "" mark: "bookmark/" nyx:"nyx/", crown:"legend/" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" pt:"pt.png" mark: "mark.png" stamp: "stamp.jpg" nyx:"nyx.png", crown:"crown.png" identity: "identity.png"]
+	template_prefix := [card: "" snowtexture: "snow/" pt: "" stamp: "" mark: "bookmark/" nyx:"nyx/", crown:"legend/" identity: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" snowtexture:"snow.png" pt:"pt.png" mark: "mark.png" stamp: "stamp.jpg" nyx:"nyx.png", crown:"crown.png" identity: "identity.png"]
 	template      := { crown_lead(type) + template_prefix[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -120,7 +120,7 @@ init script:
 		)
 		out
 	}
-
+	chapter0 := { if styling.reminder_coordinate != "" then max(60,min(to_number(styling.reminder_coordinate),438)) else 155}
 	chapter1 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:0, end:true)) > 0 then auto_snap(1) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:0, end:true, default:(if two_boxes() then 183 else 185))) }
 	chapter2 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:1, end:true)) > 0 then auto_snap(2) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:1, end:true, default:(if two_boxes() then 223 else 279))) }
 	chapter3 := { if to_number(pull_comma_array(styling.snap_chapter_to_box, cell:2, end:true)) > 0 then auto_snap(3) else to_number(pull_comma_array(styling.chapter_number_coordinates, cell:2, end:true, default:(if two_boxes() then 329 else 373))) }
@@ -170,11 +170,14 @@ init script:
 	use_main_rarity := { contains(styling.mainframe_rarity, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
 	a_saga := {true}
+	saga_reminder := { if styling.alternate_reminder != "" then styling.alternate_reminder else "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 	is_nyx := {contains(styling.other_options, match:"nyx")}
+	is_snow := {contains(styling.other_options, match:"snow")}
 	is_vehicle := {contains(styling.other_options, match:"vehicle")}
 	un_marked := {contains(styling.other_options, match:"remove bookmark")}
 	is_legend := {set.auto_legends and contains(card.super_type, match:"Legendary") }
 	nyx_background := { color_background(type:"nyx",     base_hybrid:card_hybrid) }
+	snow_background := { color_background(type:"snowtexture",     base_hybrid:card_hybrid) }
 	bookmark_background := { color_background(type:"mark",     base_hybrid:card_hybrid) }
 	crown_background := { color_background(type:"crown", base_hybrid: card_hybrid)}
 	alt_loc := { if styling.replacement_chapter_location != "" then styling.replacement_chapter_location else "no"}
@@ -208,28 +211,29 @@ styling field:
 	description: Sets the position of the chapter breaks. Formatted as "1,2," Defaults are "296," for two "249,343," for three and "225,296,367," for four.
 styling field:
 	type: text
-	name: chapter number coordinates
-	description: Sets the chapter symbols at the given height. Formatted as "1,2,3," Defaults are "183,223,329," for two and "185,279,373," for three. Use 40px offset.
+	name: reminder coordinate
+	description: Sets the position of the chapter breaks. Formatted as "1,2," Defaults are "296," for two "249,343," for three and "225,296,367," for four.
+styling field:
+	type: text
+	name: separated text size
+	description: Use to standardize the font size of separated abilities. Default is size 13.
+styling field:
+	type: text
+	name: alternate reminder
+	description: Change the reminder text that is generated for new cards
 styling field:
 	type: text
 	name: custom chapter location
 	description: The location of the custom chapter symbol inside magic-mainframe-extras
 styling field:
 	type: text
-	name: custom chapter coordinate
-	description: Set the custom symbol at the given height
-styling field:
-	type: text
 	name: custom chapter name
 	description: Set how this symbol will be called in text exports (ie I, II...). Default is C.
-styling field:
-	type: text
-	name: separated text size
-	description: Use to standardize the font size of separated abilities. Default is size 13.
 styling field:
 	type: multiple choice
 	name: other options
 	choice: nyx
+	choice: snow
 	choice: vehicle
 	choice: use starting loyalty
 	choice: remove bookmark
@@ -257,6 +261,14 @@ styling field:
 	type: text
 	name: replacement chapter location
 	description: location of replacement chapter symbols in magic-mainframe-extras, formatted as "folder/"
+styling field:
+	type: text
+	name: chapter number coordinates
+	description: Sets the chapter symbols at the given height. Formatted as "1,2,3," Defaults are "183,223,329," for two and "185,279,373," for three. Use 40px offset.
+styling field:
+	type: text
+	name: custom chapter coordinate
+	description: Set the custom symbol at the given height
 styling field:
 	type: boolean
 	name: wider watermarks
@@ -497,7 +509,7 @@ card style:
 		left: 30
 		top: 60
 		width: 153
-		height: {if un_marked() then 0 else 96}
+		bottom: {if un_marked() then 60 else chapter0()}
 		z index: 3
 		font:
 			name: MPlantin
@@ -517,7 +529,7 @@ card style:
 				   styling.center_text == "always"
 				then "middle center"
 				else "middle left"
-		mask: {if un_marked() then "" else "textmask.png"}
+		mask: {if un_marked() then "" else crop(to_image("textmask.png"), height:chapter0()-60, width:153, offset_x:0, offset_y:0)}
 		z index: 5
 		padding left:   3
 		padding right:  1
@@ -529,7 +541,7 @@ card style:
 	############################# Levels
 	level 1 text:
 		left: {if un_marked() then 30 else 45}
-		top: { if un_marked() then 60 else 155}
+		top: { if un_marked() then 60 else chapter0()}
 		width: { if un_marked() then 153 else 138}
 		bottom: { if split_12() == "" then 249 else split_12() }
 		font:
@@ -889,6 +901,13 @@ extra card field:
 	show statistics: false
 extra card field:
 	type: choice
+	name: snow overlay
+	choice: snow
+	save value: false
+	editable: false
+	script: card.card_color
+extra card field:
+	type: choice
 	name: vehicle overlay
 	choice: car door
 	save value: false
@@ -1049,7 +1068,7 @@ extra card style:
 		visible: {not un_marked()}
 	linebreak 1:
 		left: 30
-		top: 154
+		top: {chapter0()}
 		width: 156
 		height: 3
 		render style: image
@@ -1118,7 +1137,17 @@ extra card style:
 		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
-		mask: {"nyx/" + (if is_vehicle() then "v_") + "fullmask.png"}
+		mask: {"nyx/" + (if is_vehicle() or is_snow() then "v_") + "fullmask.png"}
+	snow overlay:
+		left: 0
+		top: 0
+		width: 375
+		height: 523
+		render style: image
+		image: {snow_background()}
+		z index: 0
+		visible: {is_snow()}
+		mask: {"snow/snow_mask.png"}
 	vehicle overlay:
 		left: 0
 		top: 0

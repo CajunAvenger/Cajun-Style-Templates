@@ -95,7 +95,7 @@ choice images:
 	other magic symbols color pie:				/magic-watermarks.mse-include/colorpie.png
 	other magic symbols conspiracy stamp:			script: set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/conspiracy_stamp.png")
 	other magic symbols story spotlight:			script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/planeswalker.png"))
-	other magic symbols color spotlight: 			script: spotlight_watermark_blend()	
+	other magic symbols color spotlight: 			script: spotlight_watermark_blend("/magic-watermarks.mse-include/planeswalker.png")	
 	other magic symbols jace consortium:			script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/jace-consortium.png"))
 	other magic symbols phyrexia:			script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/phyrexia.png"))
 	other magic symbols seekers of carmot:			script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/seekersofcarmot.png"))
@@ -121,16 +121,22 @@ choice images:
 	alara symbols colored Jund:			script: set_combine(combine:"shadow", input:"/magic-watermarks.mse-include/watermark_jund_colored.png")
 	alara symbols colored Naya:			script: set_combine(combine:"shadow", input:"/magic-watermarks.mse-include/watermark_naya_colored.png")
 
-	custom watermark one:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_1()))
-	custom watermark two:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_2()))
-	custom watermark three:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_3()))
-	custom watermark four:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_4()))
-	custom watermark five:  	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_5()))
-	custom watermark six:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_6()))
-	custom watermark seven:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_7()))
-	custom watermark eight:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_8()))
-	custom watermark nine:    	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_9()))
-	custom watermark ten:  	script: set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_10()))
+	college symbols Silverquill:	script: spotlight_watermark_blend("/magic-watermarks.mse-include/watermark_strix_silverquill.png")
+	college symbols Prismari:	script: spotlight_watermark_blend("/magic-watermarks.mse-include/watermark_strix_prismari.png")
+	college symbols Witherbloom:	script: spotlight_watermark_blend("/magic-watermarks.mse-include/watermark_strix_witherbloom.png")
+	college symbols Lorehold:	script: spotlight_watermark_blend("/magic-watermarks.mse-include/watermark_strix_lorehold.png")
+	college symbols Quandrix:	script: spotlight_watermark_blend("/magic-watermarks.mse-include/watermark_strix_quandrix.png")
+
+	custom watermark one:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_1()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_1()))
+	custom watermark two:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_2()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_2()))
+	custom watermark three:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_3()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_3()))
+	custom watermark four:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_4()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_4()))
+	custom watermark five:  	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_5()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_5()))
+	custom watermark six:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_6()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_6()))
+	custom watermark seven:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_7()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_7()))
+	custom watermark eight:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_8()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_8()))
+	custom watermark nine:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_9()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_9()))
+	custom watermark ten:  		script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_10()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_10()))
 
 	set symbol:
 		{ set_combine(combine:"shadow",

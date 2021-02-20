@@ -639,7 +639,7 @@ keyword:
 	keyword: Clash
 	match: Clash
 	mode: action
-	reminder: Each clashing player reveals the top card of his or her library, then puts that card on the top or bottom. A player wins if his or her card had a higher converted mana cost.
+	reminder: Each clashing player reveals the top card of their library, then puts that card on the top or bottom. A player wins if their card had a higher converted mana cost.
 keyword:
 	keyword: Changeling
 	match: Changeling
@@ -980,7 +980,7 @@ keyword:
 	keyword: Parley
 	match: Parley
 	mode: pseudo
-	rules: Parley — Each player reveals the top card of his or her library. For each nonland card revealed this way, [effect]. Then each player draws a card.
+	rules: Parley — Each player reveals the top card of their library. For each nonland card revealed this way, [effect]. Then each player draws a card.
 # Khans of Tarkir
 keyword:
 	keyword: Outlast
@@ -1071,7 +1071,7 @@ keyword:
 	keyword: Ingest
 	match: Ingest
 	mode: expert
-	reminder: Whenever this creature deals combat damage to a player, that player exiles the top card of his or her library.
+	reminder: Whenever this creature deals combat damage to a player, that player exiles the top card of their library.
 keyword:
 	keyword: Rally
 	match: Rally
@@ -1087,7 +1087,7 @@ keyword:
 	keyword: Myriad
 	match: Myriad
 	mode: expert
-	reminder: Whenever this creature attacks, for each opponent other than defending player, you may create a token that's a copy of this creature that's tapped and attacking that player or a planeswalker he or she controls. If one or more tokens are created this way, exile the tokens at end of combat.
+	reminder: Whenever this creature attacks, for each opponent other than defending player, you may create a token that's a copy of this creature that's tapped and attacking that player or a planeswalker they control. If one or more tokens are created this way, exile the tokens at end of combat.
 # Oath of the Gatewatch
 keyword:
 	keyword: Surge

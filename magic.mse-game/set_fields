@@ -86,16 +86,17 @@ set field:
 	name: custom watermark 10
 	description: Set this image in magic-watermarks.mse-include as Custom Watermark 10
 set field:
-	type: text
-	name: insert 1
-	description: text to replace INSERT1 with
-set field:
-	type: text
-	name: insert 2
-	description: text to replace INSERT2 with
+	type: boolean
+	name: blend with colors
+	initial: no
+	description: Only works for 500x500 px watermarks. For best results, use a solid black watermark. Blend watermarks with card colors instead of a solid color.
 set field:
 	type: info
 	name: Defaults and Automation
+set field:
+	type: text
+	name: inserts
+	description: List of strings, separated by ;, that replaces INS1, INS2, ... INS9. May need to reload MSE for changes to take effect.
 set field:
 	type: color
 	name: border color
@@ -198,6 +199,11 @@ set field:
 	type: boolean
 	name: auto correct
 	description: Applies auto correct for a few common syntax errors.
+set field:
+	type: boolean
+	name: auto errata
+	description: Applies auto errata for a changed rules text.
+	initial: no
 set field:
 	type: boolean
 	name: alias as cardname

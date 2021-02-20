@@ -140,7 +140,13 @@ choice:
 		choice: Grixis
 		choice: Jund
 		choice: Naya
-
+choice:
+	name: college symbols
+	choice: Silverquill
+	choice: Prismari
+	choice: Witherbloom
+	choice: Lorehold
+	choice: Quandrix
 choice:
 	name: custom watermark
 	choice: one

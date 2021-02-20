@@ -47,16 +47,22 @@ auto replace:
 	replace: As an additional cost to cast
 auto replace:
 	match: CMC
-	replace: converted mana cost
+	replace: mana value
+auto replace:
+	match: cmc
+	replace: mana value
+auto replace:
+	match: mv
+	replace: mana value
 auto replace:
 	match: ETT
 	replace: End the turn.
 auto replace:
 	match: @
-	replace: LEGENDNAME
+	replace: LEGENDNAME>
 auto replace:
 	match: ~
-	replace: CARDNAME
+	replace: CARDNAME>
 auto replace:
 	match: '
 	replace: ’
@@ -74,6 +80,9 @@ auto replace:
 	replace: CARDNAME enters the battlefield tapped.
 auto replace:
 	match: ETB
+	replace: enters the battlefield
+auto replace:
+	match: etb
 	replace: enters the battlefield
 auto replace:
 	match: battlefieldA
@@ -388,7 +397,7 @@ auto replace:
 	replace: Whenever you cast a noncreature spell, 
 auto replace:
 	match: CCMC
-	replace: Counter target spell with converted mana cost X.
+	replace: Counter target spell with mana value X.
 auto replace:
 	match: UNMORPH
 	replace: When CARDNAME is turned face up,
@@ -1072,22 +1081,22 @@ auto replace:
 	replace: ([H/G] can be paid with either [G] or 2 life.)
 auto replace:
 	match: twoW
-	replace: ([2/W] can be paid with any two mana or with [W]. This card's converted mana cost is )
+	replace: ([2/W] can be paid with any two mana or with [W]. This card's mana value is )
 auto replace:
 	match: twoU
-	replace: ([2/U] can be paid with any two mana or with [U]. This card's converted mana cost is )
+	replace: ([2/U] can be paid with any two mana or with [U]. This card's mana value is )
 auto replace:
 	match: twoB
-	replace: ([2/B] can be paid with any two mana or with [B]. This card's converted mana cost is )
+	replace: ([2/B] can be paid with any two mana or with [B]. This card's mana value is )
 auto replace:
 	match: twoR
-	replace: ([2/R] can be paid with any two mana or with [R]. This card's converted mana cost is )
+	replace: ([2/R] can be paid with any two mana or with [R]. This card's mana value is )
 auto replace:
 	match: twoG
-	replace: ([2/G] can be paid with any two mana or with [G]. This card's converted mana cost is )
+	replace: ([2/G] can be paid with any two mana or with [G]. This card's mana value is )
 auto replace:
 	match: twoC
-	replace: ([2/C] can be paid with any two mana or with [C]. This card's converted mana cost is )
+	replace: ([2/C] can be paid with any two mana or with [C]. This card's mana value is )
 auto replace:
 	match: HWU
 	replace: ([W/U] can be paid with either [W] or [U].)

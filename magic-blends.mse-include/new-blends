@@ -961,15 +961,15 @@ spotlight_watermark_blend := {
 			linear_blend(
 				image1: 
 					masked_blend(
-						light: "/magic-watermarks.mse-include/planeswalker.png"
+						light: input
 						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().0 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
-					mask: "/magic-watermarks.mse-include/planeswalker.png"
+					mask: input
 					)
 				image2:
 					masked_blend(
-						light: "/magic-watermarks.mse-include/planeswalker.png"
+						light: input
 						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().1 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
-					mask: "/magic-watermarks.mse-include/planeswalker.png"
+					mask: input
 					)
 				x1: 0.4,  y1: 0
 				x2: 0.6,  y2: 0

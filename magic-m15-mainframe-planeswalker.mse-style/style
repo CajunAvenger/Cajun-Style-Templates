@@ -36,8 +36,8 @@ init script:
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	mainframe_walker := {true}
 	text_filter := text_filter + {apply_margins(input, name:margin_code)} + {add_spacers(input, name:margin_code)}
-	template_prefix := [card: "" card2: "" card3: "fullart/" card4: "fullart/" nyx:"nyx/" stamp: "" alias: "alias/" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.png" card2: "card2.png" card3: "card.jpg" card4: "card2.jpg" nyx:"nyx.png" stamp: "stamp.png" alias:"alias.png", identity: "identity.png"]
+	template_prefix := [card: "" card2: "" card3: "fullart/" card4: "fullart/" nyx:"nyx/" stamp: "" alias: "alias/" snowtexture:"snow/" identity: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.png" card2: "card2.png" card3: "card.jpg" card4: "card2.jpg" nyx:"nyx.png" stamp: "stamp.png" snowtexture:"snow.png" alias:"alias.png", identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	land_template := { template_prefix[type] + "c" + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -47,6 +47,7 @@ init script:
 	card_background2 := { color_background(type:"card2", base_hybrid:card_hybrid) }
 	alias_bar := { color_background(type:"alias", base_hybrid:card_hybrid) }
 	nyx_background := { color_background(type:"nyx", base_hybrid:card_hybrid) }
+	snow_texture := { color_background(type:"snowtexture", base_hybrid:card_hybrid) }
 	
 	# Use the normal tap symbol
 	mana_t := {
@@ -75,7 +76,7 @@ init script:
 	is_promo := { styling.promo }
 	
 	# Does the card have four abilities?
-	has_four_abilities := { max_level() > 3 }
+	has_four_abilities := { max_level() > 3 or force_tall()}
 	has_two_abilities := { max_level() < 3 }
 	is_stamped := { is_rare() and styling.holofoil_stamped_rares }
 	is_normal_size := { styling.default_image_size }
@@ -85,6 +86,8 @@ init script:
 	loyal_move4 := { pull_comma_array(styling.shift_loyalty_costs, cell:3, end:0, default:0)}
 	loyal_move5 := { pull_comma_array(styling.shift_loyalty_costs, cell:4, end:0, default:0)}
 	loyal_move6 := { pull_comma_array(styling.shift_loyalty_costs, cell:5, end:0, default:0)}
+	
+
 	is_level_walker := { true }
 	unindent := { contains(styling.other_options, match:"un-indent nonloyalty abilities")}
 
@@ -178,6 +181,7 @@ init script:
 		else if styling.override_levels == "six abilities" then "six"
 		else "auto"
 	}
+	force_tall := { contains(styling.other_options, match:"use taller frame")}
 	has_identity := { styling.color_indicator_dot}
 	is_unsorted := {styling.remove_from_autocount}
 	shrink_type := {if styling.shrink_typeline_text != "" then to_int(styling.shrink_typeline_text) else 0 }
@@ -190,14 +194,19 @@ init script:
 	use_evobar := {contains(styling.other_options, match: "pokemon evobar") and not is_skinned()}
 	is_clear := {styling.clear or contains(styling.other_options, match:"clear frame")}
 	is_nyx := {chosen(styling.other_options, choice:"nyx")}
+	is_snow := {chosen(styling.other_options, choice:"snow")}
 	is_vehicle := {chosen(styling.other_options, choice:"vehicle")}
 	paragraph_count := replace@(match:"\n", replace:"~")+
 		filter_text@(match:"~")
 	special_text := {
-		(if card.loyalty_cost_1 != "" then "[" + card.loyalty_cost_1 + "]: " else "") + (if card.level_1_text != "" and card.level_1_text != card.rule_text then card.level_1_text+"\n" else split_text(match:"\n", card.rule_text).0+"\n")
+		out := (if card.loyalty_cost_1 != "" then "[" + card.loyalty_cost_1 + "]: " else "") + (if card.level_1_text != "" and card.level_1_text != card.rule_text then card.level_1_text+"\n" else split_text(match:"\n", card.rule_text).0+"\n")
 			+ (if card.loyalty_cost_2 != "" then "[" + card.loyalty_cost_2 + "]" + ": " else "") + (if card.level_2_text != "" then card.level_2_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~") then split_text(match:"\n", card.rule_text).1+"\n" else "")
-			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2 else "")
-			+ (if has_four_abilities() then "\n" + (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3 else "") else "")
+			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2+"\n" else "")
+			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3+"\n" else "")
+			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_5 + "]" + ": " else "") + (if card.level_5_text != "" then card.level_5_text else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).4+"\n" else "")
+			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_6 + "]" + ": " else "") + (if card.level_6_text != "" then card.level_6_text else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).5 else "")
+		out := replace(out, match:"\n\n+", replace:"")
+		out
 	}
 	pw_font_size := { if styling.font_size != "" then styling.font_size else 12 }
 ############################################################## Set info fields
@@ -253,6 +262,7 @@ styling field:
 	type: multiple choice
 	name: other options
 	choice: clear frame
+	choice: use taller frame
 	choice: ancestral generic mana
 	choice: prerelease stamp
 	choice: un-indent nonloyalty abilities
@@ -260,6 +270,7 @@ styling field:
 	choice: godzilla style alias
 	choice: pokemon evobar
 	choice: nyx
+	choice: snow
 	choice: vehicle
 	initial: un-indent nonloyalty abilities
 styling field:
@@ -383,7 +394,7 @@ card style:
 		render style: image
 		popup style: in place
 		image: { if is_clear() then "" else if has_four_abilities() then card_background2() else card_background() }
-		mask: {(if max_level() > 3 then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
+		mask: {(if max_level() > 3 or force_tall() then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
 	############################# Name line
 	name:
 		left: { if card.card_symbol=="none" then 31 else 48 }
@@ -440,6 +451,7 @@ card style:
 		width: { if use_full_art() or is_clear() then 375 else if is_normal_size() then 324 else 345 }
 		height:	{ if use_full_art() or is_clear() then 523 else if is_normal_size() then 427.5 else 493 }
 		z index: -1
+		mask: {"guidelines/" + (if is_normal_size() or use_full_art() then "" else "wide_") + (if max_level() > 3 or force_tall() then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
 	image 2:
 		left: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).0 else "0"}
 		top: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).1 else "0"}
@@ -470,10 +482,10 @@ card style:
 			color: black
 			separator color: red
 	rarity:
-		right: 345
-		top: { if has_four_abilities() then 263 else 298 }
-		width: 42
-		height: 21
+		right: 344
+		top: { if has_four_abilities() then 261 else 297 }
+		width: {if set.shorten_types_for_rarity then 44 else 0}
+		height: 22
 		z index: 2
 		render style: image
 		alignment: middle right
@@ -885,6 +897,13 @@ extra card field:
 	editable: false
 extra card field:
 	type: choice
+	name: snow overlay
+	choice: snow
+	save value: false
+	editable: false
+	script: card.card_color
+extra card field:
+	type: choice
 	name: nyx overlay
 	choice: nyx
 	save value: false
@@ -1212,7 +1231,7 @@ extra card style:
 		width: {if is_clear() then 319 else 323}
 		height: 13
 		z index: 2
-		mask: mask_bot.png
+		mask: {(if is_stamped() then "rare_" else "") + "mask_bot.png"}
 		visible: { force_level() == "one" or max_level() == 3 or max_level() == 5}
 	auto copyright:
 		right: 350
@@ -1300,6 +1319,16 @@ extra card style:
 		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
+		mask: {"nyx/" + (if has_four_abilities() then "4") + "pw" + (if is_vehicle() then "_v") + "_mask.png"}
+	snow overlay:
+		left: 0
+		top: 0
+		width: 375
+		height: 523
+		render style: image
+		image: {snow_texture()}
+		z index: 0
+		visible: {is_snow()}
 		mask: {"nyx/" + (if has_four_abilities() then "4") + "pw" + (if is_vehicle() then "_v") + "_mask.png"}
 	vehicle overlay:
 		left: 0

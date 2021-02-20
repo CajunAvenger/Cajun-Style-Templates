@@ -844,7 +844,10 @@ card field:
 	save value: false
 	show statistics: false
 	script:
-		combined_editor(field1: card.rule_text_2, separator: "<line>\n</line>", field2: card.flavor_text_2)
+		if mainframe_walkerb() then
+			mainframe_walker_text_scriptb()
+		else
+			combined_editor(field1: card.rule_text_2, separator: "<line>\n</line>", field2: card.flavor_text_2)
 	description: The rules and flavor text of the card
 card field:
 	type: text
@@ -1184,7 +1187,7 @@ card field:
 	show statistics: false
 	multi line: true
 	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name, margin_code:"unknown")
-	default: if not a_saga() then "" else if card.rule_text != "" then card.rule_text else "<i-auto>(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)</i-auto>"
+	default: if not a_saga() then "" else if card.rule_text != "" then card.rule_text else "<i-auto>(" + saga_reminder() + ")</i-auto>"
 	description: The saga reminder text
 card field:
 	type: text
@@ -1192,5 +1195,5 @@ card field:
 	show statistics: false
 	multi line: true
 	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"unknown")
-	default: if not b_saga() then "" else "<i-auto>(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)</i-auto>"
+	default: if not b_saga() then "" else "<i-auto>(" + saga_reminder() + ")</i-auto>"
 	description: The saga reminder text

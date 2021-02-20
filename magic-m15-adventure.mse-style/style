@@ -48,8 +48,8 @@ init script:
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
 	
-	template_prefix := [card: "" card2: "" card3: "reverse/" card4: "reverse/" crown: "legend/" nyx: "nyx/" spotpt: "spotlight/" spot: "spotlight/" page: "spotlight/" pt: "" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.jpg" card2: "card2.png" card3: "card.jpg" card4: "card2.png" crown: "crown.png" nyx: "nyx.png" spotpt: "pt.png" spot: "card.png" page: "card2.png" pt: "pt.png", stamp: "stamp.jpg" identity: "identity.png" identity2: "identity.png"]
+	template_prefix := [card: "" card2: "" card3: "reverse/" card4: "reverse/" crown: "legend/" nyx: "nyx/" spotpt: "spotlight/" spot: "spotlight/" page: "spotlight/" pt: "" stamp: "" snowtexture:"snow/" alias:"alias/" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.jpg" card2: "card2.png" card3: "card.jpg" card4: "card2.png" crown: "crown.png" nyx: "nyx.png" spotpt: "pt.png" spot: "card.png" page: "card2.png" pt: "pt.png", stamp: "stamp.jpg" alias:"alias.png" snowtexture:"snow.png" identity: "identity.png" identity2: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	land_template := { template_prefix[type] + input + (if input == "a" or type == "nyx" then "" else "l") + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -59,9 +59,11 @@ init script:
 	card_background4 := { color_background(type:"card4", base_hybrid:card_hybrid) }
 	spot_background := { color_background(type:"spot", base_hybrid:card_hybrid) }
 	page_background := { color_background(type:"page", base_hybrid:card_hybrid) }
+	alias_bar := { color_background(type:"alias",     base_hybrid:card_hybrid) }
 	spot_pt := { color_background(type:"spotpt", base_hybrid:card_hybrid) }
 	crown_background := { color_background(type:"crown", base_hybrid: card_hybrid)}
 	nyx_background := { color_background(type:"nyx",     base_hybrid:card_hybrid) }
+	snow_background := { color_background(type:"snowtexture",     base_hybrid:card_hybrid) }
 	# Use the normal tap symbol
 	mana_t := {
 		if      styling.tap_symbol == "old"        then "old"
@@ -81,6 +83,7 @@ init script:
 	is_reversed := { not is_spot() and contains(styling.frames, match:"Reversed")}
 	is_vehicle := {not is_spot() and (contains(styling.frames, match:"Vehicle") or (contains(styling.auto_frames, match:"Vehicle") and contains(card.sub_type, match:"Vehicle")))}
 	is_nyx := {not is_spot() and (contains(styling.frames, match:"Nyx") or (contains(styling.auto_frames, match:"Nyx") and contains(card.type, match:"Enchantment "))) }
+	is_snow := {not is_spot() and (contains(styling.frames, match:"Snow") or (contains(styling.auto_frames, match:"Snow") and contains(card.type, match:"Snow"))) }
 	##### flavor bar stuff
 	bar_offset := {if styling_offset() == "-" then 0 else if styling_offset() != "" then -styling_offset() else 0}
 	styling_offset := { replace(styling.flavor_bar_offset, match:"(u|d)+", replace: "") }
@@ -155,12 +158,14 @@ styling field:
 	choice: Reversed
 	choice: Nyx
 	choice: Vehicle
+	choice: Snow
 styling field:
 	type: multiple choice
 	name: auto frames
 	description: Automatically applies frames for multi-typed enchantments or Vehicles on the main card.
 	choice: Nyx
 	choice: Vehicle
+	choice: Snow
 styling field:
 	type: multiple choice
 	name: other options
@@ -327,10 +332,11 @@ card style:
 		padding bottom: 0
 		z index: 3
 		font:
-			name: Matrix
-			size: 10
-			style: italic
-			color: black
+			name: {if use_evobar() then "Matrix" else "MPlantin-Italic"}
+			size: {if use_evobar() then 10 else 9}
+			style: {if use_evobar() then "italic" else "bold"}
+			weight: {if use_evobar() then "italic" else "bold"}
+			color: {if use_evobar() then "black" else "white"}
 	casting cost:
 		right: 346
 		top: 29
@@ -612,6 +618,12 @@ extra card field:
 	choice: white
 extra card field:
 	type: choice
+	name: alias bar
+	script: card.card_color
+	save value: false
+	editable: false
+extra card field:
+	type: choice
 	name: pt box
 	script: card.card_color
 	editable: false
@@ -652,6 +664,14 @@ extra card field:
 	type: choice
 	name: crown
 	choice: crown
+	editable: false
+	save value: false
+	show statistics: false
+	script: card.card_color
+extra card field:
+	type: choice
+	name: snow overlay
+	choice: overlay
 	editable: false
 	save value: false
 	show statistics: false
@@ -800,34 +820,35 @@ extra card style:
 		image: {nyx_background()}
 		z index: 0
 		visible: {is_nyx()}
-		mask: {"nyx/" + (if is_vehicle() then "v_") + "mask.png"}
+		mask: {"nyx/" + (if is_vehicle() or is_snow() then "v_") + "mask.png"}
+	snow overlay:
+		left: 0
+		top: 0
+		width: 375
+		height: 523
+		render style: image
+		image: {snow_background()}
+		z index: 0
+		visible: {is_snow()}
+		mask: {"snow/snow_mask.png"}
 	evobar:
-		left: {if is_skinned() then 75 else 27}
+		left: 27
 		top: 57
-		width: {if is_skinned() then 225 else card_style.alias.content_width}
+		width: {card_style.alias.content_width}
 		height: 27
 		z index: 2
 		render style: image
 		image: evobar.png
-		visible: {is_skinned() or use_evobar()}
+		visible: {use_evobar()}
 	evobar tip:
-		left: {if is_skinned() then 299.6 else 26.6 + card_style.alias.content_width}
+		left: {26.6 + card_style.alias.content_width}
 		top: 57
 		width: 36
 		height: 27
 		z index: 2
 		render style: image
 		image: evobar_tip.png
-		visible: {is_skinned() or use_evobar()}
-	evobar start:
-		left: 39.4
-		top: 57
-		width: 36
-		height: 27
-		z index: 2
-		render style: image
-		image: evobar_flip.png
-		visible: {is_skinned()}
+		visible: {use_evobar()}
 	auto copyright:
 		right: 350
 		top: { if card.pt != "" then 500 else 488 }
@@ -840,4 +861,12 @@ extra card style:
 			size: 7
 			color: white
 			weight: bold
-
+	alias bar:
+		left: 38
+		top: 57
+		width: 298
+		height: 21
+		z index: 2
+		render style: image
+		image: {alias_bar()}
+		visible: {is_skinned() and not use_evobar()}

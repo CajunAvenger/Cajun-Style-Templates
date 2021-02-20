@@ -1050,36 +1050,6 @@ extra card field:
 	choice: dot
 	save value: false
 	editable: false
-extra card field:
-	type: text
-	name: bullet 1
-	save value: false
-	editable: false
-	script: "•"
-extra card field:
-	type: text
-	name: bullet 2
-	save value: false
-	script: "•"
-	editable: false
-extra card field:
-	type: text
-	name: bullet 3
-	save value: false
-	script: "•"
-	editable: false
-extra card field:
-	type: text
-	name: bullet 4
-	save value: false
-	script: "•"
-	editable: false
-extra card field:
-	type: text
-	name: bullet 5
-	save value: false
-	script: "•"
-	editable: false
 # Add the word "LEVEL" to the top arrow.
 extra card field:
 	type: text
@@ -1163,6 +1133,20 @@ extra card field:
 	editable: false
 	choice: loyalty
 	save value: false
+extra card field:
+	type: choice
+	name: stripe
+	choice: stripe
+	editable: false
+	save value: false
+	show statistics: false
+extra card field:
+	type: choice
+	name: stripe 2
+	choice: stripe
+	editable: false
+	save value: false
+	show statistics: false
 extra card style:
 	promo label:
 		left: 40

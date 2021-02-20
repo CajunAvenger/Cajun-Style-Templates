@@ -38,8 +38,8 @@ init script:
 	# Load scripts for image box
 	include file: /magic-default-image.mse-include/scripts
 	
-	template_prefix := [card: "" card2: "" card3: "" card4: "nyx/" card5: "nyx/" card6:"nyx/" card7: "m20/" card8: "m20/" card9: "m20/" pt:""]
-	template_suffix := [card: "card.jpg", card2: "card2.jpg", card3: "card3.jpg", card4: "nyx.png", card5: "card2.jpg", card6: "card3.jpg", card7: "card.png", card8: "card2.png", card9: "card3.png", pt: "pt.png"]
+	template_prefix := [card: "" card2: "" card3: "" card4: "nyx/" card5: "nyx/" card6:"nyx/" card7: "m20/" card8: "m20/" card9: "m20/" snowtexture:"snow/" pt:""]
+	template_suffix := [card: "card.jpg", card2: "card2.jpg", card3: "card3.jpg", card4: "nyx.png", card5: "card2.jpg", card6: "card3.jpg", card7: "card.png", card8: "card2.png", card9: "card3.png", snowtexture:"snow.png" pt: "pt.png"]
 	template      := { template_prefix[type] + (if is_m20() and input == "w" and (contains(card.card_color, match:"multicolor") or contains(card.card_color, match:"hybrid")) then "h" else input) + template_suffix[type] }
 	land_template := { template_prefix[type] + (if input == "a" then "c" else if is_m20() and input == "w" then "h" else input) + template_suffix[type] }
 	
@@ -59,6 +59,7 @@ init script:
 	is_clear := { styling.use_clear_frames }
 	is_unsorted := {styling.remove_from_autocount}
 	is_m20 := {contains(styling.frames, match: "M20")}
+	is_snow := {contains(styling.frames, match: "snow") and not is_m20()}
 	is_tall := {contains(styling.frames, match: "tall")}
 	is_textless := {card.rule_text == "" and remove_tags(card.flavor_text) == ""}
 	is_clear := {contains(styling.frames, match: "clear")}
@@ -110,6 +111,7 @@ styling field:
 	choice: MTGO Ability
 	choice: vehicle
 	choice: nyx
+	choice: snow
 styling field:
 	type: multiple choice
 	name: other options
@@ -277,7 +279,7 @@ card style:
 		top: { if is_clear() or is_m20() then 0 else 62 }
 		width: { if is_clear() or is_m20() then 375 else 317 }
 		height: { if is_clear() or is_m20() then 523 else if is_tall() then 229 else if is_textless() then 363 else 289}
-		mask: { if is_clear() or is_m20() then "clear_image_mask.png" else "imagemask" + (if is_tall() then "3" else if is_textless() then "" else "2") + ".png" }
+		mask: { if is_clear() then "clear_image_mask.png" else (if is_m20() then "m20_" else "") + "imagemask" + (if is_tall() then "3" else if is_textless() then "" else "2") + ".png" }
 		z index: -1
 		default: { if is_clear() then "" else default_image(card.card_color)}
 	mainframe image:
@@ -311,13 +313,15 @@ card style:
 			color: { if mtgo_abil() then rgb(255,239,128) else "black"}
 			separator color: red
 	rarity:
-		right: 343
+		right: 344
 		top:
 			{
-				if is_tall() and is_clear() then 296
-				else if is_tall() then 297
-				else if is_textless() then 431
-				else 356}
+				(if is_tall() and is_clear() then 296
+				else if is_tall() then (if is_m20() then 298 else 297)
+				else if is_textless() then (if is_m20() then 432 else 431)
+				else if is_m20() then 358
+				else 356)
+			}
 		width: { if contains(styling.other_options, match:"remove rarity") then 0 else 44}
 		height: 22
 		z index: 2
@@ -524,6 +528,12 @@ extra card field:
 	editable: false
 extra card field:
 	type: choice
+	name: snow overlay
+	choice: plate
+	save value: false
+	editable: false
+extra card field:
+	type: choice
 	name: nyx overlay
 	script: card.card_color
 	save value: false
@@ -640,6 +650,16 @@ extra card style:
 		image: {color_background(type:"card4", base_hybrid:card_hybrid)}
 		mask: {"v_" + if is_tall() then "tall_mask.png" else if is_textless() then "short_mask.png" else "mid_mask.png"}
 		visible: { is_nyx() }
+	snow overlay:
+		left: 15
+		top: 15
+		width: 345
+		height: 471
+		z index: 1
+		render style: image
+		image: {color_background(type:"snowtexture", base_hybrid:card_hybrid)}
+		mask: {"v_" + if is_tall() then "tall_mask.png" else if is_textless() then "short_mask.png" else "mid_mask.png"}
+		visible: { is_snow() }
 	vehicle overlay:
 		left: 15
 		top: 15
@@ -648,5 +668,5 @@ extra card style:
 		z index: 1
 		render style: image
 		image: voverlay.png
-		mask: {"v_" + (if is_nyx() then "nyx_" else "") + if is_tall() then "tall_mask.png" else if is_textless() then "short_mask.png" else "mid_mask.png"}
+		mask: {"v_" + (if is_nyx() or is_snow() then "nyx_" else "") + if is_tall() then "tall_mask.png" else if is_textless() then "short_mask.png" else "mid_mask.png"}
 		visible: { is_vehicle() }
