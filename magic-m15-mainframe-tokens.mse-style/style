@@ -279,7 +279,7 @@ card style:
 		top: { if is_clear() or is_m20() then 0 else 62 }
 		width: { if is_clear() or is_m20() then 375 else 317 }
 		height: { if is_clear() or is_m20() then 523 else if is_tall() then 229 else if is_textless() then 363 else 289}
-		mask: { if is_clear() then "clear_image_mask.png" else (if is_m20() then "m20_" else "") + "imagemask" + (if is_tall() then "3" else if is_textless() then "" else "2") + ".png" }
+		mask: { (if is_m20() then "m20_" else if is_clear() then "clear_" else "") + "imagemask" + (if is_clear() and not is_m20() then "" else if is_tall() then "3" else if is_textless() then "" else "2") + ".png" }
 		z index: -1
 		default: { if is_clear() then "" else default_image(card.card_color)}
 	mainframe image:
@@ -317,7 +317,7 @@ card style:
 		top:
 			{
 				(if is_tall() and is_clear() then 296
-				else if is_tall() then (if is_m20() then 298 else 297)
+				else if is_tall() then (if is_m20() then 298 else if is_clear() then 296 else 297)
 				else if is_textless() then (if is_m20() then 432 else 431)
 				else if is_m20() then 358
 				else 356)
