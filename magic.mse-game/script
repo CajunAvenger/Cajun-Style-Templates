@@ -1351,6 +1351,30 @@ applyIndex := {
 				order_by: { sort_name(card.name) + sort_name(export_name())}
 				filter:   set_filter()
 			)), lead:"0", fill_to:3)
+		},
+		alias: {
+			fill_len(to_string(position (
+				of: card
+				in: set
+				order_by: { sort_name(card.alias) + sort_name(export_name())}
+				filter:   set_filter()
+			)), lead:"0", fill_to:3)
+		}
+		name2: {
+			fill_len(to_string(position (
+				of: card
+				in: set
+				order_by: { sort_name(card.name_2) + sort_name(export_name())}
+				filter:   set_filter()
+			)), lead:"0", fill_to:3)
+		},
+		alias2: {
+			fill_len(to_string(position (
+				of: card
+				in: set
+				order_by: { sort_name(card.alias_2) + sort_name(export_name())}
+				filter:   set_filter()
+			)), lead:"0", fill_to:3)
 		}
 		color: {fill_len(color_of_card(), lead:"A")},
 		artist: {fill_len(substring(card.illustrator, end:7), follow:" ", fill_to:7)},

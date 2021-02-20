@@ -751,21 +751,19 @@ extra card style:
 		width: 46
 		height: 26
 		z index: 1
-		visible: { is_rare() }
 		render style: image
 		image: { card_stamp() }
 		mask: { if is_spot() then "spotmask.jpg" else "stampmask.jpg"}
-		visible: {styling.use_holofoil_stamps}
+		visible: {is_rare() and styling.use_holofoil_stamps}
 	foil stamp:
 		left: 165
 		top: 472
 		width: 46
 		height: 26
 		z index: 1
-		visible: { is_rare() }
+		visible: { is_rare() and styling.use_holofoil_stamps }
 		render style: image
 		image: foil_stamp.png
-		visible: {styling.use_holofoil_stamps}
 	foil layer:
 		left: 0
 		top : 0

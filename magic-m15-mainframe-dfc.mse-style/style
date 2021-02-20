@@ -42,11 +42,11 @@ init script:
 	
 	####### Create images
 	
-	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" curtain: "curtains/" map: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp2: "normal/" stamp3: "planeswalker/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/" snow:"snow/" snowtexture:"snow/" alias:"" alias2:"" icon:"icons/" icon2:"icons/" flag:"flags/" flag2:"flags/" mark:"bookmarks/"]
-	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.png" card4: "card2.png" card5: "card3.png" card6: "card4.png" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown.png" curtain: "card.png" map: "card.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" stamp3: "stamp.png" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png" snow:"card.jpg" snowtexture:"snow.png" alias:"alias.png" alias2:"alias.png" icon:"arrow.png" icon2:"arrow2.png" flag:"flag.png" flag2:"flag2.png" mark:"mark.png"]
+	template_prefix := [card: "normal/" card2: "normal/" card3: "planeswalker/" card4: "planeswalker/" card5: "planeswalker/" card6: "planeswalker/" arrow: "arrows/", slide: "masks/", slide2: "masks/", slide3: "mask_back/", slide4: "mask_back/", nyx: "nyx/" miracle: "miracles/" miracle2: "miracles/" legend: "legend/" legend2: "legend/" curtain: "curtains/" map: "maps/" mappt: "maps/" pt: "normal/" pt2: "normal/" saga:"saga/" stamp2: "normal/" stamp3: "planeswalker/" stamp: "" identity: "/magic-identity-new.mse-include/" identity2: "/magic-identity-new.mse-include/" snow:"snow/" snowtexture:"snow/" alias:"" alias2:"" icon:"icons/" icon2:"icons/" flag:"flags/" flag2:"flags/" mark:"bookmarks/" unnotch:"unnotched/"]
+	template_suffix := [card: "card.jpg" card2: "card2.jpg" card3: "card.png" card4: "card2.png" card5: "card3.png" card6: "card4.png" arrow: "arrow.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide.png", slide4: "slide2.png", nyx: "nyx.png" miracle: "miracle.png" miracle2: "miracle2.png" legend: "crown.png" legend2: "crown.png" curtain: "card.png" map: "card.png" mappt: "pt.png" saga:"card.jpg", stamp: "stamp.jpg" stamp2: "stamp.jpg" stamp3: "stamp.png" pt: "pt.png" pt2: "pt2.png" identity: "identity.png" identity2: "identity.png" snow:"card.jpg" snowtexture:"snow.png" alias:"alias.png" alias2:"alias.png" icon:"arrow.png" icon2:"arrow2.png" flag:"flag.png" flag2:"flag2.png" mark:"mark.png" unnotch:"card.jpg"]
 	template      := { switch_lead(type) + template_prefix[type] + input + switch_follow(type) + template_suffix[type] }
 	land_template := { switch_lead(type) + template_prefix[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + switch_follow(type) + template_suffix[type] }
-	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "icon" or input == "crown" or input == "nyxcrown" or input == "card3" or input == "card4" or input == "card5" or input == "card6" or input == "stamp3" or input == "flag" or input == "flag2" then true else false}
+	landless := {if input == "arrow" or input == "nyx" or input == "comcrown" or input == "cons" or input == "icon" or input == "crown" or input == "nyxcrown" or input == "card3" or input == "card4" or input == "card5" or input == "card6" or input == "stamp3" or input == "flag" or input == "flag2" or input == "alias" or input == "alias2" or input == "icon" or input == "icon2" then true else false}
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
 	####### Control weird images
@@ -110,6 +110,7 @@ init script:
 	map_background := { color_background(type:"map", base_hybrid:card_hybrid) }
 
 	saga_background := { color_background(type:"saga", base_hybrid:card_hybrid) }
+	unnotched_background := { color_background(type:"unnotch", base_hybrid:card_hybrid) }
 	bookmark_background := { color_background(type:"mark", base_hybrid:card_hybrid) }
 	snow_background := { color_background(type:"snow", base_hybrid:card_hybrid) }
 	snow_texture := { color_background(type:"snowtexture", base_hybrid:card_hybrid) }
@@ -206,10 +207,10 @@ init script:
 
 	
 	top_of_textbox := {(if mainframe_walker() then (if has_four_abilities() then 292+(if front_clear() then 5 else 0) else 329) else if is_map() then 340 else if is_mutate() then 395 else 327)-lv_chop(styling.level_1_chop, cell:0)}
-	bottom_of_textbox := {(if mainframe_walker() then 477-(if is_modal() then 5 else if is_stamped() then 2 else 0) else if is_map() then 475 else 481)-lv_chop(styling.level_1_chop, cell:1)}
+	bottom_of_textbox := {(if mainframe_walker() then 477-(if is_modal_dfc() then 5 else if is_stamped() then 2 else 0) else if is_map() then 475 else 481)-lv_chop(styling.level_1_chop, cell:1)}
 
 	top_of_textbox2 := {(if mainframe_walkerb() then (if back_four_abilities() then 292+(if back_clear() then 5 else 0) else 329) else if back_map() then 340 else if back_mutate() then 394 else 327)-lv_chop(styling.level_5_chop, cell:0)}
-	bottom_of_textbox2 := {(if mainframe_walkerb() then 477-(if is_modal() then 5 else 0) else if back_map() then 475 else 481)-lv_chop(styling.level_5_chop, cell:1)}
+	bottom_of_textbox2 := {(if mainframe_walkerb() then 477-(if is_modal_dfc() then 5 else 0) else if back_map() then 475 else 481)-lv_chop(styling.level_5_chop, cell:1)}
 
 	mask_script := { if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
 		else if is_full() and is_normal() and not is_saga() and not is_map then (if is_stamped() then "rare_" else "")+"front_mythic_mask.png"
@@ -590,7 +591,7 @@ init script:
 	is_bumped := {not mainframe_walker() and (card.loyalty_cost_1 != "" or card.loyalty_cost_2 != "" or card.loyalty_cost_3 != "" or card.loyalty_cost_4 != "")}
 	back_bumped := {not mainframe_walkerb() and (card.loyalty_cost_5 != "" or card.loyalty_cost_6 != "" or card.loyalty_cost_7 != "" or card.loyalty_cost_8 != "")}
 
-	is_modal := {styling.dfc_type != "transforming"}
+	is_modal_dfc := {styling.dfc_type != "transforming"}
 	auto_flags := {styling.dfc_type == "modal with standard flags"}
 ############################################################## Set info fields
 set info style:
@@ -938,7 +939,7 @@ card style:
 		z index: 0
 		render style: image
 		popup style: in place
-		image: { if front_clear() or is_map() or mainframe_walker() then "" else if is_saga() then saga_background() else card_background() }
+		image: { if front_clear() or is_map() or mainframe_walker() then "" else if is_saga() then saga_background() else if is_modal_dfc() then unnotched_background() else card_background() }
 	card color 2:
 		left:	377
 		top:	0
@@ -947,7 +948,7 @@ card style:
 		z index: 0
 		render style: image
 		popup style: in place
-		image: { if back_clear() or back_map() or mainframe_walkerb() then "" else if back_saga() then saga_background() else if back_normal() and chosen(styling.other_options, choice:"normal back face") then card_background() else if back_normal() then card_background2() else if back_four_abilities() and chosen(styling.other_options, choice:"normal back face") then card_background5() else if back_four_abilities() then card_background6() else if chosen(styling.other_options, choice:"normal back face") then card_background3() else card_background4() }
+		image: { if back_clear() or back_map() or mainframe_walkerb() then "" else if back_saga() then saga_background() else if chosen(styling.other_options, choice:"normal back face") then unnotched_background() else card_background2() }
 	############################# Name line
 	name:
 		left: { if is_map() then 65 else if is_normal() then 58 else 60 }
@@ -2226,7 +2227,7 @@ extra card field:
 	choice: custom one
 	choice: custom two
 	default: "day"
-	script: if is_modal() then "modal" else if value == "modal" then "day" else value
+	script: if is_modal_dfc() then "modal" else if value == "modal" then "day" else value
 	save value: true
 	editable: true
 extra card field:
@@ -2260,7 +2261,7 @@ extra card field:
 		choice: colorless
 	choice: custom one
 	choice: custom two
-	script: if is_modal() then "modal" else if value == "modal" then "night" else value
+	script: if is_modal_dfc() then "modal" else if value == "modal" then "night" else value
 	default: "night"
 	save value: true
 	editable: true
@@ -2804,7 +2805,7 @@ extra card style:
 		width: 30
 		height:	12
 		alignment: bottom right
-		visible: {not is_leveler() and not is_saga() and not mainframe_walker() and chosen(styling.other_options, choice:"use hovering pt")}
+		visible: {not is_modal_dfc() and not is_leveler() and not is_saga() and not mainframe_walker() and chosen(styling.other_options, choice:"use hovering pt")}
 		font:
 			name: ModMatrix
 			size: 12
@@ -3309,10 +3310,10 @@ extra card style:
 			color: white
 			weight: bold
 	corner:
-		left: { (if is_map() then 22 else 19)-(if is_modal() then (if front_clear() then 9 else 6) else 0)}
-		top: { (if is_normal() then 25 else 18) - (if is_modal() then (if front_clear() then 2 else 3) else 0)}
-		height: { if is_modal() then 36 else if is_normal() then 31 else 32}
-		width: { if is_modal() then 43 else if is_normal() then 31 else 32}
+		left: { (if is_map() then 22 else 19)-(if is_modal_dfc() then (if front_clear() then 9 else 6) else 0)}
+		top: { (if is_normal() then 25 else 18) - (if is_modal_dfc() then (if front_clear() then 2 else 3) else 0)}
+		height: { if is_modal_dfc() then 36 else if is_normal() then 31 else 32}
+		width: { if is_modal_dfc() then 43 else if is_normal() then 31 else 32}
 		z index: 5
 		render style: image
 		choice images:
@@ -3344,10 +3345,10 @@ extra card style:
 			modal: {front_arrow_image(card.card_color)}
 
 	corner 2:
-		left: { (if back_map() then 399 else 396)-(if is_modal() then (if back_clear() then 9 else 6) else 0)}
-		top: { (if back_normal() then 25 else 18) - (if is_modal() then (if back_clear() then 2 else 3) else 0)}
-		height: { if is_modal() then 36 else if back_normal() then 31 else 32}
-		width: { if is_modal() then 43 else if back_normal() then 31 else 32}
+		left: { (if back_map() then 399 else 396)-(if is_modal_dfc() then (if back_clear() then 9 else 6) else 0)}
+		top: { (if back_normal() then 25 else 18) - (if is_modal_dfc() then (if back_clear() then 2 else 3) else 0)}
+		height: { if is_modal_dfc() then 36 else if back_normal() then 31 else 32}
+		width: { if is_modal_dfc() then 43 else if back_normal() then 31 else 32}
 		z index: 5
 		render style: image
 		choice images:
@@ -3386,7 +3387,7 @@ extra card style:
 		image: {if front_clear() then "" else if mainframe_walker() or is_leveler() or is_saga() then snow_texture() else snow_background()}
 		z index: 1
 		visible: {is_snow()}
-		mask: {if mainframe_walker() then ("nyx/" + (if has_four_abilities() then "4" else "") + "pw_mask.png") else "snow/snow_" + (if is_saga() then "saga" else if is_leveler() then "notched" else "front") + "_mask.png"}
+		mask: {if mainframe_walker() then ("nyx/" + (if has_four_abilities() then "4" else "") + "pw_mask.png") else "snow/snow_" + (if is_saga() then "saga" else if is_modal_dfc() then (if is_leveler() then "border" else "modal") else if is_leveler() then "notched" else "front") + "_mask.png"}
 	snow overlay 2:
 		left: 377
 		top: 0
@@ -3406,7 +3407,7 @@ extra card style:
 		image: {if front_clear() then "" else nyx_background()}
 		z index: 1
 		visible: {is_nyx()}
-		mask: {"nyx/" + (if mainframe_walker() then ((if has_four_abilities() then "4" else "") + "pw_") else "notch_") + (if is_vehicle() then "v_") + (if is_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if mainframe_walker() then ((if has_four_abilities() then "4" else "") + "pw_") else if is_modal_dfc() then "" else "notch_") + (if is_vehicle() then "v_") + (if is_saga() then "full") + "mask.png"}
 	curtain:
 		left: 0
 		top: 0
@@ -3443,9 +3444,9 @@ extra card style:
 		width: 375
 		height: 523
 		render style: image
-		image: {(if is_saga() or mainframe_walker() then "full_") + "voverlay.png"}
+		image: full_voverlay.png
 		z index: 1
-		mask: {if mainframe_walker() then ("nyx/" + (if has_four_abilities() then "4") + "pw_mask.png") else if is_saga() then "nyx/fullmask.png" else "vmask.png"}
+		mask: {if mainframe_walker() then ("nyx/" + (if has_four_abilities() then "4") + "pw_mask.png") else if is_saga() then "nyx/fullmask.png" else if is_modal_dfc() then "nyx/mask.png" else "nyx/notch_mask.png"}
 		visible: {is_vehicle()}
 	nyx overlay 2:
 		left: 377
@@ -3456,7 +3457,7 @@ extra card style:
 		image: {if back_clear() then "" else nyx_background()}
 		z index: 1
 		visible: {back_nyx()}
-		mask: {"nyx/" + (if mainframe_walkerb() then ((if back_four_abilities() then "4") + "pw_") else if chosen(styling.other_options, choice:"normal back face") then "notch_") + (if back_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
+		mask: {"nyx/" + (if mainframe_walkerb() then ((if back_four_abilities() then "4") + "pw_")) + (if back_vehicle() then "v_") + (if back_saga() then "full") + "mask.png"}
 	miracle overlay 2:
 		left: 377
 		top: 0
@@ -3525,14 +3526,14 @@ extra card style:
 		render style: image
 		image: {front_flag_image()}
 		z index: 5
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 	back type hint:
 		left: {if mainframe_walker() then 24 else 28}
 		top: 471
 		width: 80
 		height: 12
 		z index: 7
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 		font:
 			name: Beleren Bold
 			size: 9
@@ -3543,7 +3544,7 @@ extra card style:
 		width: 80
 		height: 14
 		z index: 8
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
 			size: 9.5
@@ -3561,14 +3562,14 @@ extra card style:
 		render style: image
 		image: {back_flag_image()}
 		z index: 5
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 	front type hint:
 		left: { if mainframe_walkerb() then 401 else 405}
 		top: 471
 		width: 80
 		height: 12
 		z index: 8
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 		font:
 			name: Beleren Bold
 			size: 9
@@ -3579,7 +3580,7 @@ extra card style:
 		width: 80
 		height: 14
 		z index: 8
-		visible: {is_modal()}
+		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
 			size: 9.5

@@ -52,6 +52,9 @@ auto replace:
 	match: cmc
 	replace: mana value
 auto replace:
+	match: MV
+	replace: mana value
+auto replace:
 	match: mv
 	replace: mana value
 auto replace:
