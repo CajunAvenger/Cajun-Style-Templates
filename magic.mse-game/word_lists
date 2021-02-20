@@ -496,6 +496,7 @@ word list:
 	word: Lukka
 	word: Nahiri
 	word: Narset
+	word: Niko
 	word: Nissa
 	word: Nixilis
 	word: Oko
@@ -511,6 +512,7 @@ word list:
 	word: Teyo
 	word: Tezzeret
 	word: Tibalt
+	word: Tyvar
 	word: Ugin
 	word: Venser
 	word: Vivien
@@ -521,6 +523,19 @@ word list:
 	word: Xenagos
 	word: Yanggu
 	word: Yanling
+	word:
+		name: Last Seen on Kaldheim
+		word: Kaya
+		word: Niko
+		word: Tibalt
+		word: Tyvar
+	word:
+		name: Last Seen on Zendikar
+		word: Jace
+		word: Kiora
+		word: Nahiri
+		word: Nissa
+		word: Nixilis
 	word:
 		name: Last Seen on Ikoria
 		word: Lukka
@@ -546,7 +561,6 @@ word list:
 		word: Domri
 		word: Dovin
 		word: Kasmina
-		word: Kaya
 		word: Ral
 		word: Teyo
 		word: Vraska
@@ -562,11 +576,9 @@ word list:
 		name: Last Seen on Ixalan
 		word: Angrath
 		word: Huatli
-		word: Jace
 	word:
 		name: Last Seen on Amonkhet
 		word: Liliana
-		word: Nissa
 		word: Samut
 	word:
 		name: Last Seen on Kaladesh
@@ -580,14 +592,8 @@ word list:
 	word:
 		name: Last Seen on Innistrad
 		word: Arlinn
-		word: Nahiri
 		word: Sorin
 		word: Tamiyo
-		word: Tibalt
-	word:
-		name: Last Seen on Zendikar
-		word: Kiora
-		word: Nixilis
 	word:
 		name: Last Seen on Tarkir
 		word: Sarkhan
