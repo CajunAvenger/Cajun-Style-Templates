@@ -150,6 +150,7 @@ init script:
 	card_shape := {"double faced"}
 	a_saga := {is_saga()}
 	b_saga := {back_saga()}
+	saga_reminder := { if styling.alternate_saga_reminder != "" then styling.alternate_saga_reminder else "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 	mainframe_walker := {contains(styling.front_style, match:"planeswalker")}
 	mainframe_walkerb := {contains(styling.back_style, match:"planeswalker")}
 	
@@ -810,6 +811,10 @@ styling field:
 	choice: pokemon evobar
 	choice: automate type frames
 	initial: use hovering pt, use holofoil stamps, back color indicator, unindent nonloyalty abilities, auto nyx crowns, automate type frames
+styling field:
+	type: text
+	name: alternate saga reminder
+	description: Change the reminder text that is generated for new cards
 styling field:
 	type: choice
 	name: legend crown
