@@ -219,9 +219,9 @@ init script:
 		else if is_mutate() then "mutate_mask.png"
 		else if not mainframe_walker() then ""
 		else "planeswalker/guidelines/"
-			+ (if is_normal_size() or is_full() then "" else "wide_")
+			+ (if front_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
 			+ (if max_level() > 3 or force_tall() then "four_" else "")
-			+ (if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
+			+ (if front_clear() then "frame_mask" else if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
 			+ ".png"
 	}
 	back_mask_script := { if contains(styling.custom_mask_2, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
@@ -231,9 +231,9 @@ init script:
 		else if back_mutate() then "mutate_mask.png"
 		else if not mainframe_walkerb() then ""
 		else "planeswalker/guidelines/"
-			+ (if is_normal_size() or is_full() then "" else "wide_")
+			+ (if back_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
 			+ (if max_levelb() > 3 or force_tallb() then "four_" else "")
-			+ (if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
+			+ (if back_clear() then "frame_mask" else if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
 			+ ".png"
 	}
 
