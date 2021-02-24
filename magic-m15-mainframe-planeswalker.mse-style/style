@@ -1145,7 +1145,7 @@ extra card style:
 ###Block of first textbox
 	stripe color:
 		left: { if is_clear() then 47 else 45}
-		top: { (if has_four_abilities() then 309 else 345)-(if is_clear() then 2 else 0) }
+		top: { (if has_four_abilities() then 309 else if is_clear() then 343 else 345) }
 		width: { if is_clear() then 298 else 302}
 		bottom: { max(if force_level() == "one" then 465 else to_int(stripe01()-3)+(if is_clear() then 2 else 0), (if has_four_abilities() then 309 else 345)-(if is_clear() then 2 else 0)) }
 		z index: 2
