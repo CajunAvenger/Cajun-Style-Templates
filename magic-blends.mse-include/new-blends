@@ -957,9 +957,15 @@ set_watermark_blend := {
 spotlight_watermark_blend := {
 	c1 := "/magic-watermarks.mse-include/spotlight/" + watermark_colors().0 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
 	c2 := "/magic-watermarks.mse-include/spotlight/" + watermark_colors().1 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
-	if h != 0 then (
-		c1 := crop(c1, height:h, width:500, offset_x:0, offset_y:0)
-		c2 := crop(c2, height:h, width:500, offset_x:0, offset_y:0)
+	if contains(input, match:".png,") then (
+		array := split_text(input+",,", match:",")
+		input := array.0
+		l := min(to_number(array.1),500)
+		h := min(to_number(array.2),500)
+	)
+	if (h != 500 or l != 500) then (
+		c1 := crop(c1, height:h, width:l, offset_x:0, offset_y:0)
+		c2 := crop(c2, height:h, width:l, offset_x:0, offset_y:0)
 	)
 	set_alpha(
 		alpha: 0.75
@@ -981,4 +987,4 @@ spotlight_watermark_blend := {
 				x2: 0.6,  y2: 0
 			)
 	)
-}@(h:0)
+}@(h:500,l:500)
