@@ -1309,13 +1309,13 @@ correction_coeff := {
 auto_flags := {true}
 front_modal_hint := {
 	if not auto_flags() then ["", "", 10.5]
-	else if card.sub_type_2 != "" then [card.sub_type_2, "<sym>"+card.casting_cost_2+"</sym>", 10.5]
+	else if remove_tags(card.sub_type_2) != "" then [card.sub_type_2, "<sym>"+card.casting_cost_2+"</sym>", 10.5]
 	else if card.casting_cost_2 != "" then [main_types(card.super_type_2), "<sym>"+card.casting_cost_2+"</sym>", 10.5]
 	else [main_types(card.super_type_2), mana_ability(card.rule_text_2), 10.5]
 }
 back_modal_hint := {
 	if not auto_flags() then ["", "", 10.5]
-	else if card.sub_type != "" then [card.sub_type, "<sym>"+card.casting_cost+"</sym>", 10.5]
+	else if remove_tags(card.sub_type) != "" then [card.sub_type, "<sym>"+card.casting_cost+"</sym>", 10.5]
 	else if card.casting_cost != "" then [main_types(card.super_type), "<sym>"+card.casting_cost+"</sym>", 10.5]
 	else [main_types(card.super_type), mana_ability(card.rule_text), 10.5]
 }
