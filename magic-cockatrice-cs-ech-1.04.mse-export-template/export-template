@@ -92,7 +92,7 @@ option field:
 	initial: yes
 
 script:
-	splitter_name := {true}
+	splitter_name := {false} ## experimental future thing for splitting dfc images
 	#determine if the card is a type that is a "token" i.e. it should be batched with tokens instead of with other cards
 	is_token := {contains(card.shape, match:"token") or contains(card.shape, match:"emblem") or contains(card.shape, match:"rulestip") }
 	is_double := {contains(card.shape, match:"double") }
