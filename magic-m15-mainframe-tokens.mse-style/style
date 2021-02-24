@@ -271,7 +271,7 @@ card style:
 			size: 15
 			alignment: middle right
 		always symbol: true
-		z index: 2
+		z index: 7
 		padding top: 0
 	############################# Image
 	image:

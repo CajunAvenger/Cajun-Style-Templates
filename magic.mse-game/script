@@ -1094,6 +1094,11 @@ special_text2 := { "" }
 exporter_name_filter := filter_text@(match:"!exporte?r?name [^\n!]+")
 exporter_name_grabber := replace@(match:"!exporte?r?name ", replace:"")
 card_name := { replace(if exporter_name_grabber(exporter_name_filter(card.notes)) != "" then exporter_name_grabber(exporter_name_filter(card.notes)) else card.name, match:" $", replace:"") }
+exporter_num_filter := filter_text@(match:"!num [^\n!]+")
+exporter_num_grabber := replace@(match:"!num ", replace:"")
+trim_zeroes := replace@(match: "^00?", replace: "")+
+	replace@(match: "a?/[0-9b]+", replace: "")
+corrected_card_number := { if exporter_num_grabber(exporter_num_filter(card.notes)) != "" then exporter_num_grabber(exporter_num_filter(card.notes)) else if card.custom_card_number != "" then trim_zeroes(card.custom_card_number) else card_number() }
 
 comma_count := filter_text@(match:",")
 round_up := {to_int(0.99999999999998+input)}
@@ -1303,16 +1308,16 @@ correction_coeff := {
 ######################## Modal DFC hints
 auto_flags := {true}
 front_modal_hint := {
-	if not auto_flags() then ["", "", 9]
-	else if is_planeswalker(card.type_2) or is_creaturish(card.type_2) then [card.sub_type_2, "<sym>"+card.casting_cost_2+"</sym>", 10.5]
+	if not auto_flags() then ["", "", 10.5]
+	else if card.sub_type_2 != "" then [card.sub_type_2, "<sym>"+card.casting_cost_2+"</sym>", 10.5]
 	else if card.casting_cost_2 != "" then [main_types(card.super_type_2), "<sym>"+card.casting_cost_2+"</sym>", 10.5]
-	else [main_types(card.super_type_2), mana_ability(card.rule_text_2), 9]
+	else [main_types(card.super_type_2), mana_ability(card.rule_text_2), 10.5]
 }
 back_modal_hint := {
-	if not auto_flags() then ["", "", 9]
-	else if is_planeswalker(card.type) or is_creaturish(card.type) then [card.sub_type, "<sym>"+card.casting_cost+"</sym>", 10.5]
+	if not auto_flags() then ["", "", 10.5]
+	else if card.sub_type != "" then [card.sub_type, "<sym>"+card.casting_cost+"</sym>", 10.5]
 	else if card.casting_cost != "" then [main_types(card.super_type), "<sym>"+card.casting_cost+"</sym>", 10.5]
-	else [main_types(card.super_type), mana_ability(card.rule_text), 9]
+	else [main_types(card.super_type), mana_ability(card.rule_text), 10.5]
 }
 mana_ability := {
 	abils := break_text(input, match:"(</?sym(-auto)?>)?T(</?sym(-auto)?>)?: Add (</?sym(-auto)?>)?(W|U|B|R|G|C)(</?sym(-auto)?>)?(, | or )?(</?sym(-auto)?>)?(W|U|B|R|G|C)?(</?sym(-auto)?>)?(, or )?(</?sym(-auto)?>)?(W|U|B|R|G|C)?(</?sym(-auto)?>)?.")

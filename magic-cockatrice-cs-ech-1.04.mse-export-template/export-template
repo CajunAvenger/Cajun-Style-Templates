@@ -92,8 +92,10 @@ option field:
 	initial: yes
 
 script:
+	splitter_name := {true}
 	#determine if the card is a type that is a "token" i.e. it should be batched with tokens instead of with other cards
 	is_token := {contains(card.shape, match:"token") or contains(card.shape, match:"emblem") or contains(card.shape, match:"rulestip") }
+	is_double := {contains(card.shape, match:"double") }
 	
 	#determine if the card is of a rarity that should be included
 	included_rarity := {
@@ -128,10 +130,10 @@ script:
 	token_count_regex := "<([0-9]+|x)>"
 	filter_count := filter_text@(match: token_count_regex)
 	generate_count_XML := replace@(match:token_count_regex, replace:{" count=\"" + _1 + "\""})
-	add_related_count := {if filter_count(input) != "" then generate_count_XML(filter_count(input))}
+	add_related_count := {if filter_count(input) != "" then generate_count_XML(filter_count(input)) else ""}
 	
 	#helpers to find if a auto-attachment is desired for this token relation, and generate the requisite XML
-	add_attachment := {if filter_text(match: "<attach>", input) != "" then " attach=\"attach\""}
+	add_attachment := {if filter_text(match: "<attach>", input) != "" then " attach=\"attach\"" else ""}
 	
 	#helper functions for converted_related later
 	related_entry_regex := "(.+?[^[:space:]]);"
@@ -155,17 +157,17 @@ script:
 	#functions for the !tapped command
 	contains_tapped := contains@(match:"!tapped")
 	
-	CIPT := {(if contains_tapped(card.notes) then "\n "+"\<cipt>" + "1" + "\</cipt>")}
+	CIPT := {if contains_tapped(card.notes) then "\n "+"\<cipt>" + "1" + "\</cipt>" else ""}
 	
 	card_color :=
 	{
 		if contains(card.type, match:"land") or contains(card.rule_text, match:"Devoid") then "" else
 		(
-			 (if contains(card.card_color, match:"white") or contains(card.casting_cost, match:"W") then "W")
-			+(if contains(card.card_color, match:"blue") or contains(card.casting_cost, match:"U") then "U")
-			+(if contains(card.card_color, match:"black") or contains(card.casting_cost, match:"B") then "B")
-			+(if contains(card.card_color, match:"red") or contains(card.casting_cost, match:"R") then "R")
-			+(if contains(card.card_color, match:"green") or contains(card.casting_cost, match:"G") then "G")
+			 (if contains(card.card_color, match:"white") or contains(card.casting_cost, match:"W") then "W" else "")
+			+(if contains(card.card_color, match:"blue") or contains(card.casting_cost, match:"U") then "U" else "")
+			+(if contains(card.card_color, match:"black") or contains(card.casting_cost, match:"B") then "B" else "")
+			+(if contains(card.card_color, match:"red") or contains(card.casting_cost, match:"R") then "R" else "")
+			+(if contains(card.card_color, match:"green") or contains(card.casting_cost, match:"G") then "G" else "")
 		)
 	}
 	
@@ -173,11 +175,11 @@ script:
 	{
 		if contains(card.type, match:"land") or contains(card.rule_text_2, match:"Devoid") then "" else
 		(
-			 (if contains(card.card_color_2, match:"white") or contains(card.casting_cost_2, match:"W") then "W")
-			+(if contains(card.card_color_2, match:"blue") or contains(card.casting_cost_2, match:"U") then "U")
-			+(if contains(card.card_color_2, match:"black") or contains(card.casting_cost_2, match:"B") then "B")
-			+(if contains(card.card_color_2, match:"red") or contains(card.casting_cost_2, match:"R") then "R")
-			+(if contains(card.card_color_2, match:"green") or contains(card.casting_cost_2, match:"G") then "G")
+			 (if contains(card.card_color_2, match:"white") or contains(card.casting_cost_2, match:"W") then "W" else "")
+			+(if contains(card.card_color_2, match:"blue") or contains(card.casting_cost_2, match:"U") then "U" else "")
+			+(if contains(card.card_color_2, match:"black") or contains(card.casting_cost_2, match:"B") then "B" else "")
+			+(if contains(card.card_color_2, match:"red") or contains(card.casting_cost_2, match:"R") then "R" else "")
+			+(if contains(card.card_color_2, match:"green") or contains(card.casting_cost_2, match:"G") then "G" else "")
 		)
 	}
 	
@@ -824,7 +826,7 @@ script:
 	}
 	
 	#if the currently exported card is a token, write it as a token
-	write_token_if_token := { if is_token() then write_token()}
+	write_token_if_token := { if is_token() then write_token() else ""}
 
 	#render image file
 	write_image :=
@@ -832,14 +834,14 @@ script:
 		write_image_file(
 			card,
 			directory: "{set.set_code}",
-			file:"{options.append_String_To_Names+strip_card_name(card_name())+(if is_token() and options.append_Set_Code_To_Tokens then " " + set.set_code else "")}.full." + to_lower(options.images_File_Type),
+			file:"{options.append_String_To_Names+strip_card_name(card_name())+(if is_token() and options.append_Set_Code_To_Tokens then " " + set.set_code else "")+if splitter_name() and is_double() then "_" + card.name_2}.full." + to_lower(options.images_File_Type),
 			width: (if contains(card.shape, match:"split") or contains(card.shape, match:"double") then 752 else 375),
 			height: 523
 			)
 	}
 	
 	#if images are set to be rendered, render all images of rarities that have been selected
-	write_images := if options.export_Images then for each card in filter_list(cards,filter:{included_rarity(card:input)}) do write_image()
+	write_images := if options.export_Images then for each card in filter_list(cards,filter:{included_rarity(card:input)}) do write_image() else ""
 	
 	write_cards := to_text(for each card in cards do write_card())
 	write_all_tokens := to_text(for each card in cards do write_token_if_token())

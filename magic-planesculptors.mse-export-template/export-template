@@ -2,13 +2,13 @@
 short name: PlaneSculptors
 full name: PlaneSculptors Export 1.4
 position hint: 006
-version: 2020-04-25
+version: 2018-06-24
 installer group: magic/Export/planesculptors
 create directory: true
 
 depends on:
 	package: magic.mse-game
-	version: 2020-04-25
+	version: 2020-04-01
 
 game: magic
 file type: *.txt|*.txt|*.*|*.*
@@ -16,6 +16,15 @@ file type: *.txt|*.txt|*.*|*.*
 # By caeonosphere
 # Written by modifying thequinn's IsochronDrafter exporter ()
 # Namecheck by cajun
+option field:
+	type: choice
+	name: export images
+	choice: no
+	choice: .jpg
+	choice: .png
+	choice: .full.jpg
+	choice: .full.png
+	description: Export images
 script:
 	symbol_font      := "magic-mana-small"
 	symbol_font_size := 12
@@ -25,7 +34,8 @@ script:
 		replace@(match: "\\[", replace: "", in_context: "<match>(\\+|-)?[0-9]+: ")
 	exporter_name_filter := filter_text@(match:"!exporte?r?name [^\n]+")
 	exporter_name_grabber := replace@(match:"!exporte?r?name ", replace:"")
-	card_name := { if exporter_name_grabber(exporter_name_filter(card.notes)) != "" then exporter_name_grabber(exporter_name_filter(card.notes)) else card.name }
+	card_name := { replace(if exporter_name_grabber(exporter_name_filter(card.notes)) != "" then exporter_name_grabber(exporter_name_filter(card.notes)) else card.name, match:" $", replace:"") }
+	compare_card_name := { if exporter_name_grabber(exporter_name_filter(input.notes)) != "" then exporter_name_grabber(exporter_name_filter(input.notes)) else input.name }
 	determine_shape := {
 		if (contains(card.shape, match:"normal") or contains(card.shape, match:"planeswalker") or card.loyalty_2 != "") and card.name_2 != "" then "double"
 		else if contains(card.shape, match:"double") then "double"
@@ -36,9 +46,8 @@ script:
 		else if contains(card.shape, match:"aftermath") then "vsplit"
 		else if contains(card.shape, match:"planeswalker") then "normal"
 		else if contains(card.shape, match:"shifted") then "normal"
-		else card.shape
+		else replace(card.shape, match:" faced", replace:"")
 	}
-	
 	paragraph_count := replace@(match:"\n", replace:"�")+
 		filter_text@(match:"�")
 	
@@ -77,7 +86,7 @@ script:
 			+(if contains(paragraph_count(card.rule_text), match:"��") then split_text(match:"\n", card.rule_text).2)
 		# The Fourth Ability
 		+(if contains(paragraph_count(card.rule_text), match:"���") then "\n")
-			+(if card.loyalty_2 = "" then card.loyalty_cost_4)
+			+(if card.loyalty_2 == "" then card.loyalty_cost_4)
 			+(if card.loyalty_cost_4 !="" and card.loyalty_2 == "" then ": ")
 			+(if contains(paragraph_count(card.rule_text), match:"���") then split_text(match:"\n", card.rule_text).3))
 		+"\n"
@@ -179,13 +188,13 @@ script:
 		}
 	##run the name check
 	check_unique := { count := 0
-		for x from 0 to length(input)-1 do if input[x][prop] == name then count := count + 1
+		for x from 0 to length(input)-1 do if compare_card_name(input[x]) == name then count := count + 1
 		count
 	}
-	for each card in cards do if check_unique(cards, name:card.name, prop:"name") > 1 then trace("Warning: Repeated name: " + card.name)
-	write_cards := for each card in sort_list(cards, order_by: {input.card_number}) do write_card()
+	write_images := if options.export_images == "no" then "" else for each card in cards do write_image_file(card, file:card_name()+options.export_images)
+	for each card in cards do if check_unique(cards, name:card_name()) > 1 then trace("Warning: Repeated name: " + card.name)
+	write_cards := for each card in cards do write_card()
 	to_string(
 		 set.title+"\n"
 		 +"1.0\n"
 		 +write_cards)
-

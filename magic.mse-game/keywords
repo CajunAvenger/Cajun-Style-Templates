@@ -929,7 +929,7 @@ keyword:
 	reminder: If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached to a creature.
 keyword:
 	keyword: Devotion
-	match: devotion to <atom-param>action</atom-param>
+	match: devotion to <atom-param>one_word</atom-param>
 	mode: action
 	reminder: Each {color_to_mana(param1)} in the mana costs of permanents you control counts toward your devotion to {param1}.
 # Commander 2013

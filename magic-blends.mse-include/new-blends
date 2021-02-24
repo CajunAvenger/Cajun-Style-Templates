@@ -955,6 +955,12 @@ set_watermark_blend := {
 	)
 }
 spotlight_watermark_blend := {
+	c1 := "/magic-watermarks.mse-include/spotlight/" + watermark_colors().0 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
+	c2 := "/magic-watermarks.mse-include/spotlight/" + watermark_colors().1 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
+	if h != 0 then (
+		c1 := crop(c1, height:h, width:500, offset_x:0, offset_y:0)
+		c2 := crop(c2, height:h, width:500, offset_x:0, offset_y:0)
+	)
 	set_alpha(
 		alpha: 0.75
 		input:
@@ -962,17 +968,17 @@ spotlight_watermark_blend := {
 				image1: 
 					masked_blend(
 						light: input
-						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().0 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
+						dark: c1
 					mask: input
 					)
 				image2:
 					masked_blend(
 						light: input
-						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().1 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
+						dark: c2
 					mask: input
 					)
 				x1: 0.4,  y1: 0
 				x2: 0.6,  y2: 0
 			)
 	)
-}
+}@(h:0)

@@ -1283,9 +1283,9 @@ card style:
 	############################# Levels
 	level 1 text:
 		left: {if is_leveler() then (if card.level_0 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else if is_mutate() then (if is_bumped() then 47 else 29) else 0}
-		top: { if is_leveler() then 327 else if is_saga() then 155 else if is_mutate() then 329 else if is_normal() then 0 else if has_four_abilities() then 289-lv_chop(styling.level_1_chop, cell:0)+(if front_clear() then 5 else 0) else 0 }
+		top: { if is_leveler() then 327-lv_chop(styling.level_1_chop, cell:0) else if is_saga() then 155-lv_chop(styling.level_1_chop, cell:0) else if is_mutate() then 329 else 0 }
 		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 183 else if is_normal() and not is_mutate() then 0 else 0 }
-		bottom: { if is_leveler() then (327+lv_1_height()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else if is_mutate() then 391 else 0 }
+		bottom: { if is_leveler() then (327+lv_1_height()-lv_chop(styling.level_1_chop, cell:1)) else if is_saga() then (if split_12() == "" then 249 else split_12())-lv_chop(styling.level_1_chop, cell:1) else if is_mutate() then 391 else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1307,9 +1307,9 @@ card style:
 		line height line max: 1.6
 	level 2 text:
 		left: {if is_leveler() then (if card.level_1 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 0}
-		top: { if is_leveler() then (329 + lv_2_coordinate()) else if is_saga() then (if split_12() == "" then 249 else split_12()) else 0}
+		top: { if is_leveler() then (329 + lv_2_coordinate()-lv_chop(styling.level_2_chop, cell:0)) else if is_saga() then (if split_12() == "" then 249 else split_12())-lv_chop(styling.level_2_chop, cell:0) else 0}
 		right: { -lv_chop(styling.level_2_chop, cell:2) + if is_leveler() then (if card.pt_2 != "" then 277 else 342) else if is_saga() then 183 else 0 }
-		bottom: { if is_leveler() then card_style.level_2_text.top + lv_2_height()-2 else if is_normal() and not is_saga() then 0 else (if is_saga() then (if split_23() == "" then 343 else split_23()) else 0) - lv_chop(styling.level_2_chop, cell:1) }
+		bottom: { if is_leveler() then card_style.level_2_text.top + lv_2_height()-2-lv_chop(styling.level_2_chop, cell:1) else if not is_saga() then 0 else (if is_saga() then (if split_23() == "" then 343 else split_23()) else 0) - lv_chop(styling.level_2_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1331,9 +1331,9 @@ card style:
 		line height line max: 1.6
 	level 3 text:
 		left: {if is_leveler() then (if card.level_2 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else 0}
-		top: {if is_leveler() then (331 + lv_3_coordinate()) else if has_two_abilities() then 0 else (if is_saga() then (if split_23() == 0 then 343 else split_23()) else 0) -lv_chop(styling.level_3_chop, cell:0) }
+		top: {if is_leveler() then (331 + lv_3_coordinate()-lv_chop(styling.level_3_chop, cell:0)) else (if is_saga() then (if split_23() == 0 then 343 else split_23()) else 0) -lv_chop(styling.level_3_chop, cell:0) }
 		right: { -lv_chop(styling.level_3_chop, cell:2) + if is_leveler() then (if card.pt_3 != "" then 277 else 342) else if is_saga() then 183 else 0 }
-		bottom: { if is_leveler() then (329 + lv_3_coordinate()+lv_3_height()-2) else if has_two_abilities() or is_normal() and not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 343 else split_23()) else (if is_saga() then (if split_34() == "" then 437 else split_34()) else 0) - lv_chop(styling.level_3_chop, cell:1) }
+		bottom: { if is_leveler() then (329 + lv_3_coordinate()+lv_3_height()-2-lv_chop(styling.level_4_chop, cell:2)) else if not is_saga() then 0 else if two_boxes() then (if split_23() == "" then 343 else split_23())-lv_chop(styling.level_3_chop, cell:0) else (if is_saga() then (if split_34() == "" then 437 else split_34()) else 0) - lv_chop(styling.level_3_chop, cell:1) }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1355,9 +1355,9 @@ card style:
 		line height line max: 1.6
 	level 4 text:
 		left: {if is_saga() then 45 else 0}
-		top: { if is_saga() then (if split_34() == "" then 437 else split_34()) else 0}
-		width: {if is_saga() then 138 else 0 }
-		bottom: { if three_boxes() then (if split_34() == "" then 437 else split_34()) else if is_saga() then 437 else 0 }
+		top: { if is_saga() then (if split_34() == "" then 437 else split_34())-lv_chop(styling.level_4_chop, cell:0) else 0}
+		width: {if is_saga() then 138-lv_chop(styling.level_4_chop, cell:2) else 0 }
+		bottom: { if three_boxes() then (if split_34() == "" then 437 else split_34())-lv_chop(styling.level_4_chop, cell:1) else if is_saga() then 437-lv_chop(styling.level_4_chop, cell:1) else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1377,12 +1377,11 @@ card style:
 		line height soft: 0.9
 		line height hard max: {if is_modal(card.level_4_text) then 1.0 else 1.3 }
 		line height line max: 1.6
-		mask: walker_text_mask.png
 	level 5 text:
 		left: {if back_leveler() then (377 + if card.level_5 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 422 else if back_mutate() then (if back_bumped() then 424 else 406) else 0}
-		top: { if back_leveler() then 327 else if back_saga() then 155 else if back_mutate() then 329 else 0 }
+		top: { if back_leveler() then 327-lv_chop(styling.level_5_chop, cell:0) else if back_saga() then 155-lv_chop(styling.level_5_chop, cell:0) else if back_mutate() then 329 else 0 }
 		right: { -lv_chop(styling.level_5_chop, cell:2) + if back_leveler() then (if lone_pt() then 719 else if card.pt_4 != "" then 654 else 719) else if back_saga() then 560 else if back_mutate() then 720 else 0 }
-		bottom: { if back_leveler() then (327+lv_5_height()) else if back_saga() then (if split_12b() == "" then 249 else split_12b()) else if back_mutate() then 391 else 0 }
+		bottom: { if back_leveler() then (327+lv_5_height())-lv_chop(styling.level_5_chop, cell:1) else if back_saga() then (if split_12b() == "" then 249 else split_12b())-lv_chop(styling.level_5_chop, cell:1) else if back_mutate() then 391 else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1404,7 +1403,7 @@ card style:
 		line height line max: 1.6
 	level 6 text:
 		left: {if back_leveler() then (377 + if card.level_6 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 422 else 0}
-		top: { if back_leveler() then (327 + lv_6_coordinate()) else if back_saga() then (if split_12b() == "" then 249 else split_12b()) else 0 }
+		top: { if back_leveler() then (327 + lv_6_coordinate())- lv_chop(styling.level_6_chop, cell:0) else if back_saga() then (if split_12b() == "" then 249 else split_12b())- lv_chop(styling.level_6_chop, cell:0) else 0 }
 		right: { -lv_chop(styling.level_6_chop, cell:2) + if back_leveler() then (if card.pt_5 != "" then 654 else 719) else if back_saga() then 560 else 0 }
 		bottom: { if back_leveler() then card_style.level_6_text.top + lv_6_height() else if back_normal() and not back_saga() then 0 else (if back_saga() then (if split_23b() == "" then 343 else split_23b()) else 0) - lv_chop(styling.level_6_chop, cell:1) }
 		font:
@@ -1428,9 +1427,9 @@ card style:
 		line height line max: 1.6
 	level 7 text:
 		left: {if back_leveler() then (377 + if card.level_7 != "" then (if loy_leveler2() then 57 else if box_leveler2() then 78 else 75) else if back_map() then 40 else 29) else if back_saga() then 422 else 0}
-		top: { if back_leveler() then (327 + lv_7_coordinate()) else if back_two_abilities() then 0 else if back_saga() then (if split_23b() == "" then 343 else split_23b()) else 0 }
+		top: { if back_leveler() then (327 + lv_7_coordinate())-lv_chop(styling.level_7_chop, cell:0) else if back_saga() then (if split_23b() == "" then 343 else split_23b())-lv_chop(styling.level_7_chop, cell:0) else 0 }
 		right: { -lv_chop(styling.level_7_chop, cell:2) + if back_leveler() then (if card.pt_6 != "" then 654 else 719) else if back_saga() then 560 else 0 }
-		bottom: { if back_leveler() then (327 + lv_7_coordinate()+lv_7_height()) else if not back_saga() then 0 else if back_two_boxes() then (if split_23b() == "" then 343 else split_23b()) else if split_34b() == "" then 437 else split_34b()}
+		bottom: { if back_leveler() then (327 + lv_7_coordinate()+lv_7_height())-lv_chop(styling.level_7_chop, cell:1) else if not back_saga() then 0 else (if back_two_boxes() then (if split_23b() == "" then 343 else split_23b()) else if split_34b() == "" then 437 else split_34b())-lv_chop(styling.level_7_chop, cell:1)}
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1452,9 +1451,9 @@ card style:
 		line height line max: 1.6
 	level 8 text:
 		left: {if back_saga() then 422 else 0}
-		top: {if back_saga() then (if split_34b() == "" then 437 else split_34b()) else 0}
-		width: {if back_saga() then 138 else 0 }
-		bottom: { if back_three_boxes() then (if split_34b() == "" then 437 else split_34b()) else if back_saga() then 437 else 0 }
+		top: {if back_saga() then (if split_34b() == "" then 437 else split_34b())-lv_chop(styling.level_8_chop, cell:0) else 0}
+		width: {if back_saga() then 138-lv_chop(styling.level_8_chop, cell:2) else 0 }
+		bottom: { if back_three_boxes() then (if split_34b() == "" then 437 else split_34b())-lv_chop(styling.level_8_chop, cell:1) else if back_saga() then 437-lv_chop(styling.level_8_chop, cell:1) else 0 }
 		font:
 			name: MPlantin
 			italic name: MPlantin-Italic
@@ -1474,7 +1473,6 @@ card style:
 		line height soft: 0.9
 		line height hard max: {if is_modal(card.level_8_text) then 1.0 else 1.3 }
 		line height line max: 1.6
-		mask: walker_text_mask.png
 	############################# Levels
 	level 0:
 		z index: 7
@@ -3089,7 +3087,7 @@ extra card style:
 		visible: { max_level() > 3 or force_level() == "four"}
 	stripe color:
 		left: { if front_clear() then 47 else 45}
-		top: { (if has_four_abilities() then 309 else 345)-(if front_clear() then 2 else 0) }
+		top: { (if has_four_abilities() then 309 else if front_clear() then 343 else 345) }
 		width: { if front_clear() then 298 else 302}
 		bottom: { max(if force_level() == "one" then 465 else to_int(stripe01()-3)+(if front_clear() then 2 else 0), (if has_four_abilities() then 309 else 345)-(if front_clear() then 2 else 0)) }
 		z index: 2
@@ -3200,7 +3198,7 @@ extra card style:
 		visible: { max_levelb() > 3 or force_levelb() == "four"}
 	stripe color back:
 		left: { if back_clear() then 424 else 422}
-		top: { (if back_four_abilities() then 309 else 345)-(if back_clear() then 2 else 0) }
+		top: { (if back_four_abilities() then 309 else if back_clear() then 343 else 345) }
 		width: { if back_clear() then 298 else 302}
 		bottom: { max(if force_levelb() == "one" then 465 else to_int(stripe01b()-3)+(if back_clear() then 2 else 0), (if back_four_abilities() then 309 else 345)-(if back_clear() then 2 else 0)) }
 		z index: 2
@@ -3539,21 +3537,21 @@ extra card style:
 			size: 9
 			color: white
 	back color hint:
-		right: {if mainframe_walker() then 159 else 163}
-		top: {461.5 + front_modal_hint().2}
+		right: {if mainframe_walker() then 157 else 161}
+		top: 471
 		width: 80
 		height: 14
 		z index: 8
 		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
-			size: 9.5
+			size: 10
 			color: white
 		symbol font:
 			name: { styling.text_box_mana_symbols }
-			size: 10.5
+			size: 10
 			scale down to: 6
-		alignment: right
+		alignment: right middle
 	back modal flag:
 		left: {if mainframe_walkerb() then 387 else 391}
 		top: 468
@@ -3576,20 +3574,20 @@ extra card style:
 			color: black
 	front color hint:
 		right: {if mainframe_walkerb() then 534 else 538}
-		top: {461.5 + back_modal_hint().2}
+		top: {if match(value, match:"^<sym>[^<]+</sym>$") then 472 else 471}
 		width: 80
 		height: 14
 		z index: 8
 		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
-			size: 9.5
+			size: 10
 			color: black
 		symbol font:
 			name: { styling.text_box_mana_symbols }
-			size: 10.5
+			size: 10
 			scale down to: 6
-		alignment: right
+		alignment: right middle
 	meld bar:
 		left: 377
 		top: 0

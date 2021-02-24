@@ -1073,20 +1073,20 @@ extra card style:
 			color: white
 	back color hint:
 		right: 163
-		top: {461.5 + front_modal_hint().2}
+		top: 471
 		width: 80
 		height: 14
 		z index: 3
 		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
-			size: 9.5
+			size: 10
 			color: white
 		symbol font:
 			name: { styling.text_box_mana_symbols }
-			size: 10.5
+			size: 10
 			scale down to: 6
-		alignment: right
+		alignment: right middle
 	back modal flag:
 		left: 393
 		top: 467
@@ -1109,20 +1109,20 @@ extra card style:
 			color: black
 	front color hint:
 		right: 540
-		top: {461.5 + back_modal_hint().2}
+		top: 471
 		width: 80
 		height: 14
 		z index: 3
 		visible: {is_modal_dfc()}
 		font:
 			name: MPlantin
-			size: 9.5
+			size: 10
 			color: black
 		symbol font:
 			name: { styling.text_box_mana_symbols }
-			size: 10.5
+			size: 10
 			scale down to: 6
-		alignment: right
+		alignment: right middle
 
 	################# Transform node
 	corner:
