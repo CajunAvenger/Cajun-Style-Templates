@@ -64,7 +64,7 @@ init script:
 		else ""
 	}
 	switch_follow := {
-		if (input == "legend" or input != "legend2") then (
+		if (input == "legend" or input == "legend2") then (
 			if styling.legend_crown == "nyx" or (check_nyx(input) and chosen(styling.other_options, choice:"auto nyx crowns"))
 				then "nyx"
 			else if styling.legend_crown == "companion"
@@ -337,6 +337,13 @@ init script:
 		else if input == "lv6" then (if card.loyalty_cost_6 == "" and unindent() then 0 else 130)
 		else if input == "lv7" then (if card.loyalty_cost_7 == "" and unindent() then 0 else 130)
 		else if input == "lv8" then (if card.loyalty_cost_8 == "" and unindent() then 0 else 130)
+		else 0
+	}
+	margin_top := {
+		if input == "lv1" or input == "lv2" or input == "lv3" or input == "lv4" then
+			lv_chop(styling.level_1_chop, cell:3)
+		else if input == "lv5" or input == "lv6" or input == "lv7" or input == "lv8" then
+			lv_chop(styling.level_5_chop, cell:3)
 		else 0
 	}
 	add_spacers := { if input == "" and inner_level(name) then "​" else input}
@@ -2879,7 +2886,7 @@ extra card style:
 		visible: { is_stamped() and not front_clear() }
 		render style: image
 		image: { if is_saga() then "saga_stamp.png" else if is_map() then "maps/holo_stamp.png" else if mainframe_walker() then walker_stamp() else if is_normal() then card_stamp2() else card_stamp() }
-		mask: { (if is_full() and mainframe_walker() then "mythic") + "stamp_mask.png" }
+		mask: { (if is_full() then (if mainframe_walker() then "mythic" else "med_full_") else "") + (if mainframe_walker() then "walker_" else "") + "stamp_mask.png" }
 	foil stamp:
 		left: {if front_clear() then 168 else if is_normal() then 165 else 169 }
 		top: { if front_clear() then 471 else if is_normal() then 472 else 473 }
@@ -3841,18 +3848,18 @@ extra card style:
 		image: line.png
 		visible: {back_four_boxes()}
 	opac filter:
-		left: 45
-		top: {if has_four_abilities() then 289 else 325}
-		width: 303
-		height: {if has_four_abilities() then 192 else 155}
+		left: 43
+		top: {if has_four_abilities() then 290 else 325}
+		width: 305
+		height: {if has_four_abilities() then 192 else 157}
 		mask: {"opacfilter" + if has_four_abilities() then "_4.png" else ".png"}
 		z index: 1
 		visible: {mainframe_walker() and pull_comma_array(styling.opacity, cell:0, end:false, default:300) != 300}
 	opac filter 2:
-		left: 422
-		top: {if back_four_abilities() then 289 else 325}
-		width: 303
-		height: {if back_four_abilities() then 192 else 155}
+		left: 420
+		top: {if back_four_abilities() then 290 else 325}
+		width: 305
+		height: {if back_four_abilities() then 192 else 157}
 		mask: {"opacfilter" + if back_four_abilities() then "_4.png" else ".png"}
 		z index: 1
 		visible: {mainframe_walkerb() and pull_comma_array(styling.opacity, cell:1, end:false, default:300) != 300}

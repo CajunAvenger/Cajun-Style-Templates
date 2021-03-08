@@ -126,7 +126,7 @@ init script:
 	is_vehicle := { (chosen(styling.frames, choice: "vehicle") or (chosen(styling.other_options, choice:"auto vehicles") and match_vehicle(card.sub_type))) and not is_map()}
 	is_snow := { (chosen(styling.frames, choice: "snow") or (chosen(styling.other_options, choice:"auto snow") and match_snow(card.super_type))) and not is_map()}
 	is_cons := { chosen(styling.frames, choice: "conspiracy") or chosen(styling.frames, choice: "draft matters") and not is_map()}
-	is_conspiracy := { chosen(styling.frames, choice: "conspiracy") and not is_map()}
+	is_scrolls := { chosen(styling.frames, choice: "conspiracy") and not is_map()}
 	is_shifted := { chosen(styling.frames, choice: "planeshifted") and not is_map() and not is_full_art() and not is_fnm()}
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
 	is_map := { chosen(styling.frames, choice: "map") }
@@ -538,7 +538,7 @@ card style:
 			shadow displacement y: 1
 			separator color: red
 	rarity:
-		right: { if is_map() then 199 else 344}
+		right: { if is_map() then 199 else if is_scrolls() then 334 else 344}
 		top: { if is_map() then 53 else if is_clear() then 295 else if is_thbland() then 445 else if is_full_art() then 329 else 297 }
 		width: {if set.shorten_types_for_rarity then 44 else 0}
 		height: 22
@@ -594,7 +594,7 @@ card style:
 			shadow displacement y: 1
 		symbol font:
 			name: { styling.text_box_mana_symbols }
-			size: {if styling.font_cap != "" then to_number(styling.font_cap) else 14}
+			size: {if styling.font_cap != "" then to_number(styling.font_cap) else (if is_mutate() then 12 else 14)}
 			scale down to: 6
 		alignment:
 			script:
@@ -868,7 +868,7 @@ card style:
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 4
-		alignment: middle right shrink-overflow
+		alignment: middle right 
 		font:
 			name: MPlantin
 			size: 6.5
@@ -1249,7 +1249,7 @@ extra card style:
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 4
-		alignment: middle right shrink-overflow
+		alignment: middle right
 		font:
 			name: MPlantin
 			size: 6.5
@@ -1294,7 +1294,7 @@ extra card style:
 		render style: image
 		image: {(if is_full_art() then "full_" else "") + "consscrolls.png"}
 		z index: 1
-		visible: {chosen(styling.frames, choice:"conspiracy")}
+		visible: {is_scrolls()}
 	miracle overlay:
 		left: 0
 		top: 0
