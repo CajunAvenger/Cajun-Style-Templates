@@ -633,7 +633,7 @@ script:
 			 else "1")
 			+"\</tablerow>"
 		# Rules Text
-		+"\n "+"\<text>"+ if card.special_text != "" then card.special_text else ""
+		+"\n "+"\<text>"+ (if card.special_text != "" then card.special_text else "")
 		#Level I
 		+card.rule_text
 		# Level II
