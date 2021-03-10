@@ -167,7 +167,7 @@ styling field:
 styling field:
 	type: text
 	name: font sizes
-	description: Formatted "1,2,3,4". Change the font size of big title, small title, card count, and age. Default is "70,40,30,20"
+	description: Formatted "1,2,3,4". Change the font size of big title, small title, card count, and age. Default is "35,20,15,10"
 styling field:
 	type: text
 	name: rarity opacity
