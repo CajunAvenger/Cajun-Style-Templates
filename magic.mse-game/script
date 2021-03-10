@@ -720,13 +720,13 @@ text_filter :=
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-cardname></atom-cardname>"
 		) +
 	# step 3b : expand shortcut word LEGENDNAME
 	replace@(
 		match: "LEGENDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-legname></atom-legname>"
 		) +
 	# step 3c : fill in atom fields
@@ -740,7 +740,7 @@ text_filter :=
 		) +
 	replace@(
 		match: "INS([1-9])",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>",
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>",
 		replace: "<atom-insert\\1></atom-insert\\1>"
 	) +
 	{
