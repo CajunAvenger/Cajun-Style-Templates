@@ -528,8 +528,9 @@ reverse_elements := {for element from 1 to length(input) do input[length(input) 
 #### these will be determined by the style affecting the margins and otherwise be 0
 margin_left := {0}
 margin_right := {0}
+margin_top := {0}
 remove_margins := replace@(
-	match: "</?margin:[0-9]+(:+[0-9]+)?>",
+	match: "</?margin:[0-9]+(:+[0-9]+)?(:+[0-9]+)?>",
 	replace:""
 )
 ##remove 0 margins and margins with no text
@@ -537,26 +538,26 @@ cull_margins := replace@(match:"</?margin:0(:+0)?(:+0)?>", replace:"")+
 	replace@(match:"<margin:[0-9]+:?[0-9]*:?[0-9]*></margin:[0-9]+:?[0-9]*:?[0-9]*>", replace:"")
 	
 #### this gives a big array so we can grab_margins["lv1"] etc anywhere
-grab_margins := {[ lv1: [margin_left("lv1"), margin_right("lv1")], 
-	lv2: [margin_left("lv2"), margin_right("lv2")], 
-	lv3: [margin_left("lv3"), margin_right("lv3")], 
-	lv4: [margin_left("lv4"), margin_right("lv4")], 
-	lv5: [margin_left("lv5"), margin_right("lv5")], 
-	lv6: [margin_left("lv6"), margin_right("lv6")], 
-	lv7: [margin_left("lv7"), margin_right("lv7")], 
-	lv8: [margin_left("lv8"), margin_right("lv8")], 
-	text: [margin_left("text"), margin_right("text")], 
-	text2: [margin_left("text2"), margin_right("text2")], 
-	text3: [margin_left("text3"), margin_right("text3")], 
-	text4: [margin_left("text4"), margin_right("text4")], 
-	text5: [margin_left("text5"), margin_right("text5")],
-	text6: [margin_left("text6"), margin_right("text6")],
-	unknown: [0,0]
+grab_margins := {[ lv1: [margin_left("lv1"), margin_right("lv1"), margin_top("lv1")], 
+	lv2: [margin_left("lv2"), margin_right("lv2"), margin_top("lv2")], 
+	lv3: [margin_left("lv3"), margin_right("lv3"), margin_top("lv3")], 
+	lv4: [margin_left("lv4"), margin_right("lv4"), margin_top("lv4")], 
+	lv5: [margin_left("lv5"), margin_right("lv5"), margin_top("lv5")], 
+	lv6: [margin_left("lv6"), margin_right("lv6"), margin_top("lv6")], 
+	lv7: [margin_left("lv7"), margin_right("lv7"), margin_top("lv7")], 
+	lv8: [margin_left("lv8"), margin_right("lv8"), margin_top("lv8")], 
+	text: [margin_left("text"), margin_right("text"), margin_top("text")], 
+	text2: [margin_left("text2"), margin_right("text2"), margin_top("text2")], 
+	text3: [margin_left("text3"), margin_right("text3"), margin_top("text3")], 
+	text4: [margin_left("text4"), margin_right("text4"), margin_top("text4")], 
+	text5: [margin_left("text5"), margin_right("text5"), margin_top("text5")],
+	text6: [margin_left("text6"), margin_right("text6"), margin_top("text6")],
+	unknown: [0,0,0]
 ]}
 #### then with apply_margins(field, name:fieldname), add the margins into the text
 apply_margins := {
-	margin_data := grab_margins()[name] or else [0,0]
-	cull_margins("<margin:" + margin_data[0] + ":" + margin_data[1] + ":0>" + remove_margins(input) + "</margin:" + margin_data[0] + ":" + margin_data[1] + ":0>")
+	margin_data := grab_margins()[name] or else [0,0,0]
+	cull_margins("<margin:" + margin_data[0] + ":" + margin_data[1] + ":" + margin_data[2] + ">" + remove_margins(input) + "</margin:" + margin_data[0] + ":" + margin_data[1] + ":" + margin_data[2] + ">")
 }
 is_modal := contains@(match:"<li>")
 inserts_values := {
@@ -719,13 +720,13 @@ text_filter :=
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-cardname></atom-cardname>"
 		) +
 	# step 3b : expand shortcut word LEGENDNAME
 	replace@(
 		match: "LEGENDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-legname></atom-legname>"
 		) +
 	# step 3c : fill in atom fields
@@ -739,7 +740,7 @@ text_filter :=
 		) +
 	replace@(
 		match: "INS([1-9])",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|/|​)<match>",
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>",
 		replace: "<atom-insert\\1></atom-insert\\1>"
 	) +
 	{

@@ -97,6 +97,8 @@ init script:
 	auto_flags := {styling.dfc_type == "modal with standard flags"}
 	back_vehicle := {contains(card.type_2, match:"Vehicle")}
 	back_legend := {set.auto_legends and contains(card.super_type_2, match:"Legendary") }
+	back_face := replace@(match:"a", replace:"b")
+
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -611,7 +613,7 @@ card style:
 			name: Beleren Small Caps Bold
 			size: 7.25
 			color: white
-	illustrator:
+	illustrator 2:
 		left: { 421 + card_style.set_code_2.content_width }
 		top: 497.5
 		width: 200
@@ -926,7 +928,7 @@ extra card style:
 		z index: 1
 		render style: image
 		image: artist_arrow.png
-	artist arrow:
+	artist arrow 2:
 		left: { 405 + card_style.set_code.content_width }
 		top: 500
 		width: 12

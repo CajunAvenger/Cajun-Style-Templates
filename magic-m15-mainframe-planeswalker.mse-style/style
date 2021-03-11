@@ -162,6 +162,7 @@ init script:
 		else if input == "lv6" then (if card.loyalty_cost_6 == "" and unindent() then 0 else 130)
 		else 0
 	}
+	margin_top := {to_int(pull_comma_array(styling.combined_chop, cell:2, end:0, default:0))}
 	add_spacers := { if input == "" and inner_level(name) then "​" else input}
 	inner_level := {
 		if input == "lv5" and max_level() > 5 then true
@@ -201,10 +202,10 @@ init script:
 	special_text := {
 		out := (if card.loyalty_cost_1 != "" then "[" + card.loyalty_cost_1 + "]: " else "") + (if card.level_1_text != "" and card.level_1_text != card.rule_text then card.level_1_text+"\n" else split_text(match:"\n", card.rule_text).0+"\n")
 			+ (if card.loyalty_cost_2 != "" then "[" + card.loyalty_cost_2 + "]" + ": " else "") + (if card.level_2_text != "" then card.level_2_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~") then split_text(match:"\n", card.rule_text).1+"\n" else "")
-			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2+"\n" else "")
-			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3+"\n" else "")
-			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_5 + "]" + ": " else "") + (if card.level_5_text != "" then card.level_5_text else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).4+"\n" else "")
-			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_6 + "]" + ": " else "") + (if card.level_6_text != "" then card.level_6_text else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).5 else "")
+			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2+"\n" else "")
+			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3+"\n" else "")
+			+ (if card.loyalty_cost_5 != "" then "[" + card.loyalty_cost_5 + "]" + ": " else "") + (if card.level_5_text != "" then card.level_5_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).4+"\n" else "")
+			+ (if card.loyalty_cost_6 != "" then "[" + card.loyalty_cost_6 + "]" + ": " else "") + (if card.level_6_text != "" then card.level_6_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).5 else "")
 		out := replace(out, match:"\n\n+", replace:"")
 		out
 	}
@@ -226,7 +227,7 @@ styling field:
 styling field:
 	type: text
 	name: combined chop
-	description: Formatted "X,Y", shrinks the top X pixels and bottom Y pixels toward center.
+	description: Formatted "X,Y,Z", shrinks the top X pixels, shrinks bottom Y pixels toward center, widens small stripes Z pixels.
 styling field:
 	type: text
 	name: shift loyalty costs
@@ -554,7 +555,7 @@ card style:
 		line height line: 1.3
 		line height soft: { if has_four_abilities() then 0.85 else 0.9 }
 		line height hard max: 1.4
-		line height line max: 2.0
+		line height line max: 2.2
 	watermark:
 		left: 19
 		top : { if has_four_abilities() then 314 else 331 }
@@ -671,7 +672,7 @@ card style:
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 6
-		alignment: middle right shrink-overflow
+		alignment: middle right
 		font:
 			name: Matrix
 			size: 7
@@ -1239,7 +1240,7 @@ extra card style:
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 6
-		alignment: middle right shrink-overflow
+		alignment: middle right
 		font:
 			name: MPlantin
 			size: 7
@@ -1266,10 +1267,10 @@ extra card style:
 			size: 14
 			color: rgb(223,169,41)
 	opac filter:
-		left: 45
-		top: {if has_four_abilities() then 289 else 325}
-		width: 303
-		height: {if has_four_abilities() then 192 else 155}
+		left: 43
+		top: {if has_four_abilities() then 290 else 325}
+		width: 305
+		height: {if has_four_abilities() then 192 else 157}
 		mask: {"opacfilter" + if has_four_abilities() then "_4.png" else ".png"}
 		z index: 1
 		visible: {styling.opacity != ""}
