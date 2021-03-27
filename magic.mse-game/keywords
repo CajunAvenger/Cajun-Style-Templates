@@ -35,7 +35,7 @@ keyword parameter type:
 		description: No changes made
 		script: \{{input}\}
 	refer script:
-		name: converted mana cost
+		name: mana value
 		description: Converts mana to number
 		# "0" left in so users can easily see how to edit script.
 		script: \{cmc({input})\}
@@ -399,12 +399,12 @@ keyword:
 	keyword: Bushido
 	match: Bushido <atom-param>number</atom-param>
 	mode: expert
-	reminder: When this blocks or becomes blocked, it gets +{param1}/+{param1} until end of turn.
+	reminder: Whenever this creature blocks or becomes blocked, it gets +{param1}/+{param1} until end of turn.
 keyword:
 	keyword: Soulshift
 	match: Soulshift <atom-param>number</atom-param>
 	mode: expert
-	reminder: When this creature dies, you may return target Spirit card with converted mana cost {param1} or less from your graveyard to your hand.
+	reminder: When this creature dies, you may return target Spirit card with mana value {param1} or less from your graveyard to your hand.
 keyword:
 	keyword: Enchant
 	match: Enchant <atom-param>name</atom-param>
@@ -473,12 +473,12 @@ keyword:
 	keyword: Transmute
 	match: Transmute <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Discard this card: Search your library for a card with the same converted mana cost as this card, reveal it, and put it into your hand. Then shuffle your library. Transmute only as a sorcery.
+	reminder: {param1}, Discard this card: Search your library for a card with the same mana value as this card, reveal it, and put it into your hand. Then shuffle your library. Transmute only as a sorcery.
 keyword:
 	keyword: Dredge
 	match: Dredge <atom-param>number</atom-param>
 	mode: expert
-	reminder: If you would draw a card, instead you may put exactly {english_number(param1)} card(s) from the top of your library into your graveyard. If you do, return this card from your graveyard to your hand. Otherwise, draw a card.
+	reminder: If you would draw a card, instead you mill {english_number(param1)} card(s) instead. If you do, return this card from your graveyard to your hand. Otherwise, draw a card.
 keyword:
 	keyword: Radiance
 	match: Radiance
@@ -588,7 +588,7 @@ keyword:
 	keyword: Transfigure
 	match: Transfigure <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Sacrifice this creature: Search your library for a creature card with the same converted mana cost as this creature and put that card onto the battlefield. Then shuffle your library. Transfigure only as a sorcery.
+	reminder: {param1}, Sacrifice this creature: Search your library for a creature card with the same mana value as this creature and put that card onto the battlefield. Then shuffle your library. Transfigure only as a sorcery.
 keyword:
 	keyword: Aura swap
 	match: Aura swap <atom-param>cost</atom-param>
@@ -639,7 +639,7 @@ keyword:
 	keyword: Clash
 	match: Clash
 	mode: action
-	reminder: Each clashing player reveals the top card of their library, then puts that card on the top or bottom. A player wins if their card had a higher converted mana cost.
+	reminder: Each clashing player reveals the top card of their library, then puts that card on the top or bottom. A player wins if their card had a higher mana value.
 keyword:
 	keyword: Changeling
 	match: Changeling
@@ -649,7 +649,7 @@ keyword:
 	keyword: Hideaway
 	match: Hideaway
 	mode: expert
-	reminder: This land enters the battlefield tapped. When it does, look at the top four cards of your library, exile one face down, then put the rest on the bottom of your library.
+	reminder: This {if is_creature(card.type) then "creature" else if is_land(card.type) then "land" else "permanent"} enters the battlefield tapped. When it does, look at the top four cards of your library, exile one face down, then put the rest on the bottom of your library.
 # Morningtide
 keyword:
 	keyword: Prowl
@@ -1120,7 +1120,7 @@ keyword:
 	keyword: Emerge
 	match: Emerge <atom-param>cost</atom-param>
 	mode: expert
-	reminder: You may cast this spell by sacrificing a creature and paying the emerge cost reduced by that creature's converted mana cost.
+	reminder: You may cast this spell by sacrificing a creature and paying the emerge cost reduced by that creature's mana value.
 keyword:
 	keyword: Escalate
 	match: Escalate <atom-param>cost</atom-param>
@@ -1440,7 +1440,7 @@ keyword:
 	keyword: Shard token
 	match: Shard toke<atom-param>*s</atom-param>
 	mode: core
-	reminder: {if param1.value == "ns" then "They’re enchantments" else "It’s an enchantment"} with "2, Sacrifice this enchantment: Scry 1, then draw a card."
+	reminder: {if param1.value == "ns" then "They’re enchantments" else "It’s an enchantment"} with "2, Sacrifice this enchantment: Scry ]1[, then draw a card."
 keyword:
 	keyword: Boast
 	match: Boast
@@ -1451,3 +1451,19 @@ keyword:
 	match: Foretell <atom-param>cost</atom-param>
 	mode: expert
 	reminder: During your turn, you may pay [2] and exile this card from your hand face down. Cast it on a later turn for its foretell cost.
+#Strixhaven
+keyword: 
+	keyword: Learn
+	match: learn
+	mode: action
+	reminder: You may reveal a Lesson card you own from outside the game and put it into your hand, or discard a card to draw a card.
+keyword:
+	keyword: Ward
+	match: Ward <atom-param>cost</atom-param>
+	mode: expert
+	reminder: Whenever this permanent becomes the target of a spell or ability an opponent controls, counter it unless that player {for_mana_costs(add:"pays ", non:"", param1, action:true)}.
+keyword:
+	keyword: Magecraft
+	match: Magecraft
+	mode: pseudo
+	rules: Magecraft — Whenever you cast or copy an instant or sorcery spell, [effect].

@@ -391,32 +391,44 @@ add := "" # default is nothing
 trim_reminder_x := replace@(match: ". X can’t be 0.", replace: "")
 
 # If the 'input' parameter is a mana costs, then adds 'add'
-for_mana_costs := format_cost := {
-	if input.separator_before == "—" and contains(input.param, match: " ") then (
-		if comma_count(input.param) == "," then (
-			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then
-				"{add}<param-cost>{combined_cost(input.param)}</param-cost>"
-			else "<param-cost>{combined_cost(input.param)}</param-cost>{non}"
-		) else if contains(input.param, match: ",") then (
-			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then
-				"{add}<param-cost>{long_cost(input.param)}</param-cost>"
-			else "<param-cost>{long_nomana_cost(input.param)}</param-cost>{non}"
+for_mana_costs := {
+	if input.separator_before == "—" and contains(input.param, match: " ") then (										##multi word
+		if comma_count(input.param) == "," then (																			##two part
+			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
+				"{add}<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>"					##"add" mana 
+			else "<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>{non}"					## else cost "non"
+		) else if contains(input.param, match: ",") then (																	##three+ parts
+			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
+				"{add}<param-cost>{alternative_cost(input.param, trim:long_cost, s:action)}</param-cost>"						##"add" mana with long formatting
+			else "<param-cost>{alternative_cost(input.param, trim:long_nomana_cost, s:action)}</param-cost>{non}"				## else cost "non" with long formatting
 		) else
-			"<param-cost>{alternative_cost(input.param)}{non}</param-cost>"
-	) else
-		"{add}<param-mana>{input.param}</param-mana>"
-}@(non:" in addition to any other costs")
+			"<param-cost>{alternative_cost(input.param, s:action, trim:lower_first)}{non}</param-cost>"						##one, nonmana, part
+	) else if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+$", input.param) then											##one word
+		"{add}<param-mana>{input.param}</param-mana>"																		##mana
+	else
+		"<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>{non}"						##nonmana
+}@(non:" in addition to any other costs", action:false)
 
-# Convert first character to lower case
-alternative_cost := replace@(match:"^[A-Z]", replace: { to_lower() })
 # Convert extra costs
 long_cost := replace@(match:", [A-Z]", replace: { to_lower() } )
 long_nomana_cost := replace@(match:"[A-Z]", replace: { to_lower() })
-#
+# Convert first character to lower case
+lower_first := replace@(match:"^[A-Z]", replace: { to_lower() })
 combined_cost := replace@(match:", [A-Z]", replace: { to_lower() })+
 	replace@(match:",", replace:" and")+
 	replace@(match:"^[VLHSCETQ\\?XYZIWUBRG0-9/|]+", in_context: "(^|[[:space:]])<match>(?![a-z])", replace: "<sym-auto>&</sym-auto>")+
 	replace@(match:"^[A-Z]", replace: { to_lower() })
+alternative_cost := {
+	input := trim(input)
+	if s then
+		input := actionize(input)
+	input
+}@(trim: lower_first, s:false, trim:{input})
+actionize := replace@(match:"(activate|ante|cast|choose|create|destroy|discard|double|draw|exchange|exile|fight|mill|play|put|regenerate|return|reveal|sacrifice|shuffle|tap|untap|transform|vote|exert|pay)(?=($| |,|\\.))", replace:"\\1s")
+	+replace@(match:"(attach)", replace:"\\1es")
+	+replace@(match:"scry", replace:"scries")
+	+replace@(match:"your", replace:"their")
+#
 protection_code := {
 	 output := if match(input, match:"(artifacts|creatures|enchantments|instants|lands|planeswalkers|sorceries|tribals|planes|schemes|emblems|conspiracies|^[A-Z]|^[^ ]* named)") then replace(input, match:"and from", replace:"or", in_context:" <match> ")
 		else if match(input, match:"^(converted|mana|power|toughness)") then "anything with " + replace(input, match:"and from", replace:"or", in_context:" <match> ")
@@ -560,6 +572,19 @@ apply_margins := {
 	cull_margins("<margin:" + margin_data[0] + ":" + margin_data[1] + ":" + margin_data[2] + ">" + remove_margins(input) + "</margin:" + margin_data[0] + ":" + margin_data[1] + ":" + margin_data[2] + ">")
 }
 is_modal := contains@(match:"<li>")
+
+bump_text := {
+	blocks := split_text(input, match:"\n");
+	new_text := blocks[0];
+	for x from 1 to length(blocks)-1 do new_text := new_text + "\n" + bumper(blocks[x])
+	new_text
+}
+bumper := {
+	#if this text isn't modal, at a 5 px margin
+	if is_modal(input) then input else
+	cull_margins("<margin:0:0:5>" + remove_margins(input) + "</margin:0:0:5>")
+	 
+}
 inserts_values := {
 	split_text(set.inserts+";;;;;;;;;", match:";")
 }
@@ -626,6 +651,7 @@ auto_correct :=
 auto_errata :=
 	replace@(match:"converted mana cost", replace:"mana value")
 	+replace@(match:"hen shuffle your library", replace:"hen shuffle")
+	+replace@(match:"this (?:ability )?(?:only )?(?:any ?time you could cast|as) a", in_context: "(Activate|Play) <match>n? (instant|sorcery)", replace:"only as a")
 ex_test := expand_keywords@(
 		condition: {
 			correct_case or (mode != "pseudo" and not used_placeholders)
@@ -782,10 +808,10 @@ text_filter :=
 	 	match: "^(• )([^•]+)",
 	 	replace: {"<li><bullet>" + _1 + "</bullet>" + _2 + "</li>"}
 	 )+
-	# step 7c : cull softlines in modals
+	# step 7c : clean up modals
 	 {
 		if is_modal(input)
-			then softline_ripper(input)
+			then bump_text(softline_ripper(input))
 		else input
 	 }+
 	# step 8 : automatic capitalization, but not after "("

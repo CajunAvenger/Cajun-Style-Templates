@@ -126,6 +126,7 @@ word list:
 			word: Ferret
 			word: Fish
 			word: Fox
+			word: Fractal
 			word: Frog
 			word: Fungus
 		word:
@@ -162,6 +163,7 @@ word list:
 			word: Illusion
 			word: Imp
 			word: Incarnation
+			word: Inkling
 			word: Insect
 		word:
 			name: J
@@ -458,6 +460,7 @@ word list:
 		script: all_sub_types(match: "Instant") + "," + all_sub_types(match: "Sorcery")
 		line below: true
 	word: Arcane
+	word: Lesson
 	word: Trap
 	word: Adventure
 
@@ -524,6 +527,13 @@ word list:
 	word: Yanggu
 	word: Yanling
 	word:
+		name: Last Seen on Strixhaven
+		word: Kasmina
+		word: Liliana
+		word: Lukka
+		word: Rowan
+		word: Will
+	word:
 		name: Last Seen on Kaldheim
 		word: Kaya
 		word: Niko
@@ -538,7 +548,6 @@ word list:
 		word: Nixilis
 	word:
 		name: Last Seen on Ikoria
-		word: Lukka
 		word: Narset
 		word: Vivien
 	word:
@@ -551,8 +560,6 @@ word list:
 		name: Last Seen on Eldraine
 		word: Garruk
 		word: Oko
-		word: Rowan
-		word: Will
 	word:
 		name: Last Seen on Ravnica
 		word: Bolas
@@ -560,7 +567,6 @@ word list:
 		word: Davriel
 		word: Domri
 		word: Dovin
-		word: Kasmina
 		word: Ral
 		word: Teyo
 		word: Vraska

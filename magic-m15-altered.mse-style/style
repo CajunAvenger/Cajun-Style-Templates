@@ -49,16 +49,16 @@ init script:
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
 	
-	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/"]
-	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/"]
+	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" node:"nodes/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/"]
+	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/"  node:"shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/"]
 	template_prefix := { if type == "miracle" and pure_snow() then [miracle:"snow/"] else if is_shifted() then shifted_template_prefix else base_template_prefix }
-	template_suffix := [card: "card.jpg" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png"]
+	template_suffix := [card: "card.jpg"  node:"node.png" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png"]
 	template      := { crown_lead(type) + template_prefix()[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix()[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
 	
-	landless := {if input == "nyx" or input == "miracle" or input == "alias" or input == "devoid" or input == "energy" or input == "season" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
+	landless := {if input == "nyx" or input == "node" or input == "miracle" or input == "alias" or input == "devoid" or input == "energy" or input == "season" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
 	
 	crown_lead := {
 		if input != "crown" then ""
@@ -75,6 +75,7 @@ init script:
 		else ""
 	}
 	transfer_levels := {if is_mutate() then false else true}
+	node_background := { color_background(type:"node",     base_hybrid:card_hybrid) }
 	nyx_background := { color_background(type:"nyx",     base_hybrid:card_hybrid) }
 	devoid_background := { color_background(type:"devoid",     base_hybrid:card_hybrid) }
 	snow_background := { color_background(type:"snow",     base_hybrid:card_hybrid) }
@@ -130,6 +131,7 @@ init script:
 	is_shifted := { chosen(styling.frames, choice: "planeshifted") and not is_map() and not is_full_art() and not is_fnm()}
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
 	is_map := { chosen(styling.frames, choice: "map") }
+	use_node := { chosen(styling.frames, choice: "lesson") }
 	is_season := { chosen(styling.frames, choice: "season") and not is_map() }
 	is_legend := {not is_map() and (chosen(styling.frames, choice: "legend") or (set.auto_legends and contains(card.super_type, match:"Legendary"))) }
 	is_full_art := {chosen(styling.frames, choice:"fullart") and not is_map() and not is_clear()}
@@ -155,11 +157,6 @@ init script:
 	chop_bot := {if comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).1 else if styling.chop_bottom == "" then 0 else styling.chop_bottom}
 	top_of_textbox := {(if is_map() then 340 else if is_full_art() then 359 else if is_mutate() then 395 else 327) - (-chop_top()) }
 	bottom_of_textbox := {(if is_map() then 475 else 481) - chop_bot() }
-
-	bar_offset := {if styling_offset() == "-" then 0 else if styling_offset() != "" then -styling_offset() else 0}
-	styling_offset := { replace(styling.flavor_bar_offset, match:"(u|d)+", replace: "") }
-	offset_lines := {offset_counter(styling.flavor_bar_offset)}
-	bar_equation := {if card_style.text.layout.blocks[0].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
 
 	is_leveler := {chosen(styling.frames, choice:"leveler")}
 	box_leveler := {styling.level_containers == "pt boxes"}
@@ -238,6 +235,7 @@ styling field:
 	type: multiple choice
 	name: frames
 	description: Use these frames. Higher level frames may override lower levels.
+	choice: lesson
 	choice: map
 	choice: devoid
 	choice: clear
@@ -259,12 +257,12 @@ styling field:
 	choice: snow
 styling field:
 	type: text
-	name: flavor bar offset
-	description: Move the flavor bar up X pixels. Use negative to move down.
-styling field:
-	type: text
 	name: popout image style
 	description: The styling instructions for the popout image field, formatted as "left,top,width,height,". The text MUST end with a comma.
+styling field:
+	type: text
+	name: custom symbol
+	description: Uses a custom Lesson symbol from data/magic-mainframe-extras.mse-include
 styling field:
 	type: choice
 	name: legend crown
@@ -443,7 +441,7 @@ card style:
 		image: { if is_clear() or clear_tops() then "" else if is_fnm() then fnm_background() else if is_full_art() then promo_background() else if pure_snow() then snow_background() else card_background() }
 	############################# Name line
 	name:
-		left: { if center_map() then 55 else if is_map() then 60 else if card.card_symbol=="none" then 32 else 50 }
+		left: { if center_map() then 55 else if is_map() then (if use_node() then 65 else 60) else if use_node() then 58 else if card.card_symbol=="none" then 32 else 50 }
 		top: { if is_map() then 27 else if is_devoid() then 30 else if is_clear() or clear_tops() then 31 else 30 }
 		right:  { if center_map() then 320 else (if is_map() then 320 else 341) - card_style.casting_cost.content_width }
 		height: { 23 - (0.5 * shrink_name()) }
@@ -1147,6 +1145,47 @@ extra card field:
 	editable: false
 	save value: false
 	show statistics: false
+extra card field:
+	type: choice
+	name: node
+	script: card.card_color
+	editable: false
+	save value: false
+	show statistics: false
+extra card field:
+	type: choice
+	name: corner
+	choice: none
+	choice: lesson
+	choice: custom
+	choice: day
+	choice: night
+	choice: moon
+	choice: eldrazi
+	choice: compass
+	choice: artifact
+	choice: creature
+	choice: enchantment
+	choice: instant
+	choice: land
+	choice: multitype
+	choice: sorcery
+	choice: planeswalker
+	choice: structure
+	choice: aetherprint
+	choice: modal
+	choice:
+		name: sparker colors
+		choice: white
+		choice: blue
+		choice: black
+		choice: red
+		choice: green
+		choice: multicolor
+		choice: colorless
+	default: "lesson"
+	save value: true
+	editable: true
 extra card style:
 	promo label:
 		left: 40
@@ -1524,3 +1563,46 @@ extra card style:
 		render style: image
 		image: {if is_devoid() then (if is_legend() then alias_bar() else "alias/devoidalias.png") else if is_clear() or clear_tops() then "alias/xalias.png" else alias_bar()}
 		visible: {is_skinned() and not use_evobar()}
+	node:
+		left: 0
+		top: 0
+		height: 63
+		width: 375
+		z index: 6
+		render style: image
+		image: {node_background()}
+		visible: {not is_map() and not is_clear() and use_node()}
+	corner:
+		left: { if is_map() then 22 else 19}
+		top: 25
+		height: 31
+		width: 31
+		z index: 7
+		render style: image
+		visible: {use_node()}
+		choice images:
+			lesson: corners/lesson.png
+			day: corners/sun_circle.png
+			night: corners/night_circle.png
+			eldrazi: corners/eldrazi.png
+			moon: corners/moon.png
+			compass: corners/compass.png
+			artifact: corners/artifact.png
+			creature: corners/creature.png
+			enchantment: corners/enchantment.png
+			instant: corners/instant.png
+			land: corners/land.png
+			multitype: corners/multitype.png
+			sorcery: corners/sorcery.png
+			planeswalker: corners/planeswalker.png
+			structure: corners/structure.png
+			compass: corners/compass.png
+			aetherprint: corners/aetherprint.png
+			sparker colors white: corners/wcorner.png
+			sparker colors blue: corners/ucorner.png
+			sparker colors black: corners/bcorner.png
+			sparker colors red: corners/rcorner.png
+			sparker colors green: corners/gcorner.png
+			sparker colors multicolor: corners/mcorner.png
+			sparker colors colorless: corners/ccorner.png
+			custom: { if contains(styling.custom_symbol, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_symbol else "" }
