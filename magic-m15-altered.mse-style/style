@@ -132,6 +132,7 @@ init script:
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
 	is_map := { chosen(styling.frames, choice: "map") }
 	use_node := { chosen(styling.frames, choice: "lesson") }
+	use_vorthos := { chosen(styling.other_options, choice: "vorthos box") }
 	is_season := { chosen(styling.frames, choice: "season") and not is_map() }
 	is_legend := {not is_map() and (chosen(styling.frames, choice: "legend") or (set.auto_legends and contains(card.super_type, match:"Legendary"))) }
 	is_full_art := {chosen(styling.frames, choice:"fullart") and not is_map() and not is_clear()}
@@ -293,6 +294,7 @@ styling field:
 	choice: auto nyx crowns
 	choice: text watermarks
 	choice: clear tops
+	choice: vorthos box
 	initial: auto nyx crowns, auto vehicles, auto snow
 styling field:
 	type: text
@@ -862,7 +864,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) then 500 else 488 }
+		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) or (use_vorthos()) then 500 else 488 }
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 4
@@ -1186,6 +1188,12 @@ extra card field:
 	default: "lesson"
 	save value: true
 	editable: true
+extra card field:
+	type: text
+	name: vorthos box
+	save value: true
+	editable: true
+	description: Where they put mtgstory.com on story spotlights.
 extra card style:
 	promo label:
 		left: 40
@@ -1284,7 +1292,7 @@ extra card style:
 		mask: { "foil_mask" + (if card.pt != "" then "_pt") + (if is_rare() and styling.use_holofoil_stamps then "_rare") + ".png" }
 	auto copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) then 500 else 488 }
+		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) or (use_vorthos()) then 500 else 488 }
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 4
@@ -1576,7 +1584,7 @@ extra card style:
 		left: { if is_map() then 22 else 19}
 		top: 25
 		height: 31
-		width: 31
+		width: {if use_node() then 31 else 0}
 		z index: 7
 		render style: image
 		visible: {use_node()}
@@ -1606,3 +1614,16 @@ extra card style:
 			sparker colors multicolor: corners/mcorner.png
 			sparker colors colorless: corners/ccorner.png
 			custom: { if contains(styling.custom_symbol, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_symbol else "" }
+	vorthos box:
+		right: { if is_leveler() and not lone_pt() then 350 else if (starting_loyalty() and card.loyalty != "") then 300 else if (card.pt != "" and not starting_loyalty()) then 275 else 350 }
+		top: 488
+		width: { if is_leveler() and not lone_pt() then 140 else if (starting_loyalty() and card.loyalty != "") then 90 else if (card.pt != "" and not starting_loyalty()) then 65 else 140 }
+		height: 10
+		z index: 3
+		alignment: middle right
+		visible: {use_vorthos()}
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold
