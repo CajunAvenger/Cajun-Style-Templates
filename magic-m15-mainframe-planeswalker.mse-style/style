@@ -197,6 +197,7 @@ init script:
 	is_nyx := {chosen(styling.other_options, choice:"nyx")}
 	is_snow := {chosen(styling.other_options, choice:"snow")}
 	is_vehicle := {chosen(styling.other_options, choice:"vehicle")}
+	use_vorthos := { chosen(styling.other_options, choice: "vorthos box") }
 	paragraph_count := replace@(match:"\n", replace:"~")+
 		filter_text@(match:"~")
 	special_text := {
@@ -273,6 +274,7 @@ styling field:
 	choice: nyx
 	choice: snow
 	choice: vehicle
+	choice: vorthos box
 	initial: un-indent nonloyalty abilities
 styling field:
 	type: text
@@ -928,6 +930,12 @@ extra card field:
 	choice: evo
 	save value: false
 	editable: false
+extra card field:
+	type: text
+	name: vorthos box
+	save value: true
+	editable: true
+	description: Where they put mtgstory.com on story spotlights.
 extra card style:
 	card code:
 		left: 24
@@ -1341,3 +1349,16 @@ extra card style:
 		z index: 0
 		mask: {"nyx/" + (if has_four_abilities() then "4") + "pw_mask.png"}
 		visible: {is_vehicle()}
+	vorthos box:
+		right: 275
+		top: 488
+		width: 65
+		height: 10
+		z index: 3
+		alignment: middle right
+		visible: {use_vorthos()}
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold
