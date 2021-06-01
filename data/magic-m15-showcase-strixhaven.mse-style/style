@@ -32,7 +32,7 @@ depends on:
 card width: 375
 card height: 523
 card dpi: 150
-####### images from digiman
+####### images from silverback_ape
 ############################################################## Extra scripts
 init script:
 	# Load scripts for image box
