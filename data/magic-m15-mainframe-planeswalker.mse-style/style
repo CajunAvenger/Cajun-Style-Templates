@@ -25,6 +25,9 @@ depends on:
 depends on:
 	package: magic-mainframe-extras.mse-include
 	version: 2017-05-05
+depends on:
+	package: magic-pride.mse-include
+	version: 2021-05-26
 
 card width: 375
 card height: 523
@@ -32,6 +35,7 @@ card dpi: 150
 ########## new frames by silverback_ape
 ############################################################## Extra scripts
 init script:
+	include file: /magic-pride.mse-include/scripts
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	mainframe_walker := {true}
@@ -101,7 +105,8 @@ init script:
 	top_of_textbox := {if has_four_abilities() then 292+global_chop_top()+(if is_clear() then 5 else 0) else 329+global_chop_top()}
 	use_full_art := { contains(styling.other_options, match:"mythic edition fullart") }
 	mask_script := {
-		if use_full_art() then "fortress_imagemask.png"
+		if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
+		else if use_full_art() then "fortress_imagemask.png"
 		else ""
 	}
 	text_size := { 14 -(if styling.font_size == "" then 0 else if contains(styling.font_size, match: ".5") then to_int(split_text(match:".5", styling.font_size).0) else styling.font_size) }
@@ -197,7 +202,7 @@ init script:
 	is_nyx := {chosen(styling.other_options, choice:"nyx")}
 	is_snow := {chosen(styling.other_options, choice:"snow")}
 	is_vehicle := {chosen(styling.other_options, choice:"vehicle")}
-	use_vorthos := { chosen(styling.other_options, choice: "vorthos box") }
+	is_pinned := {chosen(styling.other_options, choice:"pride pinlines")}
 	paragraph_count := replace@(match:"\n", replace:"~")+
 		filter_text@(match:"~")
 	special_text := {
@@ -206,7 +211,7 @@ init script:
 			+ (if card.loyalty_cost_3 != "" then "[" + card.loyalty_cost_3 + "]" + ": " else "") + (if card.level_3_text != "" then card.level_3_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~") then split_text(match:"\n", card.rule_text).2+"\n" else "")
 			+ (if card.loyalty_cost_4 != "" then "[" + card.loyalty_cost_4 + "]" + ": " else "") + (if card.level_4_text != "" then card.level_4_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~") then split_text(match:"\n", card.rule_text).3+"\n" else "")
 			+ (if card.loyalty_cost_5 != "" then "[" + card.loyalty_cost_5 + "]" + ": " else "") + (if card.level_5_text != "" then card.level_5_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).4+"\n" else "")
-			+ (if card.loyalty_cost_6 != "" then "[" + card.loyalty_cost_6 + "]" + ": " else "") + (if card.level_6_text != "" then card.level_6_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~~") then split_text(match:"\n", card.rule_text).5 else "")
+			+ (if card.loyalty_cost_6 != "" then "[" + card.loyalty_cost_6 + "]" + ": " else "") + (if card.level_6_text != "" then card.level_6_text+"\n" else if contains(paragraph_count(card.rule_text), match:"~~~~~") then split_text(match:"\n", card.rule_text).5 else "")
 		out := replace(out, match:"\n\n+", replace:"")
 		out
 	}
@@ -275,6 +280,7 @@ styling field:
 	choice: snow
 	choice: vehicle
 	choice: vorthos box
+	choice: pride pinlines
 	initial: un-indent nonloyalty abilities
 styling field:
 	type: text
@@ -931,6 +937,12 @@ extra card field:
 	save value: false
 	editable: false
 extra card field:
+	type: multiple choice
+	name: pride pin
+	include file: /magic-pride.mse-include/pins
+	save value: true
+	editable: true
+extra card field:
 	type: text
 	name: vorthos box
 	save value: true
@@ -1349,14 +1361,23 @@ extra card style:
 		z index: 0
 		mask: {"nyx/" + (if has_four_abilities() then "4") + "pw_mask.png"}
 		visible: {is_vehicle()}
+	pride pin:
+		left: { if not is_pinned() then 0 else 19}
+		top: { if not is_pinned() then 0 else 51}
+		width: {if not is_pinned() then 0 else 337}
+		height: {if not is_pinned() then 0 else if has_four_abilities() then 205 else 240}
+		z index: 0
+		render style: image
+		popup style: in place
+		mask: {"/magic-pride.mse-include/masks/" + (if has_four_abilities() then "4planeswalker.png" else "planeswalker.png")}
+		image: {pin_image()}
 	vorthos box:
 		right: 275
 		top: 488
-		width: {if not use_vorthos() then 0 else 65}
+		width: 65
 		height: 10
 		z index: 3
 		alignment: middle right
-		visible: {use_vorthos()}
 		font:
 			name: Relay-Medium
 			size: 7

@@ -329,10 +329,12 @@ init script:
 			combined_editor(field1: card.level_5_text, separator1: "<line>\n</line>", field2: card.level_6_text, separator2: "<line>\n</line>", field3: card.level_7_text)
 	}
 	margin_left := {
-		if input == "lv1" then (if card.loyalty_cost_1 == "" and unindent() then 0 else 130)
+		if not (mainframe_walker() or mainframe_walkerb()) then 0
+		else if input == "lv1" then (if card.loyalty_cost_1 == "" and unindent() then 0 else 130)
 		else if input == "lv2" then (if card.loyalty_cost_2 == "" and unindent() then 0 else 130)
 		else if input == "lv3" then (if card.loyalty_cost_3 == "" and unindent() then 0 else 130)
 		else if input == "lv4" then (if card.loyalty_cost_4 == "" and unindent() then 0 else 130)
+		else if not mainframe_walkerb() then 0
 		else if input == "lv5" then (if card.loyalty_cost_5 == "" and unindent() then 0 else 130)
 		else if input == "lv6" then (if card.loyalty_cost_6 == "" and unindent() then 0 else 130)
 		else if input == "lv7" then (if card.loyalty_cost_7 == "" and unindent() then 0 else 130)
@@ -973,7 +975,7 @@ card style:
 			color: black
 	name 2:
 		left: { if back_map() then 442 else if back_normal() then 435 else 437 }
-		top: { if back_map() then 27 else if back_normal() then 30 else if back_clear() then 22 else 22 }
+		top: { (if back_map() then 27 else if back_normal() then 30 else if back_clear() then 22 else 22) - 0.5*shrink_name2() }
 		right: { (if back_map() then 719 else 714) - card_style.casting_cost_2.content_width }
 		height: {23 - (0.5 * shrink_name2())}
 		alignment: { if chosen(styling.other_options, choice:"center second name") then "bottom center" else "bottom shrink-overflow"}
@@ -1288,12 +1290,12 @@ card style:
 		z index: 4
 		render style: image
 		alignment: middle center
-		include file: /magic-watermarks.mse-include/watermarks
+		include file: /magic-watermarks.mse-include/watermarks_back
 	############################# Levels
 	level 1 text:
 		left: {if is_leveler() then (if card.level_0 != "" then (if loy_leveler() then 57 else if box_leveler() then 78 else 75) else if is_map() then 40 else 29) else if is_saga() then 45 else if is_mutate() then (if is_bumped() then 47 else 29) else 0}
 		top: { if is_leveler() then 327-lv_chop(styling.level_1_chop, cell:0) else if is_saga() then 155-lv_chop(styling.level_1_chop, cell:0) else if is_mutate() then 329 else 0 }
-		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 183 else if is_normal() and not is_mutate() then 0 else 0 }
+		right: { -lv_chop(styling.level_1_chop, cell:2) + if is_leveler() then (if lone_pt() then 342 else if card.pt != "" then 277 else 342) else if is_saga() then 183 else if is_mutate() then 343 else 0 }
 		bottom: { if is_leveler() then (327+lv_1_height()-lv_chop(styling.level_1_chop, cell:1)) else if is_saga() then (if split_12() == "" then 249 else split_12())-lv_chop(styling.level_1_chop, cell:1) else if is_mutate() then 391 else 0 }
 		font:
 			name: MPlantin
@@ -2804,6 +2806,18 @@ extra card field:
 	script: if back_modal_hint().1 != "" then back_modal_hint().1 else value
 	save value: true
 	editable: true
+extra card field:
+	type: text
+	name: vorthos box
+	save value: true
+	editable: true
+	description: Where they put mtgstory.com on story spotlights.
+extra card field:
+	type: text
+	name: vorthos box 2
+	save value: true
+	editable: true
+	description: Where they put mtgstory.com on story spotlights.
 extra card style:
 	pt 2 copy:
 		z index: 4
@@ -4149,3 +4163,27 @@ extra card style:
 		render style: image
 		image: {if back_clear() then "alias/" + (if mainframe_walkerb() then "walker" else "normal") + "/xalias.png" else alias_bar2()}
 		visible: {is_skinned() and not use_evobar()}
+	vorthos box:
+		right: { if mainframe_walker() then 275 else if is_leveler() and not lone_pt() then 350 else if card.pt != "" then 275 else 350 }
+		top: 488
+		left: 210
+		height: 10
+		z index: 3
+		alignment: middle right
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold
+	vorthos box 2:
+		right: { if mainframe_walkerb() then 652 else if back_leveler() and not lone_pt() then 727 else if card.pt_2 != "" then 652 else 727 }
+		top: 488
+		left: 587
+		height: 10
+		z index: 3
+		alignment: middle right
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold

@@ -6,10 +6,10 @@ icon: card-sample.png
 installer group: magic/m15 style/normal cards
 position hint: 020
 
-version: 2020-04-25
+version: 2018-02-09
 depends on:
 	package: magic.mse-game
-	version: 2020-04-25
+	version: 2014-06-25
 depends on:
 	package: magic-default-image.mse-include
 	version: 2007-09-23
@@ -253,7 +253,7 @@ card style:
 	############################# Image
 	image:
 		left: 29
-		top: 60
+		top: 59
 		width: 316
 		height:	231
 		z index: 1
@@ -348,10 +348,10 @@ card style:
 		z index: 2
 		padding left:   6
 		padding right:  4
-		line height hard: 1.2
+		line height hard: {if is_modal(card.text) then 0.9 else 1.2 }
 		line height line: 1.5
 		line height soft: 0.9
-		line height hard max: 1.3
+		line height hard max: {if is_modal(card.text) then 1.0 else 1.3 }
 		line height line max: 1.6
 	watermark:
 		left: 117
@@ -466,7 +466,12 @@ extra card field:
 	editable: false
 	save value: false
 	show statistics: false
-
+extra card field:
+	type: text
+	name: vorthos box
+	save value: true
+	editable: true
+	description: Where they put mtgstory.com on story spotlights.
 extra card style:
 	card code:
 		left: 24
@@ -545,3 +550,15 @@ extra card style:
 		render style: image
 		image: bar.png
 		visible: { card.rule_text != "" and remove_tags(card.flavor_text) != "" and set.use_flavor_bar }
+	vorthos box:
+		right: { if card.pt != "" then 275 else 350 }
+		top: 488
+		left: 210
+		height: 10
+		z index: 3
+		alignment: middle right
+		font:
+			name: Relay-Medium
+			size: 7
+			color: white
+			weight: bold

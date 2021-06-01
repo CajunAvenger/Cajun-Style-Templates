@@ -134,7 +134,7 @@ keyword parameter type:
 	example: Forest
 keyword parameter type:
 	name: english_number
-	match: (up to )?(a|an|one|two|three|four|five|six|seven|eight|nine|ten)
+	match: (up to )?(a|an|one|two|three|four|five|six|seven|eight|nine|ten| )
 	refer script:
 		name: as a numeral
 		description: Changes english number to numeral
@@ -336,7 +336,7 @@ keyword:
 	keyword: Typecycling
 	match: <atom-param>one_word</atom-param>cycling <atom-param>cost</atom-param>
 	mode: action
-	reminder: {param2}, Discard this card: Search your library for a {param1} card, reveal it, and put it into your hand. Then shuffle your library.
+	reminder: {param2}, Discard this card: Search your library for a {param1} card, reveal it, and put it into your hand, then shuffle.
 keyword:
 	keyword: Storm
 	match: Storm
@@ -473,7 +473,7 @@ keyword:
 	keyword: Transmute
 	match: Transmute <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Discard this card: Search your library for a card with the same mana value as this card, reveal it, and put it into your hand. Then shuffle your library. Transmute only as a sorcery.
+	reminder: {param1}, Discard this card: Search your library for a card with the same mana value as this card, reveal it, and put it into your hand, then shuffle. Transmute only as a sorcery.
 keyword:
 	keyword: Dredge
 	match: Dredge <atom-param>number</atom-param>
@@ -588,7 +588,7 @@ keyword:
 	keyword: Transfigure
 	match: Transfigure <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Sacrifice this creature: Search your library for a creature card with the same mana value as this creature and put that card onto the battlefield. Then shuffle your library. Transfigure only as a sorcery.
+	reminder: {param1}, Sacrifice this creature: Search your library for a creature card with the same mana value as this creature and put that card onto the battlefield, then shuffle. Transfigure only as a sorcery.
 keyword:
 	keyword: Aura swap
 	match: Aura swap <atom-param>cost</atom-param>
@@ -714,7 +714,7 @@ keyword:
 	keyword: Basic landcycling
 	match: Basic landcycling <atom-param>cost</atom-param>
 	mode: expert
-	reminder: {param1}, Discard this card: Search your library for a basic land card, reveal it, and put it into your hand. Then shuffle your library.
+	reminder: {param1}, Discard this card: Search your library for a basic land card, reveal it, and put it into your hand, then shuffle.
 keyword:
 	keyword: Domain
 	match: Domain
@@ -1467,3 +1467,15 @@ keyword:
 	match: Magecraft
 	mode: pseudo
 	rules: Magecraft — Whenever you cast or copy an instant or sorcery spell, [effect].
+# Modern Horizons 2
+keyword:
+	keyword: Devour type
+	match: Devour <atom-param>one_word</atom-param> <atom-param>number</atom-param>
+	mode: expert
+	reminder: As this enters the battlefield, you may sacrifice any number of {english_plural(param1.value)}. This creature enters the battlefield with { if param2.value == "1" then "" else if param2.value == "2" then "twice " else english_number(param2) + " times " }that many +1/+1 counters on it.
+keyword:
+	keyword: Trample over
+	match: Trample over <atom-param>name</atom-param>
+	mode: expert
+	reminder: This creature can deal excess combat damage to the controller of {if param1.value == "planeswalkers" then "the planeswalker it's attacking" else param1.value + " blocking it"}.
+	

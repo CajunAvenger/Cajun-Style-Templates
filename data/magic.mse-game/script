@@ -7,12 +7,12 @@ include file: /magic-blends.mse-include/new-blends
 ############################################################## Sorting mana symbols
 
 # correctly sort a mana symbol (no guild mana)
-mana_sort       := sort_text@(order: "\\?XYZI[0123456789]VLHSCE(WUBRG)") 
+mana_sort       := sort_text@(order: "\\?XYZI[0123456789]VLHSCAIE(WUBRG)") 
 # correctly sort wedge mana
-mana_sort_wedge := sort_text@(order: "\\?XYZI[0123456789]VLHSCE(WBGUR)")
-mana_unsort := sort_text@(order:"[/\\?XYZI0123456789VLHSCEWUBRG]")
+mana_sort_wedge := sort_text@(order: "\\?XYZI[0123456789]VLHSCAIE(WBGUR)")
+mana_unsort := sort_text@(order:"[/\\?XYZI0123456789VLHSCAIEWUBRG]")
 # correctly sort guild mana
-mana_sort_guild := sort_text@(order: "[\\?XYZI01234567890VLHSCEWUBRG/|]") +
+mana_sort_guild := sort_text@(order: "[\\?XYZI01234567890VLHSCAIEWUBRG/|]") +
 		replace@(
 			# No lookbehind :(
 			#match: "(?<!/)(./.|././.|./././.|.[|])(?!/)",
@@ -147,7 +147,7 @@ land_to_color := {
 # Look for a CDA that defines colors
 text_to_color := {
 	# Note: running filter_text is quite slow, do a quick 'contains' check first
-	if contains(match: card_name) then (
+	if contains(match: card_name + " is") then (
 	  text := filter_text(match: "is (colorless|all colors|((blue|white|green|red|black)((,|,? and) (blue|white|green|red|black))*))", in_context: regex_escape(card_name)+"(</[-a-z]+>)* <match>\\.")
 	  if text != "" then (
 	    if contains(text, match: "all colors") then (
@@ -394,16 +394,16 @@ trim_reminder_x := replace@(match: ". X can’t be 0.", replace: "")
 for_mana_costs := {
 	if input.separator_before == "—" and contains(input.param, match: " ") then (										##multi word
 		if comma_count(input.param) == "," then (																			##two part
-			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
+			if match(match: "^[VLHSCAIETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
 				"{add}<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>"					##"add" mana 
 			else "<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>{non}"					## else cost "non"
 		) else if contains(input.param, match: ",") then (																	##three+ parts
-			if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
+			if match(match: "^[VLHSCAIETQ\\?XYZIWUBRG0-9/|]+,", input.param) then													##starts with mana
 				"{add}<param-cost>{alternative_cost(input.param, trim:long_cost, s:action)}</param-cost>"						##"add" mana with long formatting
 			else "<param-cost>{alternative_cost(input.param, trim:long_nomana_cost, s:action)}</param-cost>{non}"				## else cost "non" with long formatting
 		) else
 			"<param-cost>{alternative_cost(input.param, s:action, trim:lower_first)}{non}</param-cost>"						##one, nonmana, part
-	) else if match(match: "^[VLHSCETQ\\?XYZIWUBRG0-9/|]+$", input.param) then											##one word
+	) else if match(match: "^[VLHSCAIETQ\\?XYZIWUBRG0-9/|]+$", input.param) then											##one word
 		"{add}<param-mana>{input.param}</param-mana>"																		##mana
 	else
 		"<param-cost>{alternative_cost(input.param, trim:combined_cost, s:action)}</param-cost>{non}"						##nonmana
@@ -619,7 +619,7 @@ mana_context :=
 mana_un_context := "(converted mana costs? <match>|<match> life)"
 
 # truncates the name of legends
-legend_filter := replace@(match:"(, | of | the ).*", replace: "" )
+legend_filter := replace@(match:"(, | of | the | \"| “).*", replace: "" )
 
 # these are considered a correct 'word' for spellchecking in the text box:
 additional_text_words := match@(match:

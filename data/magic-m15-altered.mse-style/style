@@ -28,6 +28,9 @@ depends on:
 depends on:
 	package: magic-mainframe-extras.mse-include
 	version: 2018-01-01
+depends on:
+	package: magic-pride.mse-include
+	version: 2021-05-26
 
 card width: 375
 card height: 523
@@ -41,6 +44,7 @@ card dpi: 150
 init script:
 	# Load scripts for image box
 	include file: /magic-default-image.mse-include/scripts
+	include file: /magic-pride.mse-include/scripts
 	
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.hybrid_name == "grey" }
@@ -132,7 +136,6 @@ init script:
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
 	is_map := { chosen(styling.frames, choice: "map") }
 	use_node := { chosen(styling.frames, choice: "lesson") }
-	use_vorthos := { chosen(styling.other_options, choice: "vorthos box") }
 	is_season := { chosen(styling.frames, choice: "season") and not is_map() }
 	is_legend := {not is_map() and (chosen(styling.frames, choice: "legend") or (set.auto_legends and contains(card.super_type, match:"Legendary"))) }
 	is_full_art := {chosen(styling.frames, choice:"fullart") and not is_map() and not is_clear()}
@@ -141,6 +144,7 @@ init script:
 	is_thbland := {chosen(styling.frames, choice:"frameless art") and not is_leveler() and remove_tags(card.text) == "\n"}
 	expanded_mask := { "bigimagemasks/" + (if is_full_art() then "dka_" else "") + (if is_borderless() then (if is_stamped() then "rare_" else "") + "borderless_" else "") + "frameless.png"}
 	is_curtains := {contains(card.notes, match:"!curtain")}
+	is_pinned := {chosen(styling.other_options, choice:"pride pinlines")}
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
 	ancestral_mana := { chosen(styling.other_options, choice:"ancestral generic mana")}
@@ -295,6 +299,7 @@ styling field:
 	choice: text watermarks
 	choice: clear tops
 	choice: vorthos box
+	choice: pride pinlines
 	initial: auto nyx crowns, auto vehicles, auto snow
 styling field:
 	type: text
@@ -1189,6 +1194,12 @@ extra card field:
 	save value: true
 	editable: true
 extra card field:
+	type: multiple choice
+	name: pride pin
+	include file: /magic-pride.mse-include/pins
+	save value: true
+	editable: true
+extra card field:
 	type: text
 	name: vorthos box
 	save value: true
@@ -1614,14 +1625,23 @@ extra card style:
 			sparker colors multicolor: corners/mcorner.png
 			sparker colors colorless: corners/ccorner.png
 			custom: { if contains(styling.custom_symbol, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_symbol else "" }
+	pride pin:
+		left: {if is_legend() then 18 else 24}
+		top: 58
+		width: {if not is_pinned() then 0 else if is_legend() then 338 else 325}
+		height: {if not is_pinned() then 0 else 234}
+		z index: 7
+		render style: image
+		popup style: in place
+		mask: {"/magic-pride.mse-include/masks/m15" + if is_legend() then " legend.png" else ".png"}
+		image: {pin_image()}
 	vorthos box:
 		right: { if is_leveler() and not lone_pt() then 350 else if (starting_loyalty() and card.loyalty != "") then 300 else if (card.pt != "" and not starting_loyalty()) then 275 else 350 }
 		top: 488
-		width: { if not use_vorthos() then 0 else if is_leveler() and not lone_pt() then 140 else if (starting_loyalty() and card.loyalty != "") then 90 else if (card.pt != "" and not starting_loyalty()) then 65 else 140 }
+		width: { if is_leveler() and not lone_pt() then 140 else if (starting_loyalty() and card.loyalty != "") then 90 else if (card.pt != "" and not starting_loyalty()) then 65 else 140 }
 		height: 10
 		z index: 3
 		alignment: middle right
-		visible: {use_vorthos()}
 		font:
 			name: Relay-Medium
 			size: 7
