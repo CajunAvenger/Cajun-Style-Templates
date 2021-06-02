@@ -868,7 +868,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) or (use_vorthos()) then 500 else 488 }
+		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) then 500 else 488 }
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 4
@@ -1302,7 +1302,7 @@ extra card style:
 		mask: { "foil_mask" + (if card.pt != "" then "_pt") + (if is_rare() and styling.use_holofoil_stamps then "_rare") + ".png" }
 	auto copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) or (use_vorthos()) then 500 else 488 }
+		top: { if is_leveler() and not lone_pt() then 488 else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty()) then 500 else 488 }
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 4
