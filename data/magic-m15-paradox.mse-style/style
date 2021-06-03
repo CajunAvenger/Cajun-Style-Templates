@@ -72,6 +72,7 @@ init script:
 	shrink_name := {if styling.shrink_name_text != "" then to_int(styling.shrink_name_text) else 0 }
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
+	use_vorthos := {styling.vorthos box}
 
 ############################################################## Set info fields
 set info style:
@@ -93,10 +94,6 @@ styling field:
 	description: Shrinks the textbox X pixels from the bottom.
 styling field:
 	type: text
-	name: flavor bar offset
-	description: Move the flavor bar down X pixels. Use negative to move up.
-styling field:
-	type: text
 	name: shrink name text
 	description: Reduces the name text N points.
 styling field:
@@ -107,6 +104,11 @@ styling field:
 	type: boolean
 	name: use holofoil stamps
 	description: Change to no to disable rare holofoil stamps
+styling field:
+	type: boolean
+	name: vorthos box
+	description: Enable the vorthos box
+	initial: no
 styling field:
 	type: boolean
 	name: color indicator dot
@@ -401,7 +403,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		top: { if card.pt != "" or use_vorthos() then 500 else 488 }
 		width: 140
 		height: 10
 		z index: 2
@@ -530,7 +532,7 @@ extra card style:
 		mask: { if is_rare() then "foil_mask_rare.png" else "foil_mask.png" }
 	auto copyright:
 		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		top: { if card.pt != "" or use_vorthos() then 500 else 488 }
 		width: 140
 		height: 10
 		z index: 2
@@ -554,7 +556,7 @@ extra card style:
 		right: { if card.pt != "" then 275 else 350 }
 		top: 488
 		left: 210
-		height: 10
+		height: {if use_vorthos() then 10 else 0}
 		z index: 3
 		alignment: middle right
 		font:

@@ -92,7 +92,7 @@ option field:
 	initial: yes
 
 script:
-	splitter_name := {false} ## experimental future thing for splitting dfc images
+	splitter_name := {false} ##experimental thing for splitting dfcs
 	#determine if the card is a type that is a "token" i.e. it should be batched with tokens instead of with other cards
 	is_token := {contains(card.shape, match:"token") or contains(card.shape, match:"emblem") or contains(card.shape, match:"rulestip") }
 	is_double := {contains(card.shape, match:"double") }
@@ -834,7 +834,7 @@ script:
 		write_image_file(
 			card,
 			directory: "{set.set_code}",
-			file:"{options.append_String_To_Names+strip_card_name(card_name())+(if is_token() and options.append_Set_Code_To_Tokens then " " + set.set_code else "")+if splitter_name() and is_double() then "_" + card.name_2}.full." + to_lower(options.images_File_Type),
+			file:"{options.append_String_To_Names+strip_card_name(card_name())+(if is_token() and options.append_Set_Code_To_Tokens then " " + set.set_code else "")+if splitter_name() and is_double() then "_" + replace(card.name_2, match:"’", replace:"'")}.full." + to_lower(options.images_File_Type),
 			width: (if contains(card.shape, match:"split") or contains(card.shape, match:"double") then 752 else 375),
 			height: 523
 			)

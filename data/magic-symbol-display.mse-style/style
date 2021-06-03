@@ -17,6 +17,8 @@ card height: 523
 card dpi: 150
 
 ############################################################## Extra scripts
+init script:
+	is_unsorted := {true}
 ############################################################## Set info fields
 set info style:
 	symbol:

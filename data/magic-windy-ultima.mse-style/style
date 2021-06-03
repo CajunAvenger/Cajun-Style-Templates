@@ -61,6 +61,7 @@ init script:
 	is_promo := { styling.promo }
 	has_identity := { styling.color_indicator_dot }
 	is_unsorted := {styling.remove_from_autocount}
+	use_vorthos := {styling.vorthos box}
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -84,6 +85,11 @@ styling field:
 	type: boolean
 	name: remove from autocount
 	description: Removes the automatic card number for specific cards, to allow for overcounted cards like in Planeswalker Decks.
+	initial: no
+styling field:
+	type: boolean
+	name: vorthos box
+	description: Enable the vorthos box
 	initial: no
 styling field:
 	type: boolean
@@ -352,7 +358,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		top: { if card.pt != "" or use_vorthos() then 500 else 488 }
 		width: 140
 		height: 10
 		z index: 2
@@ -475,7 +481,7 @@ extra card style:
 
 	auto copyright:
 		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		top: { if card.pt != "" or use_vorthos() then 500 else 488 }
 		width: 140
 		height: 10
 		z index: 2
@@ -490,7 +496,7 @@ extra card style:
 		right: { if card.pt != "" then 275 else 350 }
 		top: 488
 		left: 210
-		height: 10
+		height: {if use_vorthos() then 10 else 0}
 		z index: 3
 		alignment: middle right
 		font:

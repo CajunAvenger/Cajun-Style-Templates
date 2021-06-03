@@ -28,6 +28,9 @@ depends on:
 depends on:
 	package: magic-default-image.mse-include
 	version: 2007-09-23
+depends on:
+	package: magic-pride.mse-include
+	version: 2021-05-26
 
 card width: 752
 card height: 523
@@ -36,6 +39,7 @@ card dpi: 150
 init script:
 	# Load scripts for image box
 	include file: /magic-default-image.mse-include/scripts
+	include file: /magic-pride.mse-include/scripts
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	text_filter := text_filter + {apply_margins(input, name:margin_code)} + {add_spacers(input, name:margin_code)}
@@ -171,6 +175,7 @@ init script:
 	loyal_move := { pull_comma_array(input, cell:cell, end:0, default:0)}
 	use_evobar := {chosen(styling.other_options, choice: "pokemon evobar") and not chosen(styling.other_options, choice:"godzilla style alias")}
 	opacity := {pull_comma_array(styling.opacity, cell:input, end:false, default:50)}
+	is_pinned := {chosen(styling.other_options, choice:"pride pinlines")}
 
 	####### Front Face Variables
 	is_normal := { not contains(styling.front_style, match:"planeswalker") }
@@ -188,6 +193,7 @@ init script:
 	is_leveler := {styling.front_style == "leveler"}
 	poke_walker := {mainframe_walker() and not is_full() and use_evobar()}
 	is_skinned := {not is_saga() and chosen(styling.other_options, choice:"godzilla style alias")}
+	use_vorthos := {chosen(styling.other_options, choice:"vorthos box")}
 
 	# Back Face
 	back_normal := { not contains(styling.back_style, match:"planeswalker") }
@@ -786,6 +792,8 @@ styling field:
 	name: other options
 	description: Additional options
 	choice: normal back face
+	choice: vorthos box
+	choice: pride pinlines
 	choice: promo
 	choice: mythic edition
 	choice: prerelease stamps
@@ -1828,7 +1836,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if is_normal() and card.pt != "" or card.loyalty != "" then (if is_map() then 504 else 500) else if is_normal() then 488 else 498 }
+		top: { if is_leveler() and not lone_pt() then 488 else if is_normal() and card.pt != "" or card.loyalty != "" then (if is_map() then 504 else 500) else if use_vorthos() and is_normal() then 500 else if is_normal() then 488 else 498 }
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 6
@@ -1850,7 +1858,7 @@ card style:
 			color: white
 	copyright 2:
 		right: 728
-		top: { if back_leveler() then (if lone_pt() then (if card.pt_4 != "" then 500 else 488) else 488) else if is_leveler() then (if card.pt_4 != "" then 500 else 488) else if back_normal() and card.pt_2 != "" or card.loyalty_2 != "" then (if back_map() then 504 else 500) else if back_normal() then 488 else 498 }
+		top: { if back_leveler() then (if lone_pt() then (if card.pt_4 != "" then 500 else 488) else 488) else if is_leveler() then (if card.pt_4 != "" then 500 else 488) else if use_vorthos() and back_normal() or (back_normal() and card.pt_2 != "") or card.loyalty_2 != "" then (if back_map() then 504 else 500) else if back_normal() then 488 else 498 }
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 6
@@ -2818,6 +2826,18 @@ extra card field:
 	save value: true
 	editable: true
 	description: Where they put mtgstory.com on story spotlights.
+extra card field:
+	type: multiple choice
+	name: pride pin
+	include file: /magic-pride.mse-include/pins
+	save value: true
+	editable: true
+extra card field:
+	type: multiple choice
+	name: pride pin 2
+	include file: /magic-pride.mse-include/pins
+	save value: true
+	editable: true
 extra card style:
 	pt 2 copy:
 		z index: 4
@@ -3308,7 +3328,7 @@ extra card style:
 
 	auto copyright:
 		right: 350
-		top: { if is_leveler() and not lone_pt() then 488 else if is_normal() and card.pt != "" or card.loyalty != "" then 500 else if is_normal() then 488 else 498 }
+		top: { if is_leveler() and not lone_pt() then 488 else if is_normal() and card.pt != "" or card.loyalty != "" then 500 else if use_vorthos() and is_normal() then 500 else if is_normal() then 488 else 498 }
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 6
@@ -3320,7 +3340,7 @@ extra card style:
 			weight: bold
 	auto copyright 2:
 		right: 728
-		top: { if back_leveler() then (if lone_pt() then (if card.pt_4 != "" then 500 else 488) else 488) else if is_leveler() then (if card.pt_4 != "" then 500 else 488) else if back_normal() and card.pt_2 != "" or card.loyalty != "" then 500 else if back_normal() then 488 else 498 }
+		top: { if back_leveler() then (if lone_pt() then (if card.pt_4 != "" then 500 else 488) else 488) else if is_leveler() then (if card.pt_4 != "" then 500 else 488) else if use_vorthos() and back_normal() or (back_normal() and card.pt_2 != "") or card.loyalty != "" then 500 else if back_normal() then 488 else 498 }
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 6
@@ -4167,7 +4187,7 @@ extra card style:
 		right: { if mainframe_walker() then 275 else if is_leveler() and not lone_pt() then 350 else if card.pt != "" then 275 else 350 }
 		top: 488
 		left: 210
-		height: 10
+		height: {if use_vorthos() then 10 else 0}
 		z index: 3
 		alignment: middle right
 		font:
@@ -4179,7 +4199,7 @@ extra card style:
 		right: { if mainframe_walkerb() then 652 else if back_leveler() and not lone_pt() then 727 else if card.pt_2 != "" then 652 else 727 }
 		top: 488
 		left: 587
-		height: 10
+		height: {if use_vorthos() then 10 else 0}
 		z index: 3
 		alignment: middle right
 		font:
@@ -4187,3 +4207,23 @@ extra card style:
 			size: 7
 			color: white
 			weight: bold
+	pride pin:
+		left: {if mainframe_walker() then 19 else if is_legend() then 18 else 24}
+		top: {if mainframe_walker() then 51 else 58}
+		width: {if not is_pinned() then 0 else if mainframe_walker() then 337 else if is_legend() then 338 else 325}
+		height: {if not is_pinned() then 0 else if has_four_abilities() then 205 else if mainframe_walker() then 240 else 234}
+		z index: 7
+		render style: image
+		popup style: in place
+		mask: {"/magic-pride.mse-include/masks/" + if has_four_abilities() then "4planeswalker.png" else if mainframe_walker() then "planeswalker.png" else if is_legend() then "m15 legend.png" else "m15.png"}
+		image: {pin_image()}
+	pride pin 2:
+		left: {377+if mainframe_walkerb() then 19 else if back_legend() then 18 else 24}
+		top: {if mainframe_walkerb() then 51 else 58}
+		width: {if not is_pinned() then 0 else if mainframe_walkerb() then 337 else if back_legend() then 338 else 325}
+		height: {if not is_pinned() then 0 else if back_four_abilities() then 205 else if mainframe_walkerb() then 240 else 234}
+		z index: 7
+		render style: image
+		popup style: in place
+		mask: {"/magic-pride.mse-include/masks/" + if back_four_abilities() then "4planeswalker.png" else if mainframe_walkerb() then "planeswalker.png" else if back_legend() then "m15 legend.png" else "m15.png"}
+		image: {pin_image()}

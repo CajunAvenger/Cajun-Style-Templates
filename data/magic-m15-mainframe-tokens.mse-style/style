@@ -85,10 +85,7 @@ init script:
 	pre_stamp := { contains(styling.other_options, match:"prerelease")}
 	shrink_type := {if styling.shrink_typeline_text != "" then to_int(styling.shrink_typeline_text) else 0 }
 	shrink_name := {if styling.shrink_name_text != "" then to_int(styling.shrink_name_text) else 0 }
-	########## Flavor bar stuff
-	bar_offset := {if styling_offset() == "-" then 0 else if styling_offset() != "" then -styling_offset() else 0}
-	styling_offset := { replace(styling.flavor_bar_offset, match:"(u|d)+", replace: "") }
-	offset_lines := {offset_counter(styling.flavor_bar_offset)}
+	use_vorthos := {chosen(styling.other_options, choice:"vorthos box")}
 
 ############################################################## Set info fields
 set info style:
@@ -119,6 +116,7 @@ styling field:
 	choice: remove rarity symbol
 	choice: prerelease stamp
 	choice: ancestral generic mana
+	choice: vorthos box
 styling field:
 	type: boolean
 	name: remove from autocount
@@ -136,10 +134,6 @@ styling field:
 	type: text
 	name: shrink font size
 	description: Reduces the fontsize text N points.
-styling field:
-	type: text
-	name: flavor bar offset
-	description: Move the flavor bar down X pixels. Use negative to move up.
 styling field:
 	type: text
 	name: popout image style
@@ -450,7 +444,7 @@ card style:
 			color: white
 	copyright:
 		right: 350
-		top: { if card.pt != "" and not center_pt() then 500 else 488 }
+		top: { if card.pt != "" and not center_pt() then 500 else if use_vorthos() then 500 else 488 }
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 2
@@ -597,7 +591,7 @@ extra card style:
 		image: { "xcard" + text_shape() + ".png" }
 	auto copyright:
 		right: 350
-		top: { if card.pt != "" and not center_pt() then 500 else 488 }
+		top: { if card.pt != "" and not center_pt() then 500 else if use_vorthos() then 500 else 488 }
 		width: {if set.automatic_copyright then 140 else 0}
 		height: 10
 		z index: 2
@@ -680,7 +674,7 @@ extra card style:
 		right: { if card.pt != "" then 275 else 350 }
 		top: 488
 		left: 210
-		height: 10
+		height: {if use_vorthos() then 10 else 0}
 		z index: 3
 		alignment: middle right
 		font:
