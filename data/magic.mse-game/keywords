@@ -791,7 +791,7 @@ keyword:
 	keyword: Living weapon
 	match: Living weapon
 	mode: expert
-	reminder: When this Equipment enters the battlefield, create a 0/0 black Germ creature token, then attach this to it.
+	reminder: When this Equipment enters the battlefield, create a 0/0 black Phyrexian Germ creature token, then attach this to it.
 # Commander
 keyword:
 	keyword: Join forces
