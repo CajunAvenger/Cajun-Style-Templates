@@ -684,7 +684,7 @@ card style:
 		render style: image
 		popup style: in place
 		alignment: middle center
-		include file: /magic-watermarks.mse-include/watermarks
+		include file: /magic-watermarks.mse-include/watermarks_back
 	############################# Card sorting / numbering
 	set code:
 		left: 22
