@@ -652,7 +652,9 @@ auto_errata :=
 	replace@(match:"converted mana cost", replace:"mana value")
 	+replace@(match:"hen shuffle your library", replace:"hen shuffle")
 	+replace@(match:"this (?:ability )?(?:only )?(?:any ?time you could cast|as) a", in_context: "(Activate|Play) <match>n? (instant|sorcery)", replace:"only as a")
-ex_test := expand_keywords@(
+ex_test := {
+	expand_keywords(
+		input,
 		condition: {
 			correct_case or (mode != "pseudo" and not used_placeholders)
 		}
@@ -664,7 +666,11 @@ ex_test := expand_keywords@(
 			reminder := process_english_hints(if has_pt() then reminder else equip_filter(reminder))
 			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
 			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>" else ""
-		})
+		
+		},
+		margin_code: margin_code
+	)
+}
 text_filter :=
 	# step 1 : remove all automatic tags
 	remove_tag@(tag: "<sym-auto>") +
@@ -770,13 +776,13 @@ text_filter :=
 		replace: "<atom-insert\\1></atom-insert\\1>"
 	) +
 	{
-	out := input
-	for x from 1 to 9 do
-		out := tag_contents(out,
-			tag: "<atom-insert"+x+">",
-			contents: { "<nospellcheck>" + (if inserts_values()[x-1] == "" then "INS"+x else inserts_values()[x-1]) + "</nospellcheck>" }
-		)
-	out
+		out := input
+		for x from 1 to 9 do
+			out := tag_contents(out,
+				tag: "<atom-insert"+x+">",
+				contents: { "<nospellcheck>" + (if inserts_values()[x-1] == "" then "INS"+x else inserts_values()[x-1]) + "</nospellcheck>" }
+			)
+		out
 	} +
 	# step 4 : explict non mana symbols
 	replace@(
@@ -1036,8 +1042,10 @@ primary_card_color := {
 	black    := chosen(choice:"black")
 	red      := chosen(choice:"red")
 	green    := chosen(choice:"green")
+	multi_color := count_chosen(choices:"white, blue, black, red, green")
 	if      land                                      then "land"
 	else if multi                                     then "multicolor"
+	else if multi_color == 2 and chosen(choice:"artifact")	  then "hybrid"		##hybrid artifacts would show as their first color
 	else if hybrid                                    then "hybrid"
 	else if artifact                                  then "artifact"
 	else if white                                     then "white"
@@ -1704,4 +1712,10 @@ saga_ch_placement := {
 		)else (seven := seven)
 	)else (seven := seven)
 	[one, two, three, four, five, six, seven]
+}
+card_face := {
+	trace(margin_code)
+	front := card[input]
+	back := if card[input+"_2"] or else "" != "" then card[input+"_2"] else card[input]
+	if match(margin_code, match:"(text[2456]|lv[5678])") then back else front
 }
