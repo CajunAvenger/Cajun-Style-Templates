@@ -1287,7 +1287,7 @@ extra card style:
 		visible: { is_rare() and styling.use_holofoil_stamps and (is_devoid() or not is_clear()) }
 		render style: image
 		image: { if is_map() then "maps/holo_stamp.png" else if is_devoid() then "devoid/stamp.png" else card_stamp() }
-		mask: { if is_borderless() then "med_full_stamp_mask.png" else "stamp_mask.png"}
+		mask: {"stamp_mask.png"}
 	foil stamp:
 		left: 165
 		top: 472
