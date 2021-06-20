@@ -45,25 +45,25 @@ init script:
 	# Load scripts for image box
 	include file: /magic-default-image.mse-include/scripts
 	include file: /magic-pride.mse-include/scripts
-	
+
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.hybrid_name == "grey" }
 	mask_hybrid_with_gold := { styling.hybrid_name == "gold" }
-	
+
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
-	
-	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" node:"nodes/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/"]
-	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/"  node:"shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/"]
+
+	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" node:"nodes/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", inverted: "inverted/", invertedpt: "inverted/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/"]
+	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/"  node:"shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", inverted: "inverted/", invertedpt: "inverted/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/"]
 	template_prefix := { if type == "miracle" and pure_snow() then [miracle:"snow/"] else if is_shifted() then shifted_template_prefix else base_template_prefix }
-	template_suffix := [card: "card.jpg"  node:"node.png" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png"]
+	template_suffix := [card: "card.jpg"  node:"node.png" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", inverted: "card.png", invertedpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png"]
 	template      := { crown_lead(type) + template_prefix()[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix()[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
-	
+
 	landless := {if input == "nyx" or input == "node" or input == "miracle" or input == "alias" or input == "devoid" or input == "energy" or input == "season" or input == "cons" or input == "arrow" or input == "crown" or input == "nyxcrown" then true else false}
-	
+
 	crown_lead := {
 		if input != "crown" then ""
 		else if (styling.legend_crown == "custom" and styling.custom_crown_location != "")
@@ -85,12 +85,14 @@ init script:
 	snow_background := { color_background(type:"snow",     base_hybrid:card_hybrid) }
 	snow_texture := { color_background(type:"snowtexture",     base_hybrid:card_hybrid) }
 	fnm_background := { color_background(type:"fnm",     base_hybrid:card_hybrid) }
+	inverted_background := { color_background(type:"inverted",     base_hybrid:card_hybrid) }
 	alias_bar := { color_background(type:"alias",     base_hybrid:card_hybrid) }
 	miracle_background := { color_background(type:"miracle",     base_hybrid:card_hybrid) }
 	map_background := { color_background(type:"map",     base_hybrid:card_hybrid) }
 	energy_background := { color_background(type:"energy",     base_hybrid:card_hybrid) }
 	promo_background := { color_background(type:"promo",     base_hybrid:card_hybrid) }
 	fnm_ptbox := { color_background(type:"fnmpt",     base_hybrid:pt_hybrid) }
+	inverted_ptbox := { color_background(type:"invertedpt",     base_hybrid:pt_hybrid) }
 	mappt_background := { color_background(type:"mappt",     base_hybrid:pt_hybrid) }
 	arrow_background := { color_background(type:"arrow",     base_hybrid:pt_hybrid) }
 	arrow_background_2 := { color_background(type:"arrow2",     base_hybrid:pt_hybrid) }
@@ -126,7 +128,7 @@ init script:
 	is_clear := { (chosen(styling.frames, choice: "clear") or is_devoid()) and not is_map()}
 	is_puma := { not is_expanded_art() and not is_full_art() and chosen(styling.frames, choice: "puma") and not is_map()}
 	is_mutate := { not is_expanded_art() and not is_full_art() and chosen(styling.frames, choice: "mutate") and not is_map()}
-	is_miracle := { chosen(styling.frames, choice: "miracle") and not is_map() and not is_expanded_art() and not is_cons() and not is_fnm()}
+	is_miracle := { chosen(styling.frames, choice: "miracle") and not is_map() and not is_expanded_art() and not is_cons() and not is_fnm() and not is_inverted()}
 	is_nyx := { chosen(styling.frames, choice: "nyx") and not is_map() }
 	is_vehicle := { (chosen(styling.frames, choice: "vehicle") or (chosen(styling.other_options, choice:"auto vehicles") and match_vehicle(card.sub_type))) and not is_map()}
 	is_snow := { (chosen(styling.frames, choice: "snow") or (chosen(styling.other_options, choice:"auto snow") and match_snow(card.super_type))) and not is_map()}
@@ -134,6 +136,7 @@ init script:
 	is_scrolls := { chosen(styling.frames, choice: "conspiracy") and not is_map()}
 	is_shifted := { chosen(styling.frames, choice: "planeshifted") and not is_map() and not is_full_art() and not is_fnm()}
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
+	is_inverted := {chosen(styling.frames, choice:"inverted") and not is_clear() and not is_full_art() and not is_fnm() and not is_map()}
 	is_map := { chosen(styling.frames, choice: "map") }
 	use_node := { chosen(styling.frames, choice: "lesson") }
 	is_season := { chosen(styling.frames, choice: "season") and not is_map() }
@@ -158,7 +161,7 @@ init script:
 	use_vorthos := {chosen(styling.other_options, choice:"vorthos box")}
 	clear_tops := {chosen(styling.other_options, choice:"clear tops")}
 	is_tarot := {chosen(styling.other_options, choice:"text watermarks")}
-	pure_snow := {is_snow() and not is_fnm() and not is_full_art() and not is_leveler() and not is_shifted()}
+	pure_snow := {is_snow() and not is_fnm() and not is_inverted() and not is_full_art() and not is_leveler() and not is_shifted()}
 	chop_top := {if styling.chop_top == "" then 0 else if comma_count(styling.chop_top) == "," or comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).0 else styling.chop_top}
 	chop_bot := {if comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).1 else if styling.chop_bottom == "" then 0 else styling.chop_bottom}
 	top_of_textbox := {(if is_map() then 340 else if is_full_art() then 359 else if is_mutate() then 395 else 327) - (-chop_top()) }
@@ -183,9 +186,9 @@ init script:
 	mask_height := {if input == "one" then lv_1_height() else if input == "two" then lv_2_height() else if input == "three" then lv_3_height() else 0}
 	lone_pt := {chosen(styling.other_options, choice:"regular pt on levelers") and not starting_loyalty()}
 	starting_loyalty := {chosen(styling.other_options, choice:"use starting loyalty")}
-	choose_ptbox := {if is_fnm() then fnm_ptbox() else card_ptbox()}
-	lv_2_ptbox := { if is_vehicle() then "vpt.png" else if is_clear() then "cpt.png" else if is_fnm() then fnm_ptbox() else leveler_ptbox2() }
-	lv_3_ptbox := { if is_vehicle() then "vpt.png" else if is_clear() then "cpt.png" else if is_fnm() then fnm_ptbox() else leveler_ptbox3() }
+	choose_ptbox := {if is_fnm() then fnm_ptbox() else if is_inverted() then inverted_ptbox() else card_ptbox()}
+	lv_2_ptbox := { if is_vehicle() then "vpt.png" else if is_clear() then "cpt.png" else if is_fnm() then fnm_ptbox() else if is_inverted() then inverted_ptbox() else leveler_ptbox2() }
+	lv_3_ptbox := { if is_vehicle() then "vpt.png" else if is_clear() then "cpt.png" else if is_fnm() then fnm_ptbox() else if is_inverted() then inverted_ptbox() else leveler_ptbox3() }
 	arrow_left := {if box_leveler() then -3 else if loy_leveler() then 10 else 18}
 	arrow_width := {if box_leveler() then 84 else if loy_leveler() then 42 else 56}
 	arrow_height := {if aug_leveler(input) then 42 else if box_leveler() then 50 else if loy_leveler() then 40 else 40}
@@ -251,6 +254,7 @@ styling field:
 	choice: puma
 	choice: mutate
 	choice: fnm promo
+	choice: inverted
 	choice: planeshifted
 	choice: legend
 	choice: season
@@ -446,7 +450,7 @@ card style:
 		z index: 0
 		render style: image
 		popup style: in place
-		image: { if is_clear() or clear_tops() then "" else if is_fnm() then fnm_background() else if is_full_art() then promo_background() else if pure_snow() then snow_background() else card_background() }
+		image: { if is_clear() or clear_tops() then "" else if is_fnm() then fnm_background() else if is_inverted() then inverted_background() else if is_full_art() then promo_background() else if pure_snow() then snow_background() else card_background() }
 	############################# Name line
 	name:
 		left: { if center_map() then 55 else if is_map() then (if use_node() then 65 else 60) else if use_node() then 58 else if card.card_symbol=="none" then 32 else 50 }
@@ -459,11 +463,11 @@ card style:
 		font:
 			name: { if is_map() then "Beleren Small Caps" else "Beleren Bold" }
 			size: { (if is_map() then 14.8 else 16) - shrink_name() }
-			color: {if is_shifted() or is_fnm() then "white" else "black"}
+			color: {if is_shifted() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_shifted() or is_fnm() then rgb(0,0,0) else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
-	alias: 
+	alias:
 		left: {if is_skinned() then 45 else if is_map() then 15 else 33}
 		top: {if is_map() then 58 else 53}
 		width: {if is_skinned() then 285 else if use_evobar() then max(100, card_style.alias.content_width) else 0}
@@ -538,7 +542,7 @@ card style:
 		font:
 			name: Beleren Bold
 			size: { (if is_map() then 12 else 13) - shrink_type() }
-			color: { if is_full_art() or is_puma() or is_shifted() or is_fnm() then "white" else "black"}
+			color: { if is_full_art() or is_puma() or is_shifted() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_full_art() or is_puma() or is_shifted() or is_fnm() then "black" else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
@@ -594,7 +598,7 @@ card style:
 			italic name: MPlantin-Italic
 			size: {if styling.font_cap != "" then to_number(styling.font_cap) else (if is_mutate() then 12 else 14)}
 			scale down to: 6
-			color: { if is_full_art() or is_fnm() then "white" else "black"}
+			color: { if is_full_art() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_full_art() or is_fnm() then "black" else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
@@ -630,7 +634,7 @@ card style:
 			italic name: MPlantin-Italic
 			size: {if styling.font_cap != "" then to_number(styling.font_cap) else 14}
 			scale down to: 6
-			color: { if is_full_art() or is_fnm() then "white" else "black"}
+			color: { if is_full_art() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_full_art() or is_fnm() then "black" else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
@@ -665,7 +669,7 @@ card style:
 			italic name: MPlantin-Italic
 			size: {if styling.font_cap != "" then to_number(styling.font_cap) else 14}
 			scale down to: 6
-			color: { if is_full_art() or is_fnm() then "white" else "black"}
+			color: { if is_full_art() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_full_art() or is_fnm() then "black" else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
@@ -700,7 +704,7 @@ card style:
 			italic name: MPlantin-Italic
 			size: {if styling.font_cap != "" then to_number(styling.font_cap) else 14}
 			scale down to: 6
-			color: { if is_full_art() or is_fnm() then "white" else "black"}
+			color: { if is_full_art() or is_fnm() or is_inverted() then "white" else "black"}
 			shadow color: {if is_full_art() or is_fnm() then "black" else rgba(0,0,0,0)}
 			shadow displacement x: -1
 			shadow displacement y: 1
@@ -798,7 +802,7 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if is_shifted() or is_fnm() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
+			color: {if is_shifted() or is_fnm() or is_inverted() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
 			separator color: red
 			shadow color: {if is_shifted() or is_fnm() then rgb(0,0,0) else rgba(0,0,0,0)}
 			shadow displacement x: -1
@@ -814,7 +818,7 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if is_shifted() or is_fnm() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
+			color: {if is_shifted() or is_fnm() or is_inverted() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
 			separator color: red
 			shadow color: {if is_shifted() or is_fnm() then rgb(0,0,0) else rgba(0,0,0,0)}
 			shadow displacement x: -1
@@ -829,7 +833,7 @@ card style:
 		font:
 			name: Beleren Bold
 			size: {if is_map() then 14 else 16}
-			color: {if is_shifted() or is_fnm() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
+			color: {if is_shifted() or is_fnm() or is_inverted() then "white" else if is_vehicle() and (not is_legend() or chosen(styling.other_options, choice:"brown legendary vehicle pt")) then "white" else "black"}
 			separator color: red
 			shadow color: {if is_shifted() or is_fnm() then rgb(0,0,0) else rgba(0,0,0,0)}
 			shadow displacement x: -1
@@ -874,7 +878,7 @@ card style:
 		width: {if set.automatic_copyright then 0 else 140}
 		height: 10
 		z index: 4
-		alignment: middle right 
+		alignment: middle right
 		font:
 			name: MPlantin
 			size: 6.5
@@ -1399,7 +1403,7 @@ extra card style:
 		z index: 1
 		render style: image
 		popup style: in place
-		image: { if not clear_tops() then "" else if is_fnm() then fnm_background() else if is_full_art() then promo_background() else card_background() }
+		image: { if not clear_tops() then "" else if is_fnm() then fnm_background() else if is_inverted() then inverted_background() else if is_full_art() then promo_background() else card_background() }
 		mask: {if clear_tops() then "clear_tops_mask.png" else ""}
 	map frame:
 		left: 0
@@ -1495,7 +1499,7 @@ extra card style:
 		z index: 0
 		render style: image
 		image: {overlay1()}
-		visible: {is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {is_leveler() and not is_full_art() and not is_map() and not is_fnm() and not is_inverted()}
 	level 3 overlay:
 		left: 29
 		top: { 329 + lv_3_coordinate()}
@@ -1504,7 +1508,7 @@ extra card style:
 		z index: 0
 		render style: image
 		image: {overlay2()}
-		visible: {is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {is_leveler() and not is_full_art() and not is_map() and not is_fnm() and not is_inverted()}
 	arrow 1:
 		z index: 5
 		left: {arrow_left()}
