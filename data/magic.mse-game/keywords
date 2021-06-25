@@ -1478,4 +1478,9 @@ keyword:
 	match: Trample over <atom-param>name</atom-param>
 	mode: expert
 	reminder: This creature can deal excess combat damage to the controller of {if param1.value == "planeswalkers" then "the planeswalker it's attacking" else param1.value + " blocking it"}.
-	
+# Adventures in the Forgotten Realms
+keyword:
+	keyword: Venture into
+	match: Venture into <atom-param>name</atom-param>
+	mode: action
+	reminder: Enter the first room or advance to the next room.

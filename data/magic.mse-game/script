@@ -1582,13 +1582,19 @@ saga_lore_count := {
 	three := 0
 	four := 0
 	five := 0
+	six := 0
+	seven := 0
+	eight := 0
 	for x from 0 to length(input)-1 do
 		if input[x] == "1" then one := one +1
 		else if input[x] == "2" then two := two +1
 		else if input[x] == "3" then three := three +1
 		else if input[x] == "4" then four := four +1
-		else five := five +1
-	[one, two, three, four]
+		else if input[x] == "5" then five := five +1
+		else if input[x] == "6" then six := six +1
+		else if input[x] == "7" then seven := seven +1
+		else eight := eight +1
+	[one, two, three, four, five, six, seven]
 }
 ##index of given chapter number in above array
 ##example, 2,2,3, returns 1,2,1
@@ -1713,6 +1719,7 @@ saga_ch_placement := {
 	)else (seven := seven)
 	[one, two, three, four, five, six, seven]
 }
+
 card_face := {
 	trace(margin_code)
 	front := card[input]

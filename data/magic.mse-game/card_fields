@@ -1027,6 +1027,55 @@ card field:
 	description: The eighth level text for the card
 card field:
 	type: text
+	name: level 9 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv9")
+	show statistics: false
+	multi line: true
+	description: The ninth level text for the card
+card field:
+	type: text
+	name: level 10 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv10")
+	show statistics: false
+	multi line: true
+	description: The tenth level text for the card
+card field:
+	type: text
+	name: level 11 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv11")
+	show statistics: false
+	multi line: true
+	description: The eleventh level text for the card
+card field:
+	type: text
+	name: level 12 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv12")
+	show statistics: false
+	multi line: true
+	description: The twelvth level text for the card
+card field:
+	type: text
+	name: level 13 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv13")
+	show statistics: false
+	multi line: true
+	description: The thirteenth level text for the card
+card field:
+	type: text
+	name: level 14 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv14")
+	show statistics: false
+	multi line: true
+	description: The fourteenth level text for the card
+card field:
+	type: text
+	name: level 15 text
+	script: text_filter(input: value, card_name: if set.alias_as_cardname and card.alias_2 != "" then card.alias_2 else card.name_2, margin_code:"lv15")
+	show statistics: false
+	multi line: true
+	description: The fifteenth level text for the card
+card field:
+	type: text
 	name: level 5
 	description: The fifth level of a card
 	show statistics: false

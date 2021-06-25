@@ -484,6 +484,7 @@ word list:
 	word: Dihada
 	word: Domri
 	word: Dovin
+	word: Ellywick
 	word: Elspeth
 	word: Estrid
 	word: Freyalise
@@ -499,6 +500,7 @@ word list:
 	word: Kiora
 	word: Koth
 	word: Liliana
+	word: Lolth
 	word: Lukka
 	word: Nahiri
 	word: Narset
@@ -529,6 +531,10 @@ word list:
 	word: Xenagos
 	word: Yanggu
 	word: Yanling
+	word:
+		name: Last Seen on Faerun
+		word: Ellywick
+		word: Lolth
 	word:
 		name: Last Seen on Strixhaven
 		word: Kasmina
