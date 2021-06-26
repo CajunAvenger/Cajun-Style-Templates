@@ -133,6 +133,15 @@ init script:
 		else "lanes/nowall.png"
 	}
 	font_size := {if styling.font_size != "" then styling.font_size else 11}
+	mana_t := {
+		if      styling.tap_symbol == "old"        then "old"
+		else if styling.tap_symbol == "diagonal T" then "older"
+		else                                            "new"
+	}
+	
+	# Use guild mana symbols?
+	guild_mana := { styling.use_guild_mana_symbols }
+	transfer_levels := {false}
 ############################################################## Set info fields
 styling field:
 	type: text
@@ -176,6 +185,20 @@ styling field:
 	name: promo
 	description: Is this card a promo card, with the "P" rarity?
 	initial: no
+styling field:
+	type: boolean
+	name: use guild mana symbols
+	description: Use the Ravnica guild symbols instead of the official half/half circles for hybrid mana.
+	initial: no
+styling field:
+	type: choice
+	name: tap symbol
+	description: What tap and untap symbols should be used on cards?
+	initial: modern
+	choice: modern
+	choice: old
+	choice: diagonal T
+
 ############################################################## Card fields
 card style:
 	border color:
@@ -204,13 +227,6 @@ card style:
 			size: { 17 - shrink_name()}
 			color: rgb(222,222,222)
 	############################# Image
-	image:
-		left: 0
-		top: 0
-		width: 375
-		height:	486
-		z index: -1
-		mask: mask.png
 	############################# Textboxes
 	rule text:
 		left: 33
