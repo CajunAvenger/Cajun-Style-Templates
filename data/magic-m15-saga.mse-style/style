@@ -170,8 +170,9 @@ init script:
 			(
 				card.chapter_text
 				+(if card.level_1_text != "" then "\n" + card.level_1_text)
-				+(if card.level_2_text != "" then "\n" + card.level_9_text + " Level 2\n" + card.level_2_text)
-				+(if card.level_3_text != "" then "\n" + card.level_10_text + " Level 3\n" + card.level_3_text)
+				+(if card.level_2_text != "" then "\n" + card.level_9_text + (if card.level_2 == "" then " Level 2" else " " + card.level_2) + "\n" + card.level_2_text)
+				+(if card.level_3_text != "" then "\n" + card.level_10_text + (if card.level_3 == "" then " Level 3" else " " + card.level_3) + "\n" + card.level_3_text)
+				+(if card.level_4_text != "" then "\n" + card.level_11_text + (if card.level_4 == "" then " Level 4" else " " + card.level_4) + "\n" + card.level_4_text)
 			)
 		else 
 			(
@@ -473,7 +474,7 @@ card style:
 		symbol font:
 			name: magic-mana-small
 			size: 12
-		alignment: middle right
+		alignment: middle left
 	level 2:
 		left: 270
 		width: {if is_class() and card.level_2_text == "​" then 0 else 70}
@@ -500,7 +501,7 @@ card style:
 		symbol font:
 			name: magic-mana-small
 			size: 12
-			alignment: middle right
+			alignment: middle left
 	level 3:
 		left: 270
 		width: {if is_class() and card.level_3_text == "​" then 0 else 70}
@@ -527,7 +528,7 @@ card style:
 		symbol font:
 			name: magic-mana-small
 			size: 12
-			alignment: middle right
+			alignment: middle left
 	level 4:
 		left: 270
 		width: {if is_class() and card.level_4_text == "" then 0 else 70}

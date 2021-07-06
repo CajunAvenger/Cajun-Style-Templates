@@ -167,7 +167,7 @@ init script:
 		else if is_d20() then length(d20_array(input).0)
 		else 0
 	}
-	d20_filter := replace@(match:"^(|[Ee]lse ?|[Oo]ther ?|((</sym>)?[-0-9 ,+>\<](<sym>)?)+)[|]", replace:"<b>\\1</b>|")
+	d20_filter := replace@(match:"^([Ee]lse ?|[Oo]ther ?|((</sym>)?[-0-9 ,+>\<](<sym>)?)+)[|]", replace:"<b>\\1</b>|")
 	top_of_para := {
 		input := input + no_roll(card.text)
 		if card_style.text.layout.paragraphs[input].top or else 0 > 0 then
@@ -1169,12 +1169,6 @@ extra card field:
 	type: choice
 	name: alias bar
 	script: card.card_color
-	save value: false
-	editable: false
-extra card field:
-	type: choice
-	name: flash indicator
-	choice: dot
 	save value: false
 	editable: false
 # Add the word "LEVEL" to the top arrow.
