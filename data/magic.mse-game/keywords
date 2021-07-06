@@ -1484,3 +1484,8 @@ keyword:
 	match: Venture into <atom-param>name</atom-param>
 	mode: action
 	reminder: Enter the first room or advance to the next room.
+keyword:
+	keyword: Pack tactics
+	match: Pack tactics
+	mode: pseudo
+	rules: Pack tactics — Whenever CARDNAME attacks, if you attacked with creatures with total power 6 or greater this combat, [effect].

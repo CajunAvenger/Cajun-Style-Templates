@@ -76,6 +76,7 @@ word list:
 			word: Bear
 			word: Beast
 			word: Beeble
+			word: Beholder
 			word: Bird
 			word: Blinkmoth
 			word: Boar
@@ -134,6 +135,7 @@ word list:
 			word: Gargoyle
 			word: Germ
 			word: Giant
+			word: Gnoll
 			word: Gnome
 			word: Goat
 			word: Goblin
@@ -146,6 +148,8 @@ word list:
 		word:
 			name: H
 			word: Hag
+			word: Halfling
+			word: Hamster
 			word: Harpy
 			word: Hellion
 			word: Hippo
@@ -286,6 +290,7 @@ word list:
 			word: Thalakos
 			word: Thopter
 			word: Thrull
+			word: Tiefling
 			word: Treefolk
 			word: Trilobite
 			word: Triskelavite
@@ -347,6 +352,7 @@ word list:
 			word: Artificer
 			word: Assassin
 			word: Barbarian
+			word: Bard
 			word: Beast
 			word: Berserker
 			word: Bringer
@@ -385,6 +391,7 @@ word list:
 			word: Processor
 		word:
 			name: R-S
+			word: Ranger
 			word: Rebel
 			word: Reflection
 			word: Rigger
@@ -502,6 +509,7 @@ word list:
 	word: Liliana
 	word: Lolth
 	word: Lukka
+	word: Mordenkainen
 	word: Nahiri
 	word: Narset
 	word: Niko
@@ -531,10 +539,13 @@ word list:
 	word: Xenagos
 	word: Yanggu
 	word: Yanling
+	word: Zariel
 	word:
 		name: Last Seen on Faerun
 		word: Ellywick
 		word: Lolth
+		word: Mordenkainen
+		word: Zariel
 	word:
 		name: Last Seen on Strixhaven
 		word: Kasmina

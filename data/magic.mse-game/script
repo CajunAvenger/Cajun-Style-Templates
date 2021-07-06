@@ -752,7 +752,7 @@ text_filter :=
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|-|—|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-cardname></atom-cardname>"
 		) +
 	# step 3b : expand shortcut word LEGENDNAME
@@ -1087,6 +1087,11 @@ mainframe_walker := {false}
 mainframe_walker_text_script := {combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text)}
 mainframe_walkerb := {false}
 mainframe_walker_text_scriptb := {combined_editor(field1: card.level_5_text, separator1: "<line>\n</line>", field2: card.level_6_text, separator2: "<line>\n</line>", field3: card.level_7_text)}
+alt_text := {false}
+alt_text_script := {false}
+alt_textb := {false}
+alt_text_scriptb := {false}
+
 mainframe_power := { card.power }
 mainframe_toughness := { card.toughness }
 
@@ -1189,6 +1194,7 @@ transfer_levels_2 := {true}
 a_saga := {false}
 saga_reminder := { "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 b_saga := {false}
+saga_reminderb := { "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 ############################################################## Watermark Updates
 card_spotlight := { "/magic-mainframe-watermarks.mse-include/spotlight/" + card_new_color() + "spotlight.png" }
 custom_watermark_1 := { if set.custom_watermark_1 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_1 else "/magic-watermarks.mse-include/planeswalker.png" }
@@ -1269,7 +1275,7 @@ uneven_correction := { if lines_of_flavor() == 1 then max(4, (card_style.text.co
 ###add it all up
 ###old_bar_equation is compatibilty for 2.0.0
 old_bar_equation := { top_of_textbox() + padding_height() + card_style.text.content_height - line_height()*(lines_of_flavor() + offset_lines()) + linebreak_height() - uneven_correction() + front_corr() + bar_offset() + hard_flavor_break() +1 }
-bar_equation := {if card_style.text.layout.blocks[0].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
+bar_equation := {if card_style.text.layout.blocks[1].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
 	
 flavor_text2 := {split_text(match:"\n", remove_tags(card.flavor_text_2+"\n"))}						#remove tags, add \n so .1 doesn't explode
 hard_flavor_break2 := { if not contains(card.flavor_text_2, match:"\n") then 0 else if contains(card.flavor_text_2, match:"<soft-line>\n") then 0 else if lines_of_rules2() >= 3 then -3 else -2}
