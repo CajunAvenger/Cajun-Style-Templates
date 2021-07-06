@@ -23,6 +23,7 @@ depends on:
 	package: magic-mainframe-extras.mse-include
 	version: 2018-01-01
 
+
 card width: 375
 card height: 523
 card dpi: 150
