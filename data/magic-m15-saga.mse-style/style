@@ -149,7 +149,7 @@ init script:
 		else 0
 	}
 	alt_leaders := {
-		alt := ["I,","II,","III,""IV,","V,","VI,"]
+		alt := ["I,","II,","III,","IV,","V,","VI,"]
 		if match(card.notes, match:"!altleader [^,]+,") then
 			alt := break_text(split_text(card.notes, match:"!altleader ").1, match:"[^,]+,")
 		alt
