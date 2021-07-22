@@ -72,7 +72,7 @@ init script:
 	shrink_name := {if styling.shrink_name_text != "" then to_int(styling.shrink_name_text) else 0 }
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
-	use_vorthos := {styling.vorthos box}
+	use_vorthos := {styling.vorthos_box}
 
 ############################################################## Set info fields
 set info style:
