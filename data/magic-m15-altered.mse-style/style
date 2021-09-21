@@ -126,7 +126,7 @@ init script:
 	is_unsorted := {styling.remove_from_autocount}
 	is_devoid := { chosen(styling.frames, choice: "devoid") and not is_map()}
 	is_clear := { (chosen(styling.frames, choice: "clear") or is_devoid()) and not is_map()}
-	is_puma := { not is_expanded_art() and not is_full_art() and not is_clear() and chosen(styling.frames, choice: "m18 puma") and not is_map() and not is_season() and not chosen(styling.frames, choice: "conspiracy") }
+	is_puma := { not is_expanded_art() and not is_full_art() and not is_clear() and not is_puma() and chosen(styling.frames, choice: "m18 puma") and not is_map() and not is_season() and not chosen(styling.frames, choice: "conspiracy") }
 	is_puma2 := { not is_expanded_art() and not is_full_art() and not is_clear() and chosen(styling.frames, choice: "m19 puma") and not is_map() and not is_season() and not chosen(styling.frames, choice: "conspiracy") }
 	is_mutate := { not is_expanded_art() and not is_full_art() and chosen(styling.frames, choice: "mutate") and not is_map()}
 	is_miracle := { chosen(styling.frames, choice: "miracle") and not is_map() and not is_expanded_art() and not is_cons() and not is_fnm()}
