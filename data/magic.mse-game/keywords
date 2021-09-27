@@ -1506,6 +1506,11 @@ keyword:
 	mode: expert
 	reminder: You may cast this card from your graveyard transformed for its disturb cost.
 keyword:
+	keyword: Decayed
+	match: Decayed
+	mode: expert
+	reminder: {if contains(card.type, match:"Token") then "This creature" else "It"} can't block. When it attacks, sacrifice it at end of combat.
+keyword:
 	keyword: Coven
 	match: Coven
 	mode: pseudo
