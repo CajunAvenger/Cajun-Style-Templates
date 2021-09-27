@@ -2230,13 +2230,12 @@ extra card field:
 extra card field:
 	type: text
 	name: card code 2
-	editable: false
 	save value: false
 	script:
 		if set.automatic_card_numbers and not is_unsorted() then
-			forward_editor(prefix: card_number_m15() + "b/" + card_count_m15() + " " + rarity_code() + " ", field: card.card_code_text)
+			forward_editor(prefix: card_number_m15() + "b/" + card_count_m15() + " " + rarity_code() + " ", field: card.card_code_text_2)
 		else
-			back_face(card.custom_card_number) + " " + rarity_code() + " " + card.card_code_text
+			back_face(card.custom_card_number) + " " + rarity_code() + " " + card.card_code_text_2
 extra card field:
 	type: color
 	name: opac filter
