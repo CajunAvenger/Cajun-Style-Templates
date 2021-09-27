@@ -39,7 +39,7 @@ card dpi: 150
 ##### Ancestral generic mana by ancestral
 ##### Nyx crowns by Angelus
 ##### Companion crowns, nyx extensions, DOM FNM frame, THB fullart lands, snow frames by silverback_ape
-##### Improved PUMA by Cardists
+##### PUMA by kebelqwa and cajun
 ############################################################## Extra scripts
 init script:
 	# Load scripts for image box
@@ -53,10 +53,10 @@ init script:
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
 	
-	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" node:"nodes/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", slide3: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/" puma: "puma/"]
-	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/"  node:"shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", slide3: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/" puma: "shifted/"]
+	base_template_prefix := [card: "" alias: "alias/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "miracles/" node:"nodes/" promo: "promo/" crown: "legend/" cons:"conspiracy/" curtain: "curtains/" fnm: "fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "", slide: "masks/", slide2: "masks/", slide3: "masks/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "" identity: "/magic-identity-new.mse-include/"]
+	shifted_template_prefix := [card: "shifted/" alias: "shifted/" snow:"snow/" snowtexture:"snow/" devoid:"devoid/" nyx: "nyx/" miracle: "shifted/"  node:"shifted/" promo: "promo/" crown: "shifted/" cons:"conspiracy/" curtain: "curtains/" fnm:"fnm/", fnmpt: "paradox/", map: "maps/" energy: "energies/", mappt: "maps/" pt: "shifted/", slide: "shifted/", slide2: "shifted/", slide3: "shifted/", arrow: "arrows/", arrow2: "arrows/", arrow3: "arrows/", season: "season/" stamp: "shifted/" identity: "/magic-identity-new.mse-include/"]
 	template_prefix := { if type == "miracle" and pure_snow() then [miracle:"snow/"] else if is_shifted() then shifted_template_prefix else base_template_prefix }
-	template_suffix := [card: "card.jpg"  node:"node.png" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide3.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png" puma:"puma.png"]
+	template_suffix := [card: "card.jpg"  node:"node.png" alias:"alias.png" devoid:"card.png" snow:"card.jpg" snowtexture:"snow.png" nyx: "nyx.png" miracle: "miracle.png" promo: "card.jpg" crown: "crown.png" cons:"cons.png" curtain: "card.png" fnm:"card.png", fnmpt: "pt.png", map: "card.png", energy: "card.png", mappt: "pt.png" pt: "pt.png", slide: "slide.png", slide2: "slide2.png", slide3: "slide3.png", stamp: "stamp.jpg", arrow: "arrow.png", arrow2: "arrow2.png", arrow3: "arrow3.png", season: "flag.png" identity: "identity.png"]
 	template      := { crown_lead(type) + template_prefix()[type] + input + crown_follow(type) + template_suffix[type] }
 	land_template := { crown_lead(type) + template_prefix()[type] + (if input == "a" then "c" else input) + (if landless(type) then "" else "l") + crown_follow(type) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
@@ -84,7 +84,6 @@ init script:
 	devoid_background := { color_background(type:"devoid",     base_hybrid:card_hybrid) }
 	snow_background := { color_background(type:"snow",     base_hybrid:card_hybrid) }
 	snow_texture := { color_background(type:"snowtexture",     base_hybrid:card_hybrid) }
-	puma_bar := { color_background(type:"puma", base_hybrid:card_hybrid) }
 	fnm_background := { color_background(type:"fnm",     base_hybrid:card_hybrid) }
 	alias_bar := { color_background(type:"alias",     base_hybrid:card_hybrid) }
 	miracle_background := { color_background(type:"miracle",     base_hybrid:card_hybrid) }
@@ -126,13 +125,13 @@ init script:
 	is_unsorted := {styling.remove_from_autocount}
 	is_devoid := { chosen(styling.frames, choice: "devoid") and not is_map()}
 	is_clear := { (chosen(styling.frames, choice: "clear") or is_devoid()) and not is_map()}
-	is_puma := { not is_expanded_art() and not is_full_art() and not is_clear() and chosen(styling.frames, choice: "puma") and not is_map() }
+	is_puma := { not is_expanded_art() and not is_full_art() and chosen(styling.frames, choice: "puma") and not is_map()}
 	is_mutate := { not is_expanded_art() and not is_full_art() and chosen(styling.frames, choice: "mutate") and not is_map()}
 	is_miracle := { chosen(styling.frames, choice: "miracle") and not is_map() and not is_expanded_art() and not is_cons() and not is_fnm()}
 	is_nyx := { chosen(styling.frames, choice: "nyx") and not is_map() }
 	is_vehicle := { (chosen(styling.frames, choice: "vehicle") or (chosen(styling.other_options, choice:"auto vehicles") and match_vehicle(card.sub_type))) and not is_map()}
 	is_snow := { (chosen(styling.frames, choice: "snow") or (chosen(styling.other_options, choice:"auto snow") and match_snow(card.super_type))) and not is_map()}
-	is_cons := { chosen(styling.frames, choice: "draft matters") or chosen(styling.frames, choice: "conspiracy") and not is_map() }
+	is_cons := { chosen(styling.frames, choice: "conspiracy") or chosen(styling.frames, choice: "draft matters") and not is_map()}
 	is_scrolls := { chosen(styling.frames, choice: "conspiracy") and not is_map()}
 	is_shifted := { chosen(styling.frames, choice: "planeshifted") and not is_map() and not is_full_art() and not is_fnm()}
 	is_fnm := {chosen(styling.frames, choice:"fnm promo") and not is_clear() and not is_full_art() and not is_map()}
@@ -187,9 +186,28 @@ init script:
 
 	center_map := {is_map() and (card.casting_cost == "" or chosen(styling.other_options, choice:"always center map names"))}
 	use_evobar := {chosen(styling.other_options, choice:"pokemon evobar")}
+	alt_rarity := {styling.alt_rarity_color != ""}
+	alt_rarity_color := {
+		string := "83,67,53:177,150,131:0,0,0:0,0,0:0.07:"
+		if match(styling.alt_rarity_color, match:":$") then string := styling.alt_rarity_color
+		colons := length(filter_text(string, match:":"))
+		output := split_text(string, match:",|:")
+		splits := split_text(string, match:":")
+		if colons == 4
+			then output := split_text(string+"0.07:", match:",|:")
+		if colons == 3
+			then output := split_text(string+splits[2]+"0.07:", match:",|:")
+		else if colons == 2
+			then output := split_text(string+"0,0,0:0,0,0:0.07:", match:",|:")
+		else if colons == 1
+			then output := split_text(string+splits[0]+":0,0,0:0,0,0:0.07:", match:",|:")
+		
+		output
+	}
+	alt_symbol := {symbol_variation(symbol:set.symbol, border_radius: alt_rarity_color().12, fill_type: "linear gradient", fill_color_1: rgb(alt_rarity_color().0, alt_rarity_color().1, alt_rarity_color().2), fill_color_2: rgb(alt_rarity_color().3, alt_rarity_color().4, alt_rarity_color().5), border_color_1: rgb(alt_rarity_color().6, alt_rarity_color().7, alt_rarity_color().8), border_color_2: rgb(alt_rarity_color().9, alt_rarity_color().10, alt_rarity_color().11), center_x:0.5, center_y:0.5, end_x:1, end_y:1)}
 	is_skinned := {chosen(styling.other_options, choice:"godzilla style alias")}
-	use_vorthos := {chosen(styling.other_options, choice:"vorthos box")}
-	clear_tops := {not is_puma() and chosen(styling.other_options, choice:"clear tops")}
+	use_vorthos := {((not is_leveler() or lone_pt()) and card.pt != "") or chosen(styling.other_options, choice:"vorthos box")}
+	clear_tops := {chosen(styling.other_options, choice:"clear tops")}
 	is_tarot := {chosen(styling.other_options, choice:"text watermarks")}
 	pure_snow := {is_snow() and not is_fnm() and not is_full_art() and not is_leveler() and not is_shifted()}
 	chop_top := {if styling.chop_top == "" then 0 else if comma_count(styling.chop_top) == "," or comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).0 else styling.chop_top}
@@ -340,7 +358,7 @@ styling field:
 	choice: clear tops
 	choice: vorthos box
 	choice: pride pinlines
-	initial: auto nyx crowns, auto vehicles, auto snow, vorthos box
+	initial: auto nyx crowns, auto vehicles, auto snow
 styling field:
 	type: text
 	name: font cap
@@ -387,6 +405,10 @@ styling field:
 	name: remove from autocount
 	description: Removes the automatic card number for specific cards, to allow for overcounted cards like in Planeswalker Decks.
 	initial: no
+styling field:
+	type: text
+	name: alt rarity color
+	description: Use a custom color for the rarity symbol. Formatted as "R1,G1,B1:R2,G2,B2:..." 1 and 2 are fill color, 3 and 4 border color
 styling field:
 	type: choice
 	name: hybrid name
@@ -605,28 +627,34 @@ card style:
 			basic land:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			common:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			uncommon:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "u.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "uncommon")
 			rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "r.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "rare")
 			mythic rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "m.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "mythic rare")
 			special:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "s.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "special")
 			masterpiece:
 				script:
@@ -1278,6 +1306,20 @@ extra card field:
 	save value: false
 extra card field:
 	type: choice
+	name: stripe
+	choice: stripe
+	editable: false
+	save value: false
+	show statistics: false
+extra card field:
+	type: choice
+	name: stripe 2
+	choice: stripe
+	editable: false
+	save value: false
+	show statistics: false
+extra card field:
+	type: choice
 	name: node
 	script: card.card_color
 	editable: false
@@ -1329,13 +1371,6 @@ extra card field:
 	save value: true
 	editable: true
 	description: Where they put mtgstory.com on story spotlights.
-extra card field:
-	type: choice
-	name: puma overlay
-	choice: puma
-	save value: false
-	editable: false
-	script: card.card_color
 extra card style:
 	promo label:
 		left: 40
@@ -1490,9 +1525,9 @@ extra card style:
 		width: 375
 		height: 523
 		render style: image
-		image: {if is_puma() then puma_bar() else (if is_full_art() then "full_" else "") + "consscrolls.png"}
+		image: {(if is_full_art() then "full_" else "") + "consscrolls.png"}
 		z index: 1
-		visible: {is_scrolls() or is_puma()}
+		visible: {is_scrolls()}
 	miracle overlay:
 		left: 0
 		top: 0
@@ -1644,28 +1679,28 @@ extra card style:
 		top: { if is_d20() then top_of_para(rolls_start(card.text)) else 329 + lv_2_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)) else lv_2_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay1()}
-		visible: {(is_d20() and number_of_rolls(card.text) > 0) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text) > 0) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	level 3 overlay:
 		left: 29
 		top: { if is_d20() then top_of_para(rolls_start(card.text)+2) else 329 + lv_3_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)+2) else lv_3_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay2()}
-		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 2) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 2) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	level 4 overlay:
 		left: 29
 		top: { if is_d20() then top_of_para(rolls_start(card.text)+4) else 329 + lv_4_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)+4) else lv_4_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay3()}
-		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 4) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 4) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	arrow 1:
 		z index: 5
 		left: {arrow_left()}
