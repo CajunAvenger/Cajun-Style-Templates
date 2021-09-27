@@ -634,6 +634,20 @@ additional_text_words := match@(match:
 equip_filter :=
 	replace@(match:"This creature", replace:"It")
 	+replace@(match:"this creature", replace:"it")
+this_or_that := {
+	this := "this"
+	that := "that"
+	type := input
+	if is_creaturish(card.type) then type := "creature"
+	if upper then (
+		this := "This"
+		that := "That"
+	)
+	this_that := this
+	if (input == "creature" and not is_creaturish(card.type)) or (input == "permanent" and is_spell(card.type))
+		then this_that := that
+	this_that + " " + type
+}@(upper:false)
 softline_ripper :=
 	replace@(match:"</?soft-line>", replace:"")
 auto_correct :=
@@ -707,7 +721,7 @@ text_filter :=
 		},
 		combine: {
 			keyword  := "<nospellcheck>{keyword}</nospellcheck>"
-			reminder := process_english_hints(if is_creaturish(card.type) then reminder else equip_filter(reminder))
+			reminder := process_english_hints(reminder)
 			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
 			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>" else ""
 		}) +
@@ -764,11 +778,11 @@ text_filter :=
 	# step 3c : fill in atom fields
 	tag_contents@(
 		tag: "<atom-cardname>",
-		contents: { "<nospellcheck>" + (if card_name=="" then "CARDNAME" else card_name) + "</nospellcheck>" }
+		contents: { "<nospellcheck>" + (if card_name=="" then "CARDNAME" else strip_card_codes(card_name)) + "</nospellcheck>" }
 		) +
 	tag_contents@(
 		tag: "<atom-legname>",
-		contents: { "<nospellcheck>" + (if card_name=="" then "LEGENDNAME" else legend_filter(card_name)) + "</nospellcheck>" }
+		contents: { "<nospellcheck>" + (if card_name=="" then "LEGENDNAME" else legend_filter(strip_card_codes(card_name))) + "</nospellcheck>" }
 		) +
 	replace@(
 		match: "INS([1-9])",
@@ -1008,6 +1022,7 @@ cmc := {to_number(
 		else                       1 # all other symbols are 1
 	))
 }
+mana_value := cmc
 write_wubrg := {
 	(if match(input, match:"white") then "W" else "")+
 	(if match(input, match:"blue") then "U" else "")+
@@ -1207,7 +1222,8 @@ custom_watermark_7 := { if set.custom_watermark_7 != "" then "/magic-watermarks.
 custom_watermark_8 := { if set.custom_watermark_8 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_8 else "/magic-watermarks.mse-include/planeswalker.png" }
 custom_watermark_9 := { if set.custom_watermark_9 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_9 else "/magic-watermarks.mse-include/planeswalker.png" }
 custom_watermark_10 := { if set.custom_watermark_10 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_10 else "/magic-watermarks.mse-include/planeswalker.png" }
-
+custom_watermark_a := {"/magic-watermarks.mse-include/planeswalker.png"}
+custom_watermark_b := {"/magic-watermarks.mse-include/planeswalker.png"}
 ############################################################## Flavor Bar Equation
 
 
@@ -1732,3 +1748,6 @@ card_face := {
 	back := if card[input+"_2"] or else "" != "" then card[input+"_2"] else card[input]
 	if match(margin_code, match:"(text[2456]|lv[5678])") then back else front
 }
+strip_card_codes := replace@(match:"^[CURMSL][WUBRGMZACL][0-9]+ ?[-—]? ?", replace:"")
+name_checker := {if not set.remove_card_codes then input else strip_card_codes(input)}
+
