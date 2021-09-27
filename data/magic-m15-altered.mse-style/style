@@ -250,7 +250,7 @@ init script:
 		+ (if box_leveler() then -5 else 0)
 		+ (if aug_leveler(input) then 4 else 0)
 	}
-
+	custom_watermark_a := {if styling.card_watermark == "" or not contains(styling.card_watermark, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark}
 	special_text := {if is_leveler() then ((if card.level_0 != "" then "[" + level_label(0) + " " + card.level_0 + "] " else "") + card.level_1_text + (if card.pt != "" then " [" + card.pt + "]" else "") + "\n"
 			+ (if card.level_1 != "" then "[" + level_label(1) + " " + card.level_1 + "] " else "") + card.level_2_text + (if card.pt_2 != "" then " [" + card.pt_2 + "]" else "") + "\n"
 			+ (if card.level_2 != "" then "[" + level_label(2) + " " + card.level_2 + "] " else "") + card.level_3_text + (if card.pt_3 != "" then " [" + card.pt_3 + "]" else "") + (if card.level_4_text != "" then "\n" else "")
@@ -409,6 +409,10 @@ styling field:
 	type: text
 	name: alt rarity color
 	description: Use a custom color for the rarity symbol. Formatted as "R1,G1,B1:R2,G2,B2:..." 1 and 2 are fill color, 3 and 4 border color
+styling field:
+	type: text
+	name: card watermark
+	description: Filename in magic-watermarks to use for standalone card watermark
 styling field:
 	type: choice
 	name: hybrid name

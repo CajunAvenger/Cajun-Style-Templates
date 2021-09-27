@@ -738,6 +738,9 @@ init script:
 
 	is_modal_dfc := {styling.dfc_type != "transforming"}
 	auto_flags := {styling.dfc_type == "modal with standard flags"}
+	custom_watermark_a := {if styling.card_watermark == "" or not contains(styling.card_watermark, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark}
+	custom_watermark_b := {if styling.card_watermark_2 == "" or not contains(styling.card_watermark_2, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark_2}
+
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -1029,6 +1032,14 @@ styling field:
 	choice: arrows
 	choice: pt boxes
 	choice: loyalty boxes
+styling field:
+	type: text
+	name: card watermark
+	description: Filename in magic-watermarks to use for standalone card watermark
+styling field:
+	type: text
+	name: card watermark 2
+	description: Filename in magic-watermarks to use for standalone card watermark
 styling field:
 	type: boolean
 	name: grey hybrid name
