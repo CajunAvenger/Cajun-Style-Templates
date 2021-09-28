@@ -128,7 +128,7 @@ init script:
 	is_clear := { (chosen(styling.frames, choice: "clear") or is_devoid()) and not is_map()}
 	is_puma := { not is_expanded_art() and not is_full_art() and not is_clear() and chosen(styling.frames, choice: "m18 puma") and not is_map() and not is_season() and not chosen(styling.frames, choice: "conspiracy") }
 	is_puma2 := { not is_expanded_art() and not is_full_art() and not is_clear() and not is_puma() and chosen(styling.frames, choice: "m19 puma") and not is_map() and not is_season() and not chosen(styling.frames, choice: "conspiracy") }
-	is_mutate := { not is_expanded_art() and not is_extended_art() and not is_full_art() and not is_m21_full_art() and chosen(styling.frames, choice: "mutate") and not is_map()}
+	is_mutate := { not is_expanded_art() and not is_extended_art() and not is_full_art() and chosen(styling.frames, choice: "mutate") and not is_map()}
 	is_miracle := { chosen(styling.frames, choice: "miracle") and not is_map() and not is_expanded_art() and not is_extended_art() and not is_cons() and not is_fnm()}
 	is_nyx := { chosen(styling.frames, choice: "nyx") and not is_map() }
 	is_vehicle := { (chosen(styling.frames, choice: "vehicle") or (chosen(styling.other_options, choice:"auto vehicles") and match_vehicle(card.sub_type))) and not is_map()}
@@ -143,7 +143,7 @@ init script:
 	is_legend := {not is_map() and (chosen(styling.frames, choice: "legend") or (set.auto_legends and contains(card.super_type, match:"Legendary"))) }
 	is_full_art := {chosen(styling.frames, choice:"fullart") and not is_map() and not is_clear()}
 	is_expanded_art := {not is_map() and not is_clear() and contains(styling.frames, match:"less art")}
-	is_extended_art := {not is_map() and not is_clear() and not is_full_art() and not is_m21_full_art() and contains(styling.frames, match:" puma")}
+	is_extended_art := {not is_map() and not is_clear() and not is_full_art() and contains(styling.frames, match:" puma")}
 	is_borderless := {not is_map() and not is_clear() and chosen(styling.frames, choice:"borderless art")}
 	is_thbland := {chosen(styling.frames, choice:"frameless art") and not is_leveler() and remove_tags(card.text) == "\n"}
 	expanded_mask := { "bigimagemasks/" + (if is_full_art() then "dka_" else "") + (if is_borderless() then (if is_stamped() then "rare_" else "") + "borderless_" else "") + "frameless.png"}
@@ -189,6 +189,25 @@ init script:
 
 	center_map := {is_map() and (card.casting_cost == "" or chosen(styling.other_options, choice:"always center map names"))}
 	use_evobar := {chosen(styling.other_options, choice:"pokemon evobar")}
+	alt_rarity := {styling.alt_rarity_color != ""}
+	alt_rarity_color := {
+		string := "83,67,53:177,150,131:0,0,0:0,0,0:0.07:"
+		if match(styling.alt_rarity_color, match:":$") then string := styling.alt_rarity_color
+		colons := length(filter_text(string, match:":"))
+		output := split_text(string, match:",|:")
+		splits := split_text(string, match:":")
+		if colons == 4
+			then output := split_text(string+"0.07:", match:",|:")
+		if colons == 3
+			then output := split_text(string+splits[2]+"0.07:", match:",|:")
+		else if colons == 2
+			then output := split_text(string+"0,0,0:0,0,0:0.07:", match:",|:")
+		else if colons == 1
+			then output := split_text(string+splits[0]+":0,0,0:0,0,0:0.07:", match:",|:")
+		
+		output
+	}
+	alt_symbol := {symbol_variation(symbol:set.symbol, border_radius: alt_rarity_color().12, fill_type: "linear gradient", fill_color_1: rgb(alt_rarity_color().0, alt_rarity_color().1, alt_rarity_color().2), fill_color_2: rgb(alt_rarity_color().3, alt_rarity_color().4, alt_rarity_color().5), border_color_1: rgb(alt_rarity_color().6, alt_rarity_color().7, alt_rarity_color().8), border_color_2: rgb(alt_rarity_color().9, alt_rarity_color().10, alt_rarity_color().11), center_x:0.5, center_y:0.5, end_x:1, end_y:1)}
 	is_skinned := {chosen(styling.other_options, choice:"godzilla style alias")}
 	use_vorthos := {((not is_leveler() or lone_pt()) and card.pt != "") or chosen(styling.other_options, choice:"vorthos box")}
 	clear_tops := {chosen(styling.other_options, choice:"clear tops") and not is_extended_art()}
@@ -234,7 +253,7 @@ init script:
 		+ (if box_leveler() then -5 else 0)
 		+ (if aug_leveler(input) then 4 else 0)
 	}
-
+	custom_watermark_a := {if styling.card_watermark == "" or not contains(styling.card_watermark, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark}
 	special_text := {if is_leveler() then ((if card.level_0 != "" then "[" + level_label(0) + " " + card.level_0 + "] " else "") + card.level_1_text + (if card.pt != "" then " [" + card.pt + "]" else "") + "\n"
 			+ (if card.level_1 != "" then "[" + level_label(1) + " " + card.level_1 + "] " else "") + card.level_2_text + (if card.pt_2 != "" then " [" + card.pt_2 + "]" else "") + "\n"
 			+ (if card.level_2 != "" then "[" + level_label(2) + " " + card.level_2 + "] " else "") + card.level_3_text + (if card.pt_3 != "" then " [" + card.pt_3 + "]" else "") + (if card.level_4_text != "" then "\n" else "")
@@ -343,7 +362,7 @@ styling field:
 	choice: clear tops
 	choice: vorthos box
 	choice: pride pinlines
-	initial: auto nyx crowns, auto vehicles, auto snow, vorthos box
+	initial: auto nyx crowns, auto vehicles, auto snow
 styling field:
 	type: text
 	name: font cap
@@ -390,6 +409,14 @@ styling field:
 	name: remove from autocount
 	description: Removes the automatic card number for specific cards, to allow for overcounted cards like in Planeswalker Decks.
 	initial: no
+styling field:
+	type: text
+	name: alt rarity color
+	description: Use a custom color for the rarity symbol. Formatted as "R1,G1,B1:R2,G2,B2:..." 1 and 2 are fill color, 3 and 4 border color
+styling field:
+	type: text
+	name: card watermark
+	description: Filename in magic-watermarks to use for standalone card watermark
 styling field:
 	type: choice
 	name: hybrid name
@@ -608,28 +635,34 @@ card style:
 			basic land:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			common:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			uncommon:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "u.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "uncommon")
 			rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "r.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "rare")
 			mythic rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "m.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "mythic rare")
 			special:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "s.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "special")
 			masterpiece:
 				script:
@@ -1687,28 +1720,28 @@ extra card style:
 		top: { if is_d20() then top_of_para(rolls_start(card.text)) else 329 + lv_2_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)) else lv_2_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay1()}
-		visible: {(is_d20() and number_of_rolls(card.text) > 0) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text) > 0) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	level 3 overlay:
 		left: 29
 		top: { if is_d20() then top_of_para(rolls_start(card.text)+2) else 329 + lv_3_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)+2) else lv_3_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay2()}
-		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 2) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 2) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	level 4 overlay:
 		left: 29
 		top: { if is_d20() then top_of_para(rolls_start(card.text)+4) else 329 + lv_4_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)+4) else lv_4_height()}
 		width: 314
-		z index: 0
+		z index: 1
 		render style: image
 		image: {overlay3()}
-		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 4) or is_leveler() and not is_full_art() and not is_map() and not is_fnm()}
+		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 4) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm())}
 	arrow 1:
 		z index: 5
 		left: {arrow_left()}

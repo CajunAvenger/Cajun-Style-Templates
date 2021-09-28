@@ -171,6 +171,7 @@ choice:
 	choice: eight
 	choice: nine
 	choice: ten
+	choice: card
 choice:
 	name: set symbol
 

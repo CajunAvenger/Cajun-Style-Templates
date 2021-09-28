@@ -147,6 +147,7 @@ choice images:
 	custom watermark eight:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_8()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_8()))
 	custom watermark nine:    	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_9()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_9()))
 	custom watermark ten:  		script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_10()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_10()))
+	custom watermark card:  	script: if set.blend_with_colors then spotlight_watermark_blend(custom_watermark_a()) else set_combine(combine:"shadow", input:set_alpha(alpha: 1.0, input:custom_watermark_a()))
 
 	set symbol:
 		{ set_combine(combine:"shadow",
