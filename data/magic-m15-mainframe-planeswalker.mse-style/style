@@ -435,7 +435,7 @@ card style:
 		render style: image
 		popup style: in place
 		image: { if is_clear() then "" else if has_four_abilities() then card_background2() else card_background() }
-		mask: {if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask else (if max_level() > 3 or force_tall() then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
+		mask: {if contains(styling.custom_mask, match:".png") then invert_image("/magic-mainframe-extras.mse-include/" + styling.custom_mask) else (if max_level() > 3 or force_tall() then "four_" else "") + (if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
 	############################# Name line
 	name:
 		left: { if card.card_symbol=="none" then 31 else 48 }
@@ -492,7 +492,7 @@ card style:
 		width: { if use_full_art() or is_clear() then 375 else if is_normal_size() then 324 else 345 }
 		height:	{ if use_full_art() or is_clear() then 523 else if is_normal_size() then 427.5 else 493 }
 		z index: -1
-		mask: {if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask else "guidelines/" + (if is_clear() then "clear_" else if is_normal_size() or use_full_art() then "" else "wide_") + (if max_level() > 3 or force_tall() then "four_" else "") + (if is_clear() then "frame_mask" else if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
+		mask: {if contains(styling.custom_mask, match:".png") then "" else "guidelines/" + (if is_clear() then "clear_" else if is_normal_size() or use_full_art() then "" else "wide_") + (if max_level() > 3 or force_tall() then "four_" else "") + (if is_clear() then "frame_mask" else if use_full_art() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
 	image 2:
 		left: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).0 else "0"}
 		top: {if comma_count(styling.popout_image_style) == ",,,," then split_text(match:",", styling.popout_image_style).1 else "0"}

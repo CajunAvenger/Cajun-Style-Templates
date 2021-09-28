@@ -1,3 +1,4 @@
+Oct 1, 2021
 - Frame Updates
 - Added the MH2 Sketch Frame, thanks to Moth's images.
 - Updated the PUMA effect to a better image that more resembles the current usage, thanks to Cardists images and code. PUMA can now be combined with the Mutate and Season frames.
@@ -9,10 +10,11 @@
 - Adds Alt Rarity to Mainframe templates. This can be used to change the rarity coloration and border to custom settings for a card.
 - Mainframe DFC's backface card code is now editable on its own instead of being a scripted copy of the front face's.
 - Updated to MID keywords.
-- Added a new keyword function "this_or_that". Using this_or_that("creature") and this_or_that("permanent") will return "this creature" or "that creature" (or permanent) depending on the card's type.
+- Added a new keyword function "this_or_that". Using this_or_that("creature") and this_or_that("permanent") will return "this creature" or "that creature" (or permanent) depending on the card's type. Passing "upper: true" as an additional argument will capitalize This or That.
 - Added the "Remove card codes" set option. When enabled, it removes card codes like "CW01" from every card name in the set. The exact match is currently /^[CURMSL][WUBRGMZACL][0-9]+ ?[-—]? ?/ 
 - The CARDNAME atom doesn't display those card codes in rules text.
 
 -Bug Fixes
 - Fixes a bug where the Copyright box would sometimes move as though the Vorthos Box was enabled when it wasn't.
 - Fixes a bug where d20 dividers weren't visible on clear frames.
+- Fixes a bug where Custom masks on Planeswalkers stopped working. Note that new masks need to be 375x523px because of layering change to the template with MSE 2.1.2.
