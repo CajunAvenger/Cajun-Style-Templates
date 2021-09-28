@@ -207,7 +207,9 @@ init script:
 	alt_symbol := {symbol_variation(symbol:set.symbol, border_radius: alt_rarity_color().12, fill_type: "linear gradient", fill_color_1: rgb(alt_rarity_color().0, alt_rarity_color().1, alt_rarity_color().2), fill_color_2: rgb(alt_rarity_color().3, alt_rarity_color().4, alt_rarity_color().5), border_color_1: rgb(alt_rarity_color().6, alt_rarity_color().7, alt_rarity_color().8), border_color_2: rgb(alt_rarity_color().9, alt_rarity_color().10, alt_rarity_color().11), center_x:0.5, center_y:0.5, end_x:1, end_y:1)}
 	is_skinned := {chosen(styling.other_options, choice:"godzilla style alias")}
 	use_vorthos := {((not is_leveler() or lone_pt()) and card.pt != "") or chosen(styling.other_options, choice:"vorthos box")}
-	clear_tops := {chosen(styling.other_options, choice:"clear tops")}
+	is_m21_full_art := {false}
+	is_extended_art := {not is_map() and not is_clear() and not is_full_art() and not is_m21_full_art() and contains(styling.frames, match:" puma")}
+	clear_tops := {chosen(styling.other_options, choice:"clear tops") and not is_extended_art()}
 	is_tarot := {chosen(styling.other_options, choice:"text watermarks")}
 	pure_snow := {is_snow() and not is_fnm() and not is_full_art() and not is_leveler() and not is_shifted()}
 	chop_top := {if styling.chop_top == "" then 0 else if comma_count(styling.chop_top) == "," or comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).0 else styling.chop_top}
