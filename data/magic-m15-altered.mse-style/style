@@ -191,7 +191,7 @@ init script:
 	use_evobar := {chosen(styling.other_options, choice:"pokemon evobar")}
 	is_skinned := {chosen(styling.other_options, choice:"godzilla style alias")}
 	use_vorthos := {((not is_leveler() or lone_pt()) and card.pt != "") or chosen(styling.other_options, choice:"vorthos box")}
-	clear_tops := {not is_puma() and not is_puma2() and chosen(styling.other_options, choice:"clear tops")}
+	clear_tops := {chosen(styling.other_options, choice:"clear tops") and not is_extended_art()}
 	is_tarot := {chosen(styling.other_options, choice:"text watermarks")}
 	pure_snow := {is_snow() and not is_fnm() and not is_full_art() and not is_leveler() and not is_shifted()}
 	chop_top := {if styling.chop_top == "" then 0 else if comma_count(styling.chop_top) == "," or comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).0 else styling.chop_top}
