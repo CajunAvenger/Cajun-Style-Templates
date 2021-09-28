@@ -1,0 +1,18 @@
+- Frame Updates
+- Added the MH2 Sketch Frame, thanks to Moth's images.
+- Updated the PUMA effect to a better image that more resembles the current usage, thanks to Cardists images and code. PUMA can now be combined with the Mutate and Season frames.
+- Mainframe Planeswalkers now supports Adventurer Planeswalkers.
+
+- New Features
+- Changes the loyalty symbols to the outline effect as seen on Headmaster Urza and Carth the Lion. Changes their codes to +N, -N, and =N.
+- Adds Custom Watermark A, a custom watermark that takes a link from the Style tab, good for sets that use A25 style watermarks.
+- Adds Alt Rarity to Mainframe templates. This can be used to change the rarity coloration and border to custom settings for a card.
+- Mainframe DFC's backface card code is now editable on its own instead of being a scripted copy of the front face's.
+- Updated to MID keywords.
+- Added a new keyword function "this_or_that". Using this_or_that("creature") and this_or_that("permanent") will return "this creature" or "that creature" (or permanent) depending on the card's type.
+- Added the "Remove card codes" set option. When enabled, it removes card codes like "CW01" from every card name in the set. The exact match is currently /^[CURMSL][WUBRGMZACL][0-9]+ ?[-—]? ?/ 
+- The CARDNAME atom doesn't display those card codes in rules text.
+
+-Bug Fixes
+- Fixes a bug where the Copyright box would sometimes move as though the Vorthos Box was enabled when it wasn't.
+- Fixes a bug where d20 dividers weren't visible on clear frames.
