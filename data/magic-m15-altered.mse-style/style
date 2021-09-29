@@ -1513,7 +1513,7 @@ extra card style:
 		image: {if (is_clear() or clear_tops()) and not is_devoid() then "legend/xcrown.png" else if is_fnm() then set_mask(image:crown_background(), mask:"legend/fnm_mask.png") else crown_background()}
 		z index: 5
 		visible: {is_legend() and not is_map()}
-		mask: {if is_legend() and (is_curtains() or is_expanded_art() or is_puma() or is_devoid()) then "curtainmask.png" else if is_season() then "crown_season_mask.png" else ""}
+		mask: {if is_legend() and styling.legend_crown != "custom" and (is_curtains() or is_expanded_art() or is_puma() or is_devoid()) then "curtainmask.png" else if is_season() then "crown_season_mask.png" else ""}
 	curtain:
 		left: 0
 		top: 0
