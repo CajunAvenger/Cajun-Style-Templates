@@ -643,8 +643,9 @@ this_or_that := {
 		this := "This"
 		that := "That"
 	)
+	if(type == "land" and not is_land(card.type)) then type := "permanent"
 	this_that := this
-	if (input == "creature" and not is_creaturish(card.type)) or (input == "permanent" and is_spell(card.type))
+	if ((input == "creature" and not is_creaturish(card.type)) or is_spell(card.type))
 		then this_that := that
 	this_that + " " + type
 }@(upper:false)
@@ -725,6 +726,11 @@ text_filter :=
 			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
 			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>" else ""
 		}) +
+	# step 2ba : apply face_code
+	replace@(
+		match: "face_(.*?)_end",
+		replace: {face_code(_1)}
+	)+
 	# step 2b : move action keywords' reminder text to the end of the line
 	replace@(
 		match: "(<atom-reminder-[^>]+> (?:(?!</kw).*?)</atom-reminder-[^>]+></kw[^>]*>)([^\n]*)", #######removed "| ?<kw-" from lookahead
@@ -1751,3 +1757,45 @@ card_face := {
 strip_card_codes := replace@(match:"^[CURMSL][WUBRGMZACL][0-9]+ ?[-—]? ?", replace:"")
 name_checker := {if not set.remove_card_codes then input else strip_card_codes(input)}
 
+face_code := {
+	face := ""
+	if margin_code == "text2" or margin_code == "lv5" or margin_code == "lv6" or margin_code == "lv7" or margin_code == "lv8" then face := "_2"
+	output := face_scripts[input](face) or else if_parse(input, face:face) or else input
+	output
+}
+face_scripts := [
+	iscreature: {is_creature(card["type"+face])},
+	iscreaturish: {is_creaturish(card["type"+face])},
+	isenchantment: {is_enchantment(card["type"+face])},
+	isartifact: {is_artifact(card["type"+face])},
+	island: {is_land(card["type"+face])},
+	isspell: {is_spell(card["type"+face])},
+	istarget: {is_targeted(card["text"+face])},
+	subtypes: {separate_words(card["sub_type"+face], spacer: " ")}
+	contains: {
+		contains(card[field+face], match:query)
+	},
+	notcontains: {not contains(card[field+face], match:query)},
+]
+expand_facecodes := [
+	subtype: "sub_type",
+	castingcost: "casting_cost",
+	manacost: "casting_cost"
+]
+if_parse := replace@(
+	match: "if_(.*)_then_(.*)_else_(.*)",
+	replace: {if_scripts(_1, t:_2, f:_3)}
+)
+if_scripts := {
+	contCheck := split_text(input, match:"_")
+	func := contCheck[0]
+	field := ""
+	query := "^$"
+	if length(contCheck) == 3 then (
+		field := contCheck[0]
+		func := contCheck[1]
+		query := contCheck[2]
+	)
+	field := expand_facecodes[field] or else field
+	if face_scripts[func](face, field:field, query:query) or else false then t else f
+}
