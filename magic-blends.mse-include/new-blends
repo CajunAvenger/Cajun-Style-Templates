@@ -834,7 +834,7 @@ color_background := {
 	if land and colored_lands then template := land_template # use land template instead?
 	
 	# The selected colors
-	colors := sort_text( order: "(wubrg)"
+	colors := sort_text( order: if card_is_wedge(input) then "(wbgur)" else "(wubrg)"
 					, (if chosen(choice:"white"	)	then "w")
 					+ (if chosen(choice:"blue"	)	then "u")
 					+ (if chosen(choice:"black"	)	then "b")
@@ -850,7 +850,7 @@ color_background := {
 	)
 	if chosen(choice:"reversed") then colors := reverse(colors)
 	color_count := number_of_items(in: colors)
-	if colors   == "" then colors == "c"
+	if colors == "" then colors == "c"
 	
 	# 'shape' / type of hybrid
 	shape := if		chosen(choice:"horizontal"	)	then	"horizontal"
@@ -1037,24 +1037,38 @@ set_watermark_blend := {
 	)
 }
 spotlight_watermark_blend := {
+	if face == false then face := card.card_color
+	wmc := watermark_colors(face:face)
+	c1 := "/magic-watermarks.mse-include/spotlight/" + wmc.0 + (if contains(face, match:"land") then "l") + "spotlight.png"
+	c2 := "/magic-watermarks.mse-include/spotlight/" + wmc.1 + (if contains(face, match:"land") then "l") + "spotlight.png"
+	if contains(input, match:".png,") then (
+		array := split_text(input+",,", match:",")
+		input := array.0
+		l := min(to_number(array.1),500)
+		h := min(to_number(array.2),500)
+	)
+	if (h != 500 or l != 500) then (
+		c1 := crop(c1, height:h, width:l, offset_x:0, offset_y:0)
+		c2 := crop(c2, height:h, width:l, offset_x:0, offset_y:0)
+	)
 	set_alpha(
 		alpha: 0.75
 		input:
 			linear_blend(
 				image1: 
 					masked_blend(
-						light: "/magic-watermarks.mse-include/planeswalker.png"
-						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().0 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
-						mask: "/magic-watermarks.mse-include/planeswalker.png"
+						light: input
+						dark: c1
+					mask: input
 					)
 				image2:
 					masked_blend(
-						light: "/magic-watermarks.mse-include/planeswalker.png"
-						dark: "/magic-watermarks.mse-include/spotlight/" + watermark_colors().1 + (if contains(card.card_color, match:"land") then "l") + "spotlight.png"
-						mask: "/magic-watermarks.mse-include/planeswalker.png"
+						light: input
+						dark: c2
+					mask: input
 					)
 				x1: 0.4,  y1: 0
 				x2: 0.6,  y2: 0
 			)
 	)
-}
+}@(h:500,l:500,face:false)
