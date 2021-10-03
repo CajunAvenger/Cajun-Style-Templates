@@ -110,6 +110,7 @@ choice images:
 	other magic symbols phyrexia:					script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/phyrexia.png"))
 	other magic symbols seekers of carmot:			script: spotlight_watermark_blend("/magic-watermarks.mse-include/seekersofcarmot.png,266,266")
 	other magic symbols the thran:					script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/thran.png"))
+	other magic symbols foretell:					script: spotlight_watermark_blend("/magic-watermarks.mse-include/foretell.png", h:380)
 
 	other magic symbols innistrad provinces stensia:	script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/stensia.png"))
 	other magic symbols innistrad provinces kessig:		script: set_combine(combine:"shadow", input:set_alpha(alpha: 0.3, input:"/magic-watermarks.mse-include/kessig.png"))

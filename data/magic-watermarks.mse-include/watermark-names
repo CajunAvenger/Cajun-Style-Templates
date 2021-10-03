@@ -127,6 +127,7 @@ choice:
 	choice: phyrexia
 	choice: seekers of carmot
 	choice: the thran
+	choice: foretell
 	choice:
 		name: innistrad provinces
 		choice: stensia
