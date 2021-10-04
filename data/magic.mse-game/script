@@ -634,6 +634,21 @@ additional_text_words := match@(match:
 equip_filter :=
 	replace@(match:"This creature", replace:"It")
 	+replace@(match:"this creature", replace:"it")
+this_or_that := {
+	this := "this"
+	that := "that"
+	type := input
+	if is_creaturish(card.type) then type := "creature"
+	if upper then (
+		this := "This"
+		that := "That"
+	)
+	if(type == "land" and not is_land(card.type)) then type := "permanent"
+	this_that := this
+	if ((input == "creature" and not is_creaturish(card.type)) or is_spell(card.type))
+		then this_that := that
+	this_that + " " + type
+}@(upper:false)
 softline_ripper :=
 	replace@(match:"</?soft-line>", replace:"")
 auto_correct :=
@@ -707,10 +722,15 @@ text_filter :=
 		},
 		combine: {
 			keyword  := "<nospellcheck>{keyword}</nospellcheck>"
-			reminder := process_english_hints(if is_creaturish(card.type) then reminder else equip_filter(reminder))
+			reminder := process_english_hints(reminder)
 			if mode == "pseudo" then "<i-auto>{keyword}</i-auto>"
 			else keyword + if expand then "<atom-reminder-{mode}> ({reminder})</atom-reminder-{mode}>" else ""
 		}) +
+	# step 2ba : apply face_code
+	replace@(
+		match: "face_(.*?)_end",
+		replace: {face_code(_1)}
+	)+
 	# step 2b : move action keywords' reminder text to the end of the line
 	replace@(
 		match: "(<atom-reminder-[^>]+> (?:(?!</kw).*?)</atom-reminder-[^>]+></kw[^>]*>)([^\n]*)", #######removed "| ?<kw-" from lookahead
@@ -752,7 +772,7 @@ text_filter :=
 	# step 3a : expand shortcut word CARDNAME
 	replace@(
 		match: "CARDNAME>?",
-		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|/|​)<match>", # TODO: Allow any punctuation before
+		in_context: "(^|[[:space:]]|\\(|,|\\.|:|“|\"|'|‘|-|—|/|​)<match>", # TODO: Allow any punctuation before
 		replace: "<atom-cardname></atom-cardname>"
 		) +
 	# step 3b : expand shortcut word LEGENDNAME
@@ -764,11 +784,11 @@ text_filter :=
 	# step 3c : fill in atom fields
 	tag_contents@(
 		tag: "<atom-cardname>",
-		contents: { "<nospellcheck>" + (if card_name=="" then "CARDNAME" else card_name) + "</nospellcheck>" }
+		contents: { "<nospellcheck>" + (if card_name=="" then "CARDNAME" else strip_card_codes(card_name)) + "</nospellcheck>" }
 		) +
 	tag_contents@(
 		tag: "<atom-legname>",
-		contents: { "<nospellcheck>" + (if card_name=="" then "LEGENDNAME" else legend_filter(card_name)) + "</nospellcheck>" }
+		contents: { "<nospellcheck>" + (if card_name=="" then "LEGENDNAME" else legend_filter(strip_card_codes(card_name))) + "</nospellcheck>" }
 		) +
 	replace@(
 		match: "INS([1-9])",
@@ -1008,6 +1028,7 @@ cmc := {to_number(
 		else                       1 # all other symbols are 1
 	))
 }
+mana_value := cmc
 write_wubrg := {
 	(if match(input, match:"white") then "W" else "")+
 	(if match(input, match:"blue") then "U" else "")+
@@ -1087,6 +1108,11 @@ mainframe_walker := {false}
 mainframe_walker_text_script := {combined_editor(field1: card.level_1_text, separator1: "<line>\n</line>", field2: card.level_2_text, separator2: "<line>\n</line>", field3: card.level_3_text)}
 mainframe_walkerb := {false}
 mainframe_walker_text_scriptb := {combined_editor(field1: card.level_5_text, separator1: "<line>\n</line>", field2: card.level_6_text, separator2: "<line>\n</line>", field3: card.level_7_text)}
+alt_text := {false}
+alt_text_script := {false}
+alt_textb := {false}
+alt_text_scriptb := {false}
+
 mainframe_power := { card.power }
 mainframe_toughness := { card.toughness }
 
@@ -1189,6 +1215,7 @@ transfer_levels_2 := {true}
 a_saga := {false}
 saga_reminder := { "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 b_saga := {false}
+saga_reminderb := { "As this Saga enters and after your draw step, add a lore counter. Sacrifice after III." }
 ############################################################## Watermark Updates
 card_spotlight := { "/magic-mainframe-watermarks.mse-include/spotlight/" + card_new_color() + "spotlight.png" }
 custom_watermark_1 := { if set.custom_watermark_1 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_1 else "/magic-watermarks.mse-include/planeswalker.png" }
@@ -1201,7 +1228,8 @@ custom_watermark_7 := { if set.custom_watermark_7 != "" then "/magic-watermarks.
 custom_watermark_8 := { if set.custom_watermark_8 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_8 else "/magic-watermarks.mse-include/planeswalker.png" }
 custom_watermark_9 := { if set.custom_watermark_9 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_9 else "/magic-watermarks.mse-include/planeswalker.png" }
 custom_watermark_10 := { if set.custom_watermark_10 != "" then "/magic-watermarks.mse-include/" + set.custom_watermark_10 else "/magic-watermarks.mse-include/planeswalker.png" }
-
+custom_watermark_a := {"/magic-watermarks.mse-include/planeswalker.png"}
+custom_watermark_b := {"/magic-watermarks.mse-include/planeswalker.png"}
 ############################################################## Flavor Bar Equation
 
 
@@ -1269,7 +1297,7 @@ uneven_correction := { if lines_of_flavor() == 1 then max(4, (card_style.text.co
 ###add it all up
 ###old_bar_equation is compatibilty for 2.0.0
 old_bar_equation := { top_of_textbox() + padding_height() + card_style.text.content_height - line_height()*(lines_of_flavor() + offset_lines()) + linebreak_height() - uneven_correction() + front_corr() + bar_offset() + hard_flavor_break() +1 }
-bar_equation := {if card_style.text.layout.blocks[0].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
+bar_equation := {if card_style.text.layout.blocks[1].bottom or else 0 > 0 then card_style.text.top + 0.5*(card_style.text.layout.blocks[0].bottom+card_style.text.layout.blocks[1].top) else old_bar_equation()}
 	
 flavor_text2 := {split_text(match:"\n", remove_tags(card.flavor_text_2+"\n"))}						#remove tags, add \n so .1 doesn't explode
 hard_flavor_break2 := { if not contains(card.flavor_text_2, match:"\n") then 0 else if contains(card.flavor_text_2, match:"<soft-line>\n") then 0 else if lines_of_rules2() >= 3 then -3 else -2}
@@ -1582,13 +1610,19 @@ saga_lore_count := {
 	three := 0
 	four := 0
 	five := 0
+	six := 0
+	seven := 0
+	eight := 0
 	for x from 0 to length(input)-1 do
 		if input[x] == "1" then one := one +1
 		else if input[x] == "2" then two := two +1
 		else if input[x] == "3" then three := three +1
 		else if input[x] == "4" then four := four +1
-		else five := five +1
-	[one, two, three, four]
+		else if input[x] == "5" then five := five +1
+		else if input[x] == "6" then six := six +1
+		else if input[x] == "7" then seven := seven +1
+		else eight := eight +1
+	[one, two, three, four, five, six, seven]
 }
 ##index of given chapter number in above array
 ##example, 2,2,3, returns 1,2,1
@@ -1713,9 +1747,55 @@ saga_ch_placement := {
 	)else (seven := seven)
 	[one, two, three, four, five, six, seven]
 }
+
 card_face := {
 	trace(margin_code)
 	front := card[input]
 	back := if card[input+"_2"] or else "" != "" then card[input+"_2"] else card[input]
 	if match(margin_code, match:"(text[2456]|lv[5678])") then back else front
+}
+strip_card_codes := replace@(match:"^[CURMSL][WUBRGMZACL][0-9]+ ?[-—]? ?", replace:"")
+name_checker := {if not set.remove_card_codes then input else strip_card_codes(input)}
+
+face_code := {
+	face := ""
+	if margin_code == "text2" or margin_code == "lv5" or margin_code == "lv6" or margin_code == "lv7" or margin_code == "lv8" then face := "_2"
+	output := face_scripts[input](face) or else if_parse(input, face:face) or else input
+	output
+}
+face_scripts := [
+	iscreature: {is_creature(card["type"+face])},
+	iscreaturish: {is_creaturish(card["type"+face])},
+	isenchantment: {is_enchantment(card["type"+face])},
+	isartifact: {is_artifact(card["type"+face])},
+	island: {is_land(card["type"+face])},
+	isspell: {is_spell(card["type"+face])},
+	istarget: {is_targeted(card["text"+face])},
+	subtypes: {separate_words(card["sub_type"+face], spacer: " ")}
+	contains: {
+		contains(card[field+face], match:query)
+	},
+	notcontains: {not contains(card[field+face], match:query)},
+]
+expand_facecodes := [
+	subtype: "sub_type",
+	castingcost: "casting_cost",
+	manacost: "casting_cost"
+]
+if_parse := replace@(
+	match: "if_(.*)_then_(.*)_else_(.*)",
+	replace: {if_scripts(_1, t:_2, f:_3)}
+)
+if_scripts := {
+	contCheck := split_text(input, match:"_")
+	func := contCheck[0]
+	field := ""
+	query := "^$"
+	if length(contCheck) == 3 then (
+		field := contCheck[0]
+		func := contCheck[1]
+		query := contCheck[2]
+	)
+	field := expand_facecodes[field] or else field
+	if face_scripts[func](face, field:field, query:query) or else false then t else f
 }

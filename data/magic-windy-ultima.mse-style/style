@@ -61,7 +61,7 @@ init script:
 	is_promo := { styling.promo }
 	has_identity := { styling.color_indicator_dot }
 	is_unsorted := {styling.remove_from_autocount}
-	use_vorthos := {styling.vorthos box}
+	use_vorthos := {styling.vorthos_box}
 ############################################################## Set info fields
 set info style:
 	symbol:
