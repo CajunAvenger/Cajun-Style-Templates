@@ -32,7 +32,7 @@ depends on:
 card width: 375
 card height: 523
 card dpi: 150
-##### Images by Moth
+##### Images by CardConjurer
 ############################################################## Extra scripts
 init script:
 	# Load scripts for image box
@@ -44,13 +44,14 @@ init script:
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
 	
-	template_prefix := [card: "" pt: "" stamp: "" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card: "card.png" pt: "pt.png" stamp: "stamp.png" identity: "identity.png"]
+	template_prefix := [card: "" pt: "" stamp: "" crown: "crowns/" identity: "/magic-identity-new.mse-include/"]
+	template_suffix := [card: "card.png" pt: "pt.png" crown: "crown.png", stamp: "stamp.png" identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
-	land_template := { template_prefix[type] + (if input == "a" then "c" else input) + "l" + template_suffix[type] }
+	land_template := { template_prefix[type] + (if input == "a" then "c" else input) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
 	
+	crown_background := { color_background(type:"crown", base_hybrid: card_hybrid)}
 	# Use the normal tap symbol
 	mana_t := {
 		if      styling.tap_symbol == "old"        then "old"
@@ -210,18 +211,6 @@ styling style:
 ############################################################## Card fields
 card style:
 	############################# Background stuff
-	border color:
-		left: 0
-		top : 0
-		width:	375
-		height:	523
-		radius: 18
-		left width:   17
-		right width:  17
-		top width:    17
-		bottom width: 18
-		z index: 4
-		mask: border_mask.png
 	card color:
 		left:	0
 		top:	0
@@ -273,7 +262,7 @@ card style:
 	image:
 		left: 29
 		top: 59
-		width: 316
+		width: 318
 		height:	232
 		z index: 1
 		default: {default_image(card.card_color)}
@@ -302,7 +291,7 @@ card style:
 			separator color: red
 	rarity:
 		right: 342
-		top: 299
+		top: 298
 		width: 44
 		height: 22
 		z index: 2
@@ -393,7 +382,7 @@ card style:
 	pt:
 		z index: 2
 		left: 294
-		top: 467
+		top: 466
 		width: 60
 		height:	28
 		alignment: center middle shrink-overflow
@@ -523,6 +512,12 @@ extra card field:
 	editable: false
 extra card field:
 	type: choice
+	name: crown
+	script: card.card_color
+	save value: false
+	editable: false
+extra card field:
+	type: choice
 	name: flavor bar
 	choice: bar
 	editable: false
@@ -549,10 +544,10 @@ extra card style:
 		render style: image
 		image: artist_arrow.png
 	pt box:
-		left: 265
-		top: 452
-		width: 92
-		height:	46
+		left: 280
+		top: 459
+		width: 77
+		height:	38
 		z index: 1
 		visible: { card.pt != "" }
 		render style: image
@@ -576,17 +571,17 @@ extra card style:
 		render style: image
 		image: { card_stamp() }
 	foil stamp:
-		left: 165
-		top: 472
-		width: 46
-		height: 26
+		left: 168
+		top: 473
+		width: 40
+		height: 22
 		z index: 2
 		visible: { is_rare() and styling.use_holofoil_stamps }
 		render style: image
 		image: foil_stamp.png
 	color splash:
 		left: 309
-		top: 297
+		top: 296
 		width: 46
 		height: 26
 		z index: 1
@@ -622,4 +617,13 @@ extra card style:
 		render style: image
 		image: bar.png
 		visible: { card.rule_text != "" and remove_tags(card.flavor_text) != "" and set.use_flavor_bar }
+	crown:
+		left: 0
+		top: 0
+		width: 375
+		height: 97
+		z index: 1
+		render style: image
+		image: {crown_background()}
+		visible: { is_legendary(card.type) }
 

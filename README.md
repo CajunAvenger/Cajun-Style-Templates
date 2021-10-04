@@ -1,5 +1,5 @@
 Some template images provided by [CardConjurer](https://cardconjurer.com/):
-Praetor Showcase, JP Mystical Archive, PT Box for Mystical Archives
+Praetor Showcase, JP Mystical Archive, PT Box for Mystical Archives, Sketch frame
 
 This is a collection of [Magic Set Editor](https://github.com/twanvl/MagicSetEditor2) files representing modern Magic frames.
 
