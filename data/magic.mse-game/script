@@ -604,8 +604,8 @@ mana_context :=
 		 |  <match>[ ]can[ ]be[ ]paid
 		 |  (pays?|additional|costs?|the|adds?|pay(ed)?[ ](with|using))	# pay X. creatures cost 1 less. pay an additional G.
 			([ ]either)?			 # pay either X or Y
-			([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
-			([ ](<sym[^>]*>)?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
+			([ ](<sym[^>]*>)?[-+=]?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?,)* # pay X, Y or Z
+			([ ](<sym[^>]*>)?[-+=]?[VLHSCETQ\\?XYZIEWUBRG0-9/|]+(</sym[^>]*>)?[ ](and|or|and/or))* # pay X or Y
 			[ ]<match>
 			([,.)\"”]|$				# (end of word)
 			|[ ][^ .,]*$			# still typing...
@@ -806,9 +806,13 @@ text_filter :=
 	} +
 	# step 4 : explict non mana symbols
 	replace@(
-		match: "\\][VLHSCETQ\\?XYZIWUBRG0-9/|]+\\[",
+		match: "\\][-+=]?[VLHSCETQ\\?XYZIWUBRG0-9/|]+\\[",
 		replace: {"<nosym>" + mana_filter_t() + "</nosym>"} ) +
 	# step 5 : add mana & tap symbols
+	replace@(
+		match: "([+=-][XYZ0-9/|]+)",
+		in_context: mana_context,
+		replace: {"<sym-auto>" + _1 + "</sym-auto>"} ) +
 	replace@(
 		match: "\\b[VLHSCETQ\\?XYZIWUBRG0-9/|]+\\b",
 		in_context: mana_context,
@@ -820,7 +824,7 @@ text_filter :=
 		replace: "\\1" ) +
 	# step 5c : add explicit mana symbols
 	replace@(
-		match: "\\[[VLHSCETQE\\?XYZIWUBRG0-9/|]+\\]",
+		match: "\\[[-+=]?[VLHSCETQE\\?XYZIWUBRG0-9/|]+\\]",
 		replace: {"<sym>" + mana_filter_t() + "</sym>"} ) +
 	# step 6 : curly quotes
 	{if set.curly_quotes then curly_quotes(input) else input} +
