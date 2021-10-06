@@ -1,4 +1,4 @@
-Oct 1, 2021
+Oct 6, 2021
 - Frame Updates -
 - Added the MH2 Sketch Frame, thanks to CardConjurer
 - Added the Deckbox template thanks to images from DrChillbrain. This template lets you make an image like a Commander deck box.
@@ -22,6 +22,7 @@ Oct 1, 2021
 - Fixes a bug where the Copyright box would sometimes move as though the Vorthos Box was enabled when it wasn't.
 - Fixes a bug where d20 dividers weren't visible on clear frames.
 - Fixes a bug where Custom masks on Planeswalkers stopped working. Note that new masks need to be 375x523px because of layering change to the template with MSE 2.1.2.
+- Fixes a bug where the modal bumping code wasn't applying to Mainframe DFC.
 - The PUMA mask is no longer applied to custom legend crowns to fix this https://magicseteditor.boards.net/post/37535/thread.
 
 - Face Code -

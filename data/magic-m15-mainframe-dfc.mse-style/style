@@ -43,7 +43,7 @@ init script:
 	# Should hybrids have a grey name?
 	mask_hybrid_with_land := { styling.grey_hybrid_name }
 	d20_filter := replace@(match:"^(|[Ee]lse ?|[Oo]ther ?|((</sym>)?[-0-9 ,+>\<](<sym>)?)+)[|]", replace:"<b>\\1</b>|")
-	text_filter := text_filter + d20_filter + {apply_margins(input, name:margin_code)} + {add_spacers(input, name:margin_code)}
+	text_filter := text_filter + d20_filter + {apply_margins(input, name:margin_code)} + {add_spacers(input, name:margin_code)} + {if is_modal(input) then bump_text(softline_ripper(input)) else input}
 	
 	####### Create images
 	
@@ -743,6 +743,7 @@ init script:
 	auto_flags := {styling.dfc_type == "modal with standard flags"}
 	custom_watermark_a := {if styling.card_watermark == "" or not contains(styling.card_watermark, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark}
 	custom_watermark_b := {if styling.card_watermark_2 == "" or not contains(styling.card_watermark_2, match:".png") then "/magic-watermarks.mse-include/planeswalker.png" else "/magic-watermarks.mse-include/" + styling.card_watermark_2}
+	shown_cr := {if set.automatic_copyright then set.copyright != "" else card.copyright != ""}
 
 ############################################################## Set info fields
 set info style:
@@ -4644,7 +4645,7 @@ extra card style:
 		visible: {is_skinned() and not use_evobar()}
 	vorthos box:
 		right: { if mainframe_walker() then 275 else if is_leveler() and not lone_pt() then 350 else if card.pt != "" then 275 else 350 }
-		top: 488
+		top: {if mainframe_walker() then 488 else if card.pt == "" and shown_cr() then 500 else 488}
 		left: 210
 		height: {if use_vorthos() then 10 else 0}
 		z index: 3
@@ -4656,7 +4657,7 @@ extra card style:
 			weight: bold
 	vorthos box 2:
 		right: { if mainframe_walkerb() then 652 else if back_leveler() and not lone_pt() then 727 else if card.pt_2 != "" then 652 else 727 }
-		top: 488
+		top: {if mainframe_walkerb() then 488 else if card.pt_2 == "" and shown_cr() then 500 else 488}
 		left: 587
 		height: {if use_vorthos() then 10 else 0}
 		z index: 3

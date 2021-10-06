@@ -263,6 +263,7 @@ init script:
 			card.level_1_text + "\n" + card.rule_text
 		else ""
 	}
+	shown_cr := {if set.automatic_copyright then set.copyright != "" else card.copyright != ""}
 	card_shape := {if is_leveler() then "leveler" else "normal"}
 ############################################################## Set info fields
 set info style:
@@ -1866,7 +1867,7 @@ extra card style:
 		image: {pin_image()}
 	vorthos box:
 		right: { if is_leveler() and not lone_pt() then 350 else if (starting_loyalty() and card.loyalty != "") then 300 else if (card.pt != "" and not starting_loyalty()) then 275 else 350 }
-		top: {if card.pt == "" then 500 else 488}
+		top: {if card.pt == "" and shown_cr() then 500 else 488}
 		width: { if is_leveler() and not lone_pt() then 140 else if (starting_loyalty() and card.loyalty != "") then 90 else if (card.pt != "" and not starting_loyalty()) then 65 else 140 }
 		height: {if use_vorthos() then 10 else 0}
 		z index: 3
