@@ -1,6 +1,6 @@
 Oct 6, 2021
 - Frame Updates -
-- Added the MH2 Sketch Frame, thanks to CardConjurer
+- Added the MH2 Sketch and AFR Monster Manual Frame, thanks to CardConjurer
 - Added the Deckbox template thanks to images from DrChillbrain. This template lets you make an image like a Commander deck box.
 - Updated the PUMA effect to a better image that more resembles the current usage, thanks to Cardists images and code. PUMA can now be combined with the Mutate and Season frames.
 - Added the Inverted effect from vnocturnus to M15 Mainframe.
