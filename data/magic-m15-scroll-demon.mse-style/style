@@ -1,12 +1,12 @@
 ﻿mse version: 2.0.0
 game: magic
-short name: Showcase
-full name: Monster Manual
+short name: M15 Scroll
+full name: Demon
 icon: card-sample.png
 installer group: magic/m15 style/normal cards
-position hint: 095
+position hint: 080
 
-version: 2021-02-16
+version: 2018-02-08
 depends on:
 	package: magic.mse-game
 	version: 2014-06-25
@@ -24,34 +24,35 @@ depends on:
 	version: 2007-09-23
 depends on:
 	package: magic-mana-small.mse-symbol-font
-	version: 2007-09-23
+	version: 2015-12-13
 depends on:
-	package: magic-mainframe-extras.mse-include
-	version: 2007-09-23
+	package: magic-mana-scroll.mse-symbol-font
+	version: 2015-12-13
+depends on:
+	package: magic-mana-null.mse-symbol-font
+	version: 2017-05-30
 
 card width: 375
 card height: 523
 card dpi: 150
-####### images from Card Conjurer
 ############################################################## Extra scripts
 init script:
 	# Load scripts for image box
 	include file: /magic-default-image.mse-include/scripts
 	
 	# Should hybrids have a grey name?
-	mask_hybrid_with_land := { styling.grey_hybrid_name }
+	mask_hybrid_with_land := { false }
 	
 	#Should multicolor lands with basic land types have a colored name?
 	mask_multi_land_with_color := { styling.colored_multicolor_land_name }
 	
-	template_prefix := [card:"splashes/" identity: "/magic-identity-new.mse-include/"]
-	template_suffix := [card:".jpg" stamp: "stamp.jpg" identity: "identity.png"]
+	template_prefix := [card: "" pt: "" "" identity: "identity/"]
+	template_suffix := [card: "card.jpg" pt: "pt.png", identity: "identity.png"]
 	template      := { template_prefix[type] + input + template_suffix[type] }
 	land_template := { template_prefix[type] + (if input == "a" then "c" else input) + template_suffix[type] }
 	# Use land templates for previews because they show more contrast
 	hybrid_previews := "land,hybrid"
-	crown_background := { color_background(type:"crown",     base_hybrid:card_hybrid) }
-
+	
 	# Use the normal tap symbol
 	mana_t := {
 		if      styling.tap_symbol == "old"        then "old"
@@ -64,56 +65,31 @@ init script:
 	
 	# Is the card a promo card?
 	is_promo := { styling.promo }
-	is_legend := {set.auto_legends and contains(card.super_type, match:"Legendary") }
-	mana_sort := {
-		if styling.unsorted_casting_cost then
-			input
-		else
-			sort_text@(order: "XYZI[0123456789]HSCA(WUBRG)")()
-	}
-	ancestral_mana := { styling.ancestral_mana_symbols }
 	has_identity := { styling.color_indicator_dot }
 	is_unsorted := {styling.remove_from_autocount}
-
-	chop_top := {to_number(pull_comma_array(styling.text_chops, cell:0, end:false))}
-	chop_bot := {to_number(pull_comma_array(styling.text_chops, cell:1, end:false))}
-	chop_correction := { chop_bot() }
-	shrink_type := {if styling.shrink_typeline_text != "" then to_number(styling.shrink_typeline_text) else 0}
-	shrink_name := {if styling.shrink_name_text != "" then to_number(styling.shrink_name_text) else 0}
+	alt_rarity := {styling.alt_rarity_color != ""}
+	alt_rarity_color := {
+		string := "83,67,53:177,150,131:0,0,0:0,0,0:0.07:"
+		if match(styling.alt_rarity_color, match:":$") then string := styling.alt_rarity_color
+		colons := length(filter_text(string, match:":"))
+		output := split_text(string, match:",|:")
+		splits := split_text(string, match:":")
+		if colons == 4
+			then output := split_text(string+"0.07:", match:",|:")
+		if colons == 3
+			then output := split_text(string+splits[2]+"0.07:", match:",|:")
+		else if colons == 2
+			then output := split_text(string+"0,0,0:0,0,0:0.07:", match:",|:")
+		else if colons == 1
+			then output := split_text(string+splits[0]+":0,0,0:0,0,0:0.07:", match:",|:")
+		
+		output
+	}
+	alt_symbol := {symbol_variation(symbol:set.symbol, border_radius: alt_rarity_color().12, fill_type: "linear gradient", fill_color_1: rgb(alt_rarity_color().0, alt_rarity_color().1, alt_rarity_color().2), fill_color_2: rgb(alt_rarity_color().3, alt_rarity_color().4, alt_rarity_color().5), border_color_1: rgb(alt_rarity_color().6, alt_rarity_color().7, alt_rarity_color().8), border_color_2: rgb(alt_rarity_color().9, alt_rarity_color().10, alt_rarity_color().11), center_x:0.5, center_y:0.5, end_x:1, end_y:1)}
 	use_main_rarity := { contains(set.mainframe_rarity_name, match: ".png")}
 	un_png := replace@(match:".png", replace: "")
-	
-	is_d20 := {styling.d20_dividers != "off"}
-	is_all_break := {contains(styling.d20_dividers, match:"all breaks")}
-	d20string := "^(<b>)?(((</sym>)?[-0-9 ,+>\<](<sym>)?)+|[Ee]lse|[Oo]ther) ?(</b>)?[|]"
-	d20_array := 
-		filter_text@(match:"(\n|"+d20string+")")
-		+split_text@(match:d20string)
-	number_of_rolls := {if is_all_break() then 1+length(filter_text(card.rule_text, match:"\n"))-rolls_start(card.text) else length(d20_array(input))-1}
-	rolls_start := {
-		if styling.d20_dividers == "all breaks +3" then 4
-		else if styling.d20_dividers == "all breaks +2" then 3
-		else if styling.d20_dividers == "all breaks +1" then 2
-		else if styling.d20_dividers == "all breaks" then 0
-		else if is_d20() then length(d20_array(input).0)
-		else 0
-	}
-	d20_filter := replace@(match:"^([Ee]lse ?|[Oo]ther ?|((</sym>)?[-0-9 ,+>\<](<sym>)?)+)[|]", replace:"<b>\\1</b>|")
-	top_of_para := {
-		input := input + no_roll(card.text)
-		if card_style.text.layout.paragraphs[input].top or else 0 > 0 then
-			card_style.text.top + card_style.text.layout.paragraphs[input].top - 0.5*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom)
-		else 0
-	}
-	height_of_para := {
-		input := input + no_roll(card.text)
-		if card_style.text.layout.paragraphs[input].bottom or else 0 > 0 then
-			card_style.text.layout.paragraphs[input].bottom + 1.3*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom) - card_style.text.layout.paragraphs[input].top
-		else 0
-	}
-	no_roll := {if styling.d20_dividers == "all breaks" then 1 else if rolls_start(input) == 0 then 1 else 0}
-
-	text_filter := text_filter + d20_filter
+	chop_top := {if styling.chop_top == "" then 0 else if comma_count(styling.chop_top) == "," or comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).0 else styling.chop_top}
+	chop_bot := {if comma_count(styling.chop_top) == ",," then split_text(match:",", styling.chop_top).1 else if styling.chop_bottom == "" then 0 else styling.chop_bottom}
 
 ############################################################## Set info fields
 set info style:
@@ -127,35 +103,20 @@ set info style:
 ############################################################## Extra style options
 styling field:
 	type: text
-	name: text chops
-	description: Format as "X,Y". Shrinks textbox X pixels from the top and Y from bottom.
+	name: chop top
+	description: Shrinks the textbox X pixels from the top OR shrinks "top,bottom,"
 styling field:
 	type: text
-	name: shrink name text
-	description: Shrinks name X pixels
-styling field:
-	type: text
-	name: shrink typeline text
-	description: Shrinks type X pixels
-styling field:
-	type: boolean
-	name: hover art
-	description: use transparent art with painted background
-	initial: no
+	name: chop bottom
+	description: Shrinks the textbox X pixels from the bottom.
 styling field:
 	type: choice
-	name: d20 dividers
-	choice: d20 mode
-	choice: off
-	choice: all breaks
-	choice: all breaks +1
-	choice: all breaks +2
-	choice: all breaks +3
-	description: Do dice levels normally, off, on all linebreaks, on all but the first linebreak, etc.
-styling field:
-	type: boolean
-	name: use holofoil stamps
-	description: Change to no to disable rare holofoil stamps
+	name: seal stamps
+	initial: none
+	choice: none
+	choice: seal only
+	choice: with holofoil stamp
+	description: Optional holofoil seal stamps
 styling field:
 	type: boolean
 	name: color indicator dot
@@ -168,22 +129,12 @@ styling field:
 	initial: no
 styling field:
 	type: boolean
-	name: grey hybrid name
-	description: Use a grey background for the name and type line on hybrid cards. This is done on real cards.
-styling field:
-	type: boolean
-	name: unsorted casting cost
-	description: Disables automatic mana symbol sorting.
-	initial: no
-styling field:
-	type: boolean
-	name: ancestral mana symbols
-	description: Enables ancestral's modified generic mana.
-	initial: no
-styling field:
-	type: boolean
 	name: colored multicolor land name
 	description: Use a colored background for the name and type on multicolor land cards with a basic land type. This is done on real cards.
+styling field:
+	type: text
+	name: alt rarity color
+	description: Use a custom color for the rarity symbol. Formatted as "R1,G1,B1:R2,G2,B2:..." 1 and 2 are fill color, 3 and 4 border color
 styling field:
 	type: boolean
 	name: use guild mana symbols
@@ -201,7 +152,7 @@ styling field:
 	type: package choice
 	name: text box mana symbols
 	match: magic-mana-*.mse-symbol-font
-	initial: magic-mana-small.mse-symbol-font
+	initial: magic-mana-scroll.mse-symbol-font
 styling field:
 	type: choice
 	name: center text
@@ -214,11 +165,6 @@ styling field:
 	type: boolean
 	name: promo
 	description: Is this card a promo card, with the "P" rarity?
-	initial: no
-styling field:
-	type: boolean
-	name: masterpiece
-	description: Is this card a Masterpiece?
 	initial: no
 styling field:
 	type: boolean
@@ -255,44 +201,31 @@ styling style:
 ############################################################## Card fields
 card style:
 	############################# Background stuff
-	border color:
-		left: 0
-		top : 0
-		width:	375
-		height:	523
-		radius: 18
-		left width:   17
-		right width:  17
-		top width:    17
-		bottom width: 18
-		z index: 3
-		mask: {if is_legend() then "crown_border.png" else "border_mask.png"}
 	card color:
 		left:	0
 		top:	0
 		width:	375
 		height:	523
-		z index: 2
+		z index: 0
 		render style: image
 		popup style: in place
-		image: frame.png
-		mask: frame_mask.png
+		image: { card_background() }
 	############################# Name line
 	name:
-		left: 32
-		top: 27
+		left: { if card.card_symbol=="none" then 35 else 50 }
+		top: 43
 		right:  { 341 - card_style.casting_cost.content_width }
-		height: {23 - 0.5*shrink_name()}
+		height: 23
 		alignment: bottom shrink-overflow
 		padding bottom: 0
-		z index: 3
+		z index: 1
 		font:
-			name: Beleren Bold
-			size: {16 - shrink_name()}
-			color: black
+			name: MagicMedieval
+			size: 15
+			color: white
 	casting cost:
 		right: 346
-		top: 26
+		top: 41
 		width: { max(30, card_style.casting_cost.content_width) + 5 }
 		height: 23
 		alignment: middle right
@@ -304,48 +237,52 @@ card style:
 			size: 15
 			alignment: middle right
 		always symbol: true
-		z index: 4
+		z index: 2
 		padding top: 0
+	card symbol:
+		left: {if card.card_symbol=="none" then 20 else 30}
+		top: 29
+		height: 20
+		width: 14
+		z index: 1
+		render style: image
+		choice images:
+			tombstone: tombstone.png
 	############################# Image
 	image:
-		left: 22
-		top: 56
-		width: {if styling.hover_art then 0 else 338}
-		height:	240
+		left: 28
+		top: 55
+		width: 318
+		height:	283
 		z index: 1
-		default: {card_background(card.card_color)}
-	mainframe image:
-		left: 14
-		top: 35
-		width: {if styling.hover_art then 347 else 0}
-		height:	276
-		z index: 4
+		default: {default_image(card.card_color)}
+		mask: scroll_mask.png
 	############################# Card type
 	indicator:
-		left: 31
-		top: 300
+		left: 32
+		top: 328
 		width: 17
 		height: 17
-		z index: 1
+		z index: 2
 		render style: image
 		visible: { has_identity() }
 		image: { card_identity() }
 	type:
-		left: { if has_identity() then "46" else "28" }
-		top: {shrink_type() + 299 }
-		width: { (if has_identity() then "290" else "310") - max(22,card_style.rarity.content_width) }
-		height: { 20 - shrink_type() }
+		left: { if has_identity() then "53" else "32" }
+		top: 327
+		width: { (if has_identity() then "288" else "308") - max(22,card_style.rarity.content_width) }
+		height: 20
 		alignment: top shrink-overflow
-		z index: 2
+		z index: 1
 		padding top: 2
 		font:
-			name: Beleren Bold
-			size: {13 - shrink_type()}
-			color: black
+			name: MagicMedieval
+			size: 13
+			color: { rgba(0,0,0,0) }
 			separator color: red
 	rarity:
-		right: 344
-		top: 300
+		right: 343
+		top: 325
 		width: 44
 		height: 22
 		z index: 2
@@ -356,28 +293,34 @@ card style:
 			basic land:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			common:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "c.png"
+					else if alt_rarity() then alt_symbol()
 					else if styling.inverted_common_symbol then symbol_variation(symbol: set.symbol, variation: "invertedcommon")
 					else symbol_variation(symbol: set.symbol, variation: "common")
 			uncommon:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "u.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "uncommon")
 			rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "r.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "rare")
 			mythic rare:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "m.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "mythic rare")
 			special:
 				script:
 					if use_main_rarity() then "/magic-mainframe-extras.mse-include/" + un_png(set.mainframe_rarity_name) + "s.png"
+					else if alt_rarity() then alt_symbol()
 					else symbol_variation(symbol: set.symbol, variation: "special")
 			masterpiece:
 				script:
@@ -385,20 +328,18 @@ card style:
 					else symbol_variation(symbol: set.masterpiece_symbol, variation: "mythic rare")
 	############################# Text box
 	text:
-		left: 29
-		top: {330-(-chop_top())}
-		width: 314
-		bottom: {481-chop_bot()}
+		left: 28
+		top: {354-(-chop_top())}
+		width: 318
+		bottom: { 354+(if card.pt != "" then 119 else 128)-chop_bot() }
 		font:
-			name: MPlantin
-			italic name: MPlantin-Italic
+			name: MagicMedieval
 			size: 14
 			scale down to: 6
-			color: black
+			color: { rgba (0,0,0,0) }
 		symbol font:
-			name: { styling.text_box_mana_symbols }
+			name: magic-mana-null
 			size: 14
-			scale down to: 6
 		alignment:
 			script:
 				if (styling.center_text == "short text only" and
@@ -408,20 +349,20 @@ card style:
 				   styling.center_text == "always"
 				then "middle center"
 				else "middle left"
-		z index: 3
+		z index: 2
 		padding left:   6
-		padding right:  4
-		line height hard: {if is_modal(card.rule_text) then 0.9 else 1.2 }
-		line height line: 1.5
-		line height soft: 0.9
-		line height hard max: {if is_modal(card.rule_text) then 1.0 else 1.3 }
+		padding right:  5
+		line height hard: 1.2
+		line height line: 1.4
+		line height soft: .9
+		line height hard max: 1.1
 		line height line max: 1.6
 	watermark:
-		left: 25
-		top: 338
-		width: 324
-		height: 139
-		z index: 2
+		left: 117
+		top: 321
+		width: 138
+		height: 166
+		z index: 1
 		render style: image
 		popup style: in place
 		alignment: middle center
@@ -429,23 +370,24 @@ card style:
 	############################# PT
 	pt:
 		z index: 4
-		left: 294
-		top: 468
-		width: 55
+		left: 300
+		top: 451
+		width: 50
 		height:	28
 		alignment: center middle shrink-overflow
 		font:
-			name: Beleren Bold
-			size: 15
-			color: black
+			name: Vivaldi
+			size: 16
+			color: white
+			weight: bold
 			separator color: red
 	############################# Card sorting / numbering
 	set code:
 		left: 24
-		top: 498
+		top: 500
 		width: 40
 		height: 10
-		z index: 2
+		z index: 1
 		font:
 			name: Relay-Medium
 			size: 7
@@ -454,27 +396,28 @@ card style:
 	############################# Copyright stuff
 	illustrator:
 		left: { 44 + card_style.set_code.content_width }
-		top: 497.5
+		top: 499
 		width: 200
 		height: 10
-		z index: 2
+		z index: 1
 		font:
 			name: Beleren Small Caps Bold
-			size: 7.25
+			size: 7.5
 			color: white
 	copyright:
-		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		right: 349
+		top: 488
 		width: 140
 		height: 10
 		z index: 2
-		visible: {not set.automatic_copyright}
 		alignment: middle right shrink-overflow
+		visible: {not set.automatic_copyright}
 		font:
 			name: Matrix
 			size: 7
 			color: white
 			weight: bold
+
 ############################################################## Extra card fields
 extra card field:
 	type: text
@@ -499,16 +442,42 @@ extra card field:
 	save value: false
 extra card field:
 	type: choice
-	name: foil stamp
-	choice: stamp
-	save value: false
-	editable: false
-extra card field:
-	type: choice
 	name: foil layer
 	choice: foil
 	save value: false
 	editable: false
+extra card field:
+	type: text
+	name: replacement text
+	editable: false
+	multi line: true
+	save value: false
+	script: replace(card.text, match: "—", replace: "-")
+extra card field:
+	type: text
+	name: replacement type
+	editable: false
+	save value: false
+	script: replace(card.type, match: "—", replace: "-")
+extra card field:
+	type: choice
+	name: stamp
+	editable: false
+	save value: false
+	choice: seal
+extra card field:
+	type: choice
+	name: pt box
+	choice: pt box
+	script: card.card_color
+	editable: false
+	save value: false
+extra card field:
+	type: choice
+	name: pt back
+	choice: pt back
+	editable: false
+	save value: false
 extra card field:
 	type: text
 	name: auto copyright
@@ -516,50 +485,13 @@ extra card field:
 	save value: false
 	editable: false
 	show statistics: false
-extra card field:
-	type: choice
-	name: flavor bar
-	choice: bar
-	editable: false
-	save value: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: crown
-	choice: overlay
-	editable: false
-extra card field:
-	type: choice
-	name: color back
-	script: card.card_color
-	editable: false
-	save value: false
-extra card field:
-	type: choice
-	name: level 2 overlay
-	choice: mask
-	editable: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: level 3 overlay
-	choice: mask
-	editable: false
-	show statistics: false
-extra card field:
-	type: choice
-	name: level 4 overlay
-	choice: mask
-	editable: false
-	show statistics: false
-
 extra card style:
 	card code:
-		left: 24
+		left: { if set.automatic_card_numbers then 24 else 19 }
 		top: 488
 		width: 120
 		height: 10
-		z index: 2
+		z index: 1
 		font:
 			name: Relay-Medium
 			size: 7
@@ -567,21 +499,21 @@ extra card style:
 			weight: bold
 	artist arrow:
 		left: { 28 + card_style.set_code.content_width }
-		top: 500
+		top: 502
 		width: 12
 		height: 7
 		z index: 1
 		render style: image
 		image: artist_arrow.png
 	pt box:
-		left: 289
-		top: 465
-		width: 65
-		height:	33
-		z index: 3
-		visible: { card.pt != "" }
+		left: 304
+		top: 450
+		width: 50
+		height:	42
+		z index: 1
+		visible: { card.pt == "moo" }
 		render style: image
-		image: pt.png
+		image: { card_ptbox() }
 	foil layer:
 		left: 0
 		top : 0
@@ -591,78 +523,67 @@ extra card style:
 		render style: image
 		image: {if styling.overlay == "" then nil else styling.overlay + "/overlay.png"}
 		mask: { if is_rare() then "foil_mask_rare.png" else "foil_mask.png" }
-	foil stamp:
-		left: 165
-		top: 472
-		width: 46
-		height: 26
+	replacement text:
+		left: 28
+		top: {354-(-chop_top())}
+		width: 318
+		bottom: { 354+(if card.pt != "" then 119 else 128)-chop_bot() }
+		font:
+			name: MagicMedieval
+			size: 14
+			scale down to: 6
+			color: white
+		symbol font:
+			name: { styling.text_box_mana_symbols }
+			size: 14
+		alignment:
+			script:
+				if (styling.center_text == "short text only" and
+				   not contains(match:"\n", card.rule_text) and
+				   card.flavor_text == "<i-flavor></i-flavor>" and
+				   card_style.text.content_lines <= 2) or
+				   styling.center_text == "always"
+				then "middle center"
+				else "middle left"
 		z index: 2
-		visible: { is_rare() and styling.use_holofoil_stamps }
+		padding left:   6
+		padding right:  5
+		line height hard: 1.2
+		line height line: 1.4
+		line height soft: .9
+		line height hard max: 1.1
+		line height line max: 1.6
+	replacement type:
+		left: { if has_identity() then "53" else "32" }
+		top: 327
+		width: { (if has_identity() then "288" else "308") - max(22,card_style.rarity.content_width) }
+		height: 20
+		alignment: top shrink-overflow
+		z index: 1
+		padding top: 2
+		font:
+			name: MagicMedieval
+			size: 14
+			color: white
+	stamp:
+		left: 166
+		top: 480
+		width: 50
+		height: 37
+		z index: 1
 		render style: image
-		image: holo_stamp.png
+		image: { if contains(styling.seal_stamps, match:"holofoil") then "foilstamp.png" else "stamp.png" }
+		visible: { not contains(styling.seal_stamps, match:"none") }
 	auto copyright:
-		right: 350
-		top: { if card.pt != "" then 500 else 488 }
+		right: 349
+		top: 488
 		width: 140
 		height: 10
 		z index: 2
-		alignment: middle right shrink-overflow
 		visible: {set.automatic_copyright}
+		alignment: middle right shrink-overflow
 		font:
 			name: Matrix
 			size: 7
 			color: white
 			weight: bold
-	flavor bar:
-		left: 0
-		top: { bar_equation() }
-		width: 375
-		height: 1
-		z index: 1
-		render style: image
-		image: bar.png
-		visible: { card.rule_text != "" and remove_tags(card.flavor_text) != "" and set.use_flavor_bar }
-	crown:
-		left: 0
-		top: 0
-		width: 375
-		height: 61
-		render style: image
-		image: crown.png
-		z index: 2
-		visible: {is_legend()}
-	color back:
-		left: 22
-		top: 56
-		width: 338
-		height:	240
-		z index: 0
-		render style: image
-		image: {card_background()}
-	level 2 overlay:
-		left: 29
-		top: { top_of_para(rolls_start(card.text))}
-		height: { height_of_para(rolls_start(card.text))}
-		width: 314
-		z index: 2
-		render style: image
-		image: d20slice.png
-		visible: {is_d20() and number_of_rolls(card.text) > 0}
-	level 3 overlay:
-		left: 29
-		top: { top_of_para(rolls_start(card.text)+2)}
-		height: { height_of_para(rolls_start(card.text)+2)}
-		width: 314
-		z index: 2
-		render style: image
-		image: d20slice.png
-		visible: {is_d20() and number_of_rolls(card.text) > 2}
-	level 4 overlay:
-		left: 29
-		top: { top_of_para(rolls_start(card.text)+4)}
-		height: { height_of_para(rolls_start(card.text)+4)}
-		width: 314
-		z index: 2
-		render style: image
-		image: d20slice.png
-		visible: {is_d20() and number_of_rolls(card.text) > 4}
