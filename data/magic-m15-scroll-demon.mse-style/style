@@ -26,7 +26,7 @@ depends on:
 	package: magic-mana-small.mse-symbol-font
 	version: 2015-12-13
 depends on:
-	package: magic-mana-scroll.mse-symbol-font
+	package: magic-mana-scroll-demon.mse-symbol-font
 	version: 2015-12-13
 depends on:
 	package: magic-mana-null.mse-symbol-font
@@ -152,7 +152,7 @@ styling field:
 	type: package choice
 	name: text box mana symbols
 	match: magic-mana-*.mse-symbol-font
-	initial: magic-mana-scroll.mse-symbol-font
+	initial: magic-mana-scroll-demon.mse-symbol-font
 styling field:
 	type: choice
 	name: center text
