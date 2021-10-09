@@ -1,4 +1,8 @@
-Oct 6, 2021
+Oct 9, 2021
+- Frame Updates -
+- Mainframe Tokens now supports the Draft Archetypes frame and State frame, as seen on Day/Night.
+
+Oct 7, 2021
 - Frame Updates -
 - Added the MH2 Sketch and AFR Monster Manual Frames, thanks to CardConjurer
 - Added the Dungeon Module, Demon Scroll, and Demon Scroll Planeswalker Frames
