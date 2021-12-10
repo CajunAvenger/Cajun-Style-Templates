@@ -4403,7 +4403,7 @@ extra card style:
 	lvl label 3:
 		left: {if is_class() then 270 else if box_leveler() then 8 else if loy_leveler() then 48 else 21}
 		top: {if is_class() then lev4()+4 else l4_center() - (if loy_leveler() then 2 else 10) + arrow_offset(3)}
-		width: {if is_class() and card.level_4_text != "" then 70 else if is_leveler() or card.level_2 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
+		width: {if is_class() and card.level_4_text != "" then 70 else if is_class() then 0 else if is_leveler() or card.level_2 != "" then (if loy_leveler() then 10 else 34 + (if box_leveler() then 30 else 0)) else 0}
 		height: {if is_class() then 20 else if loy_leveler() then 10 else if center_label(3) then 0 else 10}
 		z index: 6
 		alignment: {if is_class() then "center right" else "center middle"}
