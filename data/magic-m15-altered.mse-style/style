@@ -265,6 +265,10 @@ init script:
 	}
 	shown_cr := {if set.automatic_copyright then set.copyright != "" else card.copyright != ""}
 	card_shape := {if is_leveler() then "leveler" else "normal"}
+
+	white_text := {is_full_art() or is_fnm() or is_inverted()}
+
+	use_flash_dot := {false}
 ############################################################## Set info fields
 set info style:
 	symbol:
@@ -600,7 +604,7 @@ card style:
 		z index: 8
 	############################# Card type
 	indicator:
-		left: { (if is_map() then 18  else if is_season() then 43 else 31) + (if is_clear() then 2 else 0)}
+		left: { (if is_map() then 18  else if is_season() then 43 else 31) + (if is_clear() then 2 else 0) + (if use_flash_dot() then 3 else 0)}
 		top: { if is_clear() or is_map() then 298 else if is_thbland() then 449 else if is_full_art() then 332 else 300 }
 		width: 17
 		height: 17
@@ -609,7 +613,7 @@ card style:
 		visible: { styling.color_indicator_dot }
 		image: { card_identity() }
 	type:
-		left: { if is_map() then 85 else if is_season() then (if styling.color_indicator_dot then 64 else 44)+(if is_clear() then 4 else 0) else (if styling.color_indicator_dot then 52 else 32) + (if is_clear() then 4 else 0) }
+		left: { if is_map() then 85 else (if use_flash_dot() then 3 else 0) + if is_season() then (if styling.color_indicator_dot then 64 else 44)+(if is_clear() then 4 else 0) else (if styling.color_indicator_dot then 52 else 32) + (if is_clear() then 4 else 0) }
 		top: { (if is_map() then 297.5 else if is_clear() then 294 else if is_thbland() then 444 else if is_full_art() then 329 else 296) + shrink_type() }
 		width: { if is_map() then 205 else (if styling.color_indicator_dot then "290" else "310") - (if card_style.rarity.width == 0 then 0 else max(22,card_style.rarity.content_width)) - (if is_season() then 12 else 0) }
 		height: { (if is_map() then 18 else 20) - shrink_type() }
@@ -1388,6 +1392,13 @@ extra card field:
 	save value: true
 	editable: true
 	description: Where they put mtgstory.com on story spotlights.
+extra card field:
+	type: choice
+	name: flash indicator
+	choice: dot
+	save value: false
+	editable: false
+
 extra card style:
 	promo label:
 		left: 40
@@ -1877,3 +1888,12 @@ extra card style:
 			size: 7
 			color: white
 			weight: bold
+	flash indicator:
+		left: 0
+		top: 0
+		width: 375
+		height: 523
+		z index: 5
+		render style: image
+		image: flashdot.png
+		visible: { use_flash_dot() }
