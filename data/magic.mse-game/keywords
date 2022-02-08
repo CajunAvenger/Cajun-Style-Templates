@@ -1489,6 +1489,12 @@ keyword:
 	match: Pack tactics
 	mode: pseudo
 	rules: Pack tactics — Whenever CARDNAME attacks, if you attacked with creatures with total power 6 or greater this combat, [effect].
+# Commander 2021
+keyword:
+	keyword: Demonstrate
+	match: Demonstrate
+	mode: expert
+	reminder: When you cast this spell, you may copy it. If you do, choose an opponent to also copy it.
 # Midnight Hunt
 keyword:
 	keyword: Daybound

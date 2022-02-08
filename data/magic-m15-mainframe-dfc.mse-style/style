@@ -223,6 +223,7 @@ init script:
 	bottom_of_textbox2 := {(if back_class() then 437 else if mainframe_walkerb() then 477-(if is_modal_dfc() then 5 else 0) else if back_map() then 475 else 481)-lv_chop(styling.level_5_chop, cell:1)}
 
 	mask_script := { if contains(styling.custom_mask, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
+		else if a_saga() then ""
 		else if is_full() and is_normal() and not is_saga() and not is_map() then (if is_stamped() then "rare_" else "")+"front_mythic_mask.png"
 		else if front_clear() and is_normal() then "imagemask_clear_normal.png"
 		else if front_clear() then "imagemask_clear.png"
@@ -235,6 +236,7 @@ init script:
 			+ ".png"
 	}
 	back_mask_script := { if contains(styling.custom_mask_2, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
+		else if b_saga() then ""
 		else if is_full() and back_normal() and not back_saga() and not back_map() then "normal_mythic_mask.png"
 		else if back_clear() and back_normal() then "imagemask_clear_normal.png"
 		else if back_clear() then "imagemask_clear.png"
@@ -680,7 +682,7 @@ init script:
 	back_shifted := {false}
 	
 	special_text := {
-		if styling.front_style == "saga" then (
+		if contains(styling.front_style, match:"saga") then (
 			card.chapter_text
 			+(if card.level_1_text != "" then "\n" + end_leader(level_leader(1)) + card.level_1_text else "")
 			+(if card.level_2_text != "" then "\n" + end_leader(level_leader(2)) + card.level_2_text else "")
@@ -2726,6 +2728,20 @@ extra card field:
 	script: card.card_color_2
 extra card field:
 	type: choice
+	name: class paper
+	choice: bookmark
+	save value: false
+	editable: false
+	script: card.card_color_2
+extra card field:
+	type: choice
+	name: class paper 2
+	choice: bookmark
+	save value: false
+	editable: false
+	script: card.card_color_2
+extra card field:
+	type: choice
 	name: curtain 2
 	choice: curtain
 	save value: false
@@ -4145,7 +4161,7 @@ extra card style:
 		width: {if is_mutate() then 317 else 156}
 		height: {if is_mutate() or is_class() then 2 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if is_class() then "bar.png" else if is_mutate() then "mutbar.png" else "line.png"}
 		visible: {is_saga() or is_mutate() or is_class()}
 	linebreak 2:
@@ -4154,7 +4170,7 @@ extra card style:
 		width: {if is_class() and card.level_2_text == "​" then 0 else 156}
 		height: {if is_class() then 25 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if is_class() then "level.png" else "line.png"}
 		visible: {is_saga() or is_class()}
 	linebreak 3:
@@ -4163,14 +4179,14 @@ extra card style:
 		width: {if is_class() and card.level_3_text == "​" then 0 else 156}
 		height: {if is_class() then 25 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if is_class() then "level.png" else "line.png"}
 		visible: {three_boxes() or four_boxes() or is_class()}
 	linebreak 4:
 		left: {if is_class() then 188 else 30}
 		top: {if is_class() then lev4() else if split_34() == "" then 600 else split_34()-1}
 		width: {if is_class() and card.level_4_text == "" then 0 else 156}
-		height: 3
+		height: 4
 		render style: image
 		height: {if is_class() then 25 else 3}
 		image: {if is_class() then "level.png" else "line.png"}
@@ -4245,7 +4261,7 @@ extra card style:
 		width: {if back_mutate() then 317 else 156}
 		height: {if back_mutate() or back_class() then 2 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if back_class() then "bar.png" else if back_mutate() then "mutbar.png" else "line.png"}
 		visible: {back_saga() or back_mutate() or back_class()}
 	linebreak 2b:
@@ -4254,7 +4270,7 @@ extra card style:
 		width: {if back_class() and card.level_6_text == "​" then 0 else 156}
 		height: {if back_class() then 25 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if back_class() then "level.png" else "line.png"}
 		visible: {back_saga() or back_class()}
 	linebreak 3b:
@@ -4263,7 +4279,7 @@ extra card style:
 		width: {if back_class() and card.level_7_text == "​" then 0 else 156}
 		height: {if back_class() then 25 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if back_class() then "level.png" else "line.png"}
 		visible: {back_three_boxes() or back_four_boxes() or back_class()}
 	linebreak 4b:
@@ -4272,7 +4288,7 @@ extra card style:
 		width: {if back_class() and card.level_8_text == "" then 0 else 156}
 		height: {if back_class() then 25 else 3}
 		render style: image
-		z index: 3
+		z index: 4
 		image: {if back_class() then "level.png" else "line.png"}
 		visible: {back_four_boxes() or back_class()}
 	opac filter:
@@ -4590,23 +4606,41 @@ extra card style:
 		image: {if loy_leveler2() then loyalty_image_name(card.level_8) else if box_leveler2() then card_ptbox() else arrow_background()}
 		visible: {not back_class()}
 	bookmark:
-		left: {if is_class() then 186 else 15}
-		top: {if is_class() then 58 else 60}
-		width: {if is_class() then 160 else 27}
-		height: {if is_class() then 380 else 372}
+		left: 15
+		top: 60
+		width: 27
+		height: 372
 		render style: image
-		image: {if is_class() then "paper.png" else bookmark_background()}
-		z index: 4
-		visible: {is_saga() or is_class()}
+		image: {bookmark_background()}
+		z index: 5
+		visible: {is_saga()}
 	bookmark 2:
-		left: {if back_class() then 563 else 392}
-		top: {if back_class() then 58 else 60}
-		width: {if back_class() then 160 else 27}
-		height: {if back_class() then 380 else 372}
+		left: 392
+		top: 60
+		width: 27
+		height: 372
 		render style: image
-		image: {if back_class() then "paper.png" else bookmark_background()}
+		image: {bookmark_background()}
+		z index: 5
+		visible: {back_saga()}
+	class paper:
+		left: 186
+		top: 58
+		width: 160
+		height: 380
+		render style: image
+		image: paper.png
 		z index: 4
-		visible: {back_saga() or back_class()}
+		visible: {is_class()}
+	class paper 2:
+		left: 563
+		top: 58
+		width: 160
+		height: 380
+		render style: image
+		image: paper.png
+		z index: 4
+		visible: {back_class()}
 	stripe:
 		left: 15
 		top: 60
