@@ -165,7 +165,7 @@ init script:
 
 	####### Promo stuff
 	is_promo := { chosen(styling.other_options, choice:"promo") }
-	is_full := { chosen(styling.other_options, choice:"mythic edition") and not is_map() and not back_map()}
+	is_full := { chosen(styling.other_options, choice:"mythic edition") and not is_map() and not back_map() and not front_clear() and not back_clear() }
 	is_unsorted := {chosen(styling.other_options, choice:"remove from autocount")}
 	comma_count := filter_text@(match:",")
 	paragraph_count :=
@@ -231,11 +231,7 @@ init script:
 		else if front_clear() then "imagemask_clear.png"
 		else if is_mutate() then "mutate_mask.png"
 		else if not mainframe_walker() then ""
-		else "planeswalker/guidelines/"
-			+ (if front_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
-			+ (if max_level() > 3 or force_tall() then "four_" else "")
-			+ (if front_clear() then "frame_mask" else if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
-			+ ".png"
+		else "planeswalker/guidelines/" + walker_mask_front()
 	}
 	back_mask_script := { if contains(styling.custom_mask_2, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
 		else if b_saga() then ""
@@ -244,11 +240,7 @@ init script:
 		else if back_clear() then "imagemask_clear.png"
 		else if back_mutate() then "mutate_mask.png"
 		else if not mainframe_walkerb() then ""
-		else "planeswalker/guidelines/"
-			+ (if back_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
-			+ (if max_levelb() > 3 or force_tallb() then "four_" else "")
-			+ (if back_clear() then "frame_mask" else if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask")
-			+ ".png"
+		else "planeswalker/guidelines/" + walker_mask_back()
 	}
 
 	####### Planeswalker stuff
@@ -400,6 +392,18 @@ init script:
 	has_two_abilities := { max_level() < 3 and max_level() > 0}
 	back_four_abilities := { max_levelb() > 3 or force_tallb()}
 	back_two_abilities := { max_levelb() < 3 and max_levelb() > 0}
+	walker_mask_front := {
+		(if front_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
+		+ (if is_full() then ("mythic_mask" + (if max_level() > 3 or force_tall() then "_four" else "") + (if is_stamped() then "_rare" else "")))
+		+ (if not is_full() then ((if max_level() > 3 or force_tall() then "four_" else "") + "frame_mask") else "")
+		+ ".png"
+	}
+	walker_mask_back := {
+		(if back_clear() then "clear_" else if is_normal_size() or is_full() then "" else "wide_")
+		+ (if is_full() then ("mythic_mask" + (if max_levelb() > 3 or force_tallb() then "_four" else "") + "_back"))
+		+ (if not is_full() then ((if max_levelb() > 3 or force_tallb() then "four_" else "") + "frame_mask") else "")
+		+ ".png"
+	}
 
 
 	##### leveler stuff
@@ -3763,8 +3767,8 @@ extra card style:
 			color: white
 			weight: bold
 	corner:
-		left: { (if is_map() then 22 else 19)-(if is_modal_dfc() then 9 else 0)}
-		top: { (if is_normal() then 25 else 18) - (if is_modal_dfc() then 2 else 0)}
+		left: { (if is_map() then 22 else if is_normal() then 19 else 21) - (if is_modal_dfc() then 9 else 0)}
+		top: { (if is_normal() then 25 else 17) - (if is_modal_dfc() then 2 else 0)}
 		height: { if is_modal_dfc() then 35 else if is_normal() then 31 else 32}
 		width: { if is_modal_dfc() then 42 else if is_normal() then 31 else 32}
 		z index: 5
@@ -3798,8 +3802,8 @@ extra card style:
 			modal: {front_arrow_image(card.card_color)}
 
 	corner 2:
-		left: { (if back_map() then 399 else 396)-(if is_modal_dfc() then 9 else 0)}
-		top: { (if back_normal() then 25 else 18) - (if is_modal_dfc() then 2 else 0)}
+		left: { (if back_map() then 399 else if back_normal() then 396 else 398) - (if is_modal_dfc() then 9 else 0)}
+		top: { (if back_normal() then 25 else 17) - (if is_modal_dfc() then 2 else 0)}
 		height: { if is_modal_dfc() then 35 else if back_normal() then 31 else 32}
 		width: { if is_modal_dfc() then 42 else if back_normal() then 31 else 32}
 		z index: 5
@@ -3960,7 +3964,7 @@ extra card style:
 		render style: image
 		image: {if is_map() then map_background() else if front_clear() then ((if is_normal() then "clear" else if has_four_abilities() then "planeswalker/xcard3" else "planeswalker/xcard") + (if is_stamped() then "_rare") + ".png") else if has_four_abilities() then card_background5() else card_background3()}
 		visible: {is_map() or front_clear() or mainframe_walker()}
-		mask: {if is_map() then "maps/frame_mask.png" else if front_clear() then "" else (if max_level() > 3 or force_tall() then "four_" else "") + (if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
+		mask: {if is_map() then "maps/frame_mask.png" else walker_mask_front()}
 	floating frame 2:
 		left: 377
 		top: 0
@@ -3970,7 +3974,7 @@ extra card style:
 		render style: image
 		image: {if back_map() then map_background() else if chosen(styling.other_options, choice:"normal back face") then (if back_clear() then ((if back_normal() then "clear" else if back_four_abilities() then "planeswalker/xcard3" else "planeswalker/xcard") + ".png") else if back_four_abilities() then card_background5() else card_background3()) else if back_clear() then ((if back_normal() then "clear2" else if back_four_abilities() then "planeswalker/xcard4" else "planeswalker/xcard2") + ".png") else if back_four_abilities() then card_background6() else card_background4()}
 		visible: {back_map() or back_clear() or mainframe_walkerb()}
-		mask: {if back_map() then "maps/frame_mask.png" else if back_clear() then "" else (if max_levelb() > 3 or force_tallb() then "four_" else "") + (if is_full() then (if is_stamped() then "mythic_image_rare_mask" else "mythic_mask") else "frame_mask") + ".png"}
+		mask: {if back_map() then "maps/frame_mask.png" else walker_mask_back()}
 	front modal flag:
 		left: {if mainframe_walker() then 10 else 14}
 		top: 468
