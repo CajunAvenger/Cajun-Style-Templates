@@ -1143,7 +1143,7 @@ card style:
 		image: { if back_clear() or back_map() or mainframe_walkerb() then "" else if back_saga() or back_class() then saga_background() else if chosen(styling.other_options, choice:"normal back face") then unnotched_background() else card_background2() }
 	############################# Name line
 	name:
-		left: { if is_map() then 65 else if is_normal() then 58 else 60 }
+		left: { if is_map() then 65 else if is_normal() then 58 else 62 }
 		top: { if is_map() then 27 else if is_normal() then 30 else if front_clear() then 22 else 22 }
 		right: { (if is_map() then 344 else 339) - card_style.casting_cost.content_width }
 		height: {23 - (0.5 * shrink_name())}
@@ -1155,7 +1155,7 @@ card style:
 			size: { if is_map() then 14.8 - shrink_name() else 16 - shrink_name() }
 			color: black
 	name 2:
-		left: { if back_map() then 442 else if back_normal() then 435 else 437 }
+		left: { if back_map() then 442 else if back_normal() then 435 else 439 }
 		top: { (if back_map() then 27 else if back_normal() then 30 else if back_clear() then 22 else 22) - 0.5*shrink_name2() }
 		right: { (if back_map() then 719 else 714) - card_style.casting_cost_2.content_width }
 		height: {23 - (0.5 * shrink_name2())}
