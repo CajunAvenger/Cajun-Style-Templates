@@ -3763,10 +3763,10 @@ extra card style:
 			color: white
 			weight: bold
 	corner:
-		left: { (if is_map() then 22 else 19)-(if is_modal_dfc() then (if front_clear() then 9 else 6) else 0)}
-		top: { (if is_normal() then 25 else 18) - (if is_modal_dfc() then (if front_clear() then 2 else 3) else 0)}
-		height: { if is_modal_dfc() then 36 else if is_normal() then 31 else 32}
-		width: { if is_modal_dfc() then 43 else if is_normal() then 31 else 32}
+		left: { (if is_map() then 22 else 19)-(if is_modal_dfc() then 9 else 0)}
+		top: { (if is_normal() then 25 else 18) - (if is_modal_dfc() then 2 else 0)}
+		height: { if is_modal_dfc() then 35 else if is_normal() then 31 else 32}
+		width: { if is_modal_dfc() then 42 else if is_normal() then 31 else 32}
 		z index: 5
 		render style: image
 		choice images:
@@ -3798,10 +3798,10 @@ extra card style:
 			modal: {front_arrow_image(card.card_color)}
 
 	corner 2:
-		left: { (if back_map() then 399 else 396)-(if is_modal_dfc() then (if back_clear() then 9 else 6) else 0)}
-		top: { (if back_normal() then 25 else 18) - (if is_modal_dfc() then (if back_clear() then 2 else 3) else 0)}
-		height: { if is_modal_dfc() then 36 else if back_normal() then 31 else 32}
-		width: { if is_modal_dfc() then 43 else if back_normal() then 31 else 32}
+		left: { (if back_map() then 399 else 396)-(if is_modal_dfc() then 9 else 0)}
+		top: { (if back_normal() then 25 else 18) - (if is_modal_dfc() then 2 else 0)}
+		height: { if is_modal_dfc() then 35 else if back_normal() then 31 else 32}
+		width: { if is_modal_dfc() then 42 else if back_normal() then 31 else 32}
 		z index: 5
 		render style: image
 		choice images:
