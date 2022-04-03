@@ -235,7 +235,7 @@ init script:
 	}
 	back_mask_script := { if contains(styling.custom_mask_2, match:".png") then "/magic-mainframe-extras.mse-include/" + styling.custom_mask
 		else if b_saga() then ""
-		else if is_full() and back_normal() and not back_saga() and not back_map() then "borderless_mask.png"
+		else if is_full() and back_normal() and not back_saga() and not back_map() then "borderless_mask" + (if not is_modal_dfc() then "_transform_back" else "") + ".png"
 		else if back_clear() and back_normal() then "imagemask_clear_normal.png"
 		else if back_clear() then "imagemask_clear.png"
 		else if back_mutate() then "mutate_mask.png"
