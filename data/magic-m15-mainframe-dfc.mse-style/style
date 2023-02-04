@@ -133,8 +133,8 @@ init script:
 	# modal dfc flag scripts
 	front_flag_image := { color_background(type:"flag", base_hybrid:card_hybrid) }
 	back_flag_image := { color_background(type:"flag2", base_hybrid:card_hybrid) }
-	front_arrow_image := { color_background(type:"icon", base_hybrid:card_hybrid) }
-	back_arrow_image := { color_background(type:"icon2", base_hybrid:card_hybrid) }
+	front_arrow_image := { color_background(type:"icon", base_hybrid:flip_pt_hybrid2) }
+	back_arrow_image := { color_background(type:"icon2", base_hybrid:flip_pt_hybrid2) }
 
 	# Use the normal tap symbol
 	mana_t := {
