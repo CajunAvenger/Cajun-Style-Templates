@@ -29,6 +29,9 @@ depends on:
 	package: magic-mainframe-extras.mse-include
 	version: 2018-01-01
 depends on:
+	package: magic-m15-mainframe-assets.mse-include
+	version: 2022-06-24
+depends on:
 	package: magic-pride.mse-include
 	version: 2021-05-26
 
@@ -162,7 +165,7 @@ init script:
 	d20_array := 
 		filter_text@(match:"(\n|"+d20string+")")
 		+split_text@(match:d20string)
-	number_of_rolls := {if is_all_break() then 1+length(filter_text(card.rule_text, match:"\n"))-rolls_start(card.text) else length(d20_array(input))-1}
+	number_of_rolls := {min(6, if is_all_break() then 1+length(filter_text(card.rule_text, match:"\n"))-(rolls_start(card.text)-invert_rolls()) else length(d20_array(input))-1)}
 	rolls_start := {
 		if styling.d20_dividers == "all breaks +3" then 4
 		else if styling.d20_dividers == "all breaks +2" then 3
@@ -174,18 +177,23 @@ init script:
 	d20_filter := replace@(match:"^([Ee]lse ?|[Oo]ther ?|((</sym>)?[-0-9 ,+>\<](<sym>)?)+)[|]", replace:"<b>\\1</b>|")
 	top_of_para := {
 		input := input + no_roll(card.text)
-		if card_style.text.layout.paragraphs[input].top or else 0 > 0 then
-			card_style.text.top + card_style.text.layout.paragraphs[input].top - 0.5*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom)
+		input := max(input, 0)
+		if card_style.text.layout.paragraphs[input].top or else -1 >= 0 then
+			if invert_rolls() == 1 and input == rolls_start()-invert_rolls() then card_style.text.top
+			else if input == 0 then card_style.text.top + card_style.text.layout.paragraphs[input].top
+			else card_style.text.top + card_style.text.layout.paragraphs[input].top - 0.5*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom)
 		else 0
 	}
 	height_of_para := {
 		input := input + no_roll(card.text)
 		if card_style.text.layout.paragraphs[input].bottom or else 0 > 0 then
-			card_style.text.layout.paragraphs[input].bottom + 1.3*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom) - card_style.text.layout.paragraphs[input].top
+			if invert_rolls() == 1 and input == rolls_start() then card_style.text.layout.paragraphs[input-1].bottom
+			else card_style.text.layout.paragraphs[input].bottom + 1.3*(card_style.text.layout.paragraphs[input].top-card_style.text.layout.paragraphs[input-1].bottom) - card_style.text.layout.paragraphs[input].top
 		else 0
 	}
 	no_roll := {if styling.d20_dividers == "all breaks" then 1 else if rolls_start(input) == 0 then 1 else 0}
-
+	invert_rolls := {if chosen(styling.other_options, choice:"inverted d20") then 1 else 0}
+	
 	text_filter := text_filter + override_clear + d20_filter + {if chosen(styling.other_options, choice:"override-style text") then override_filter(input) else input}
 
 	center_map := {is_map() and (card.casting_cost == "" or chosen(styling.other_options, choice:"always center map names"))}
@@ -368,6 +376,7 @@ styling field:
 	choice: clear tops
 	choice: vorthos box
 	choice: pride pinlines
+	choice: inverted d20
 	initial: auto nyx crowns, auto vehicles, auto snow
 styling field:
 	type: text
@@ -1045,6 +1054,8 @@ card style:
 			size: 6.5
 			color: white
 			weight: bold
+			
+
 ############################################################## Extra card fields
 extra card field:
 	type: text
@@ -1399,6 +1410,7 @@ extra card field:
 	save value: false
 	editable: false
 
+
 extra card style:
 	promo label:
 		left: 40
@@ -1551,7 +1563,7 @@ extra card style:
 		height: 523
 		render style: image
 		image: {if is_cons() then cons_background() else curtain_background()}
-		z index: 0
+		z index: 3
 		visible: {is_cons() or is_curtains()}
 		mask: {if is_legend() and is_curtains() then "lcurtainmask.png"}
 	scrolls:
@@ -1712,7 +1724,7 @@ extra card style:
 		visible: {card.level_3 != ""}
 	level 2 overlay:
 		left: 29
-		top: { if is_d20() then top_of_para(rolls_start(card.text)) else 329 + lv_2_coordinate()}
+		top: { if is_d20() then top_of_para(rolls_start(card.text)-invert_rolls()) else 329 + lv_2_coordinate()}
 		height: { if is_d20() then height_of_para(rolls_start(card.text)) else lv_2_height()}
 		width: 314
 		z index: 1
@@ -1721,8 +1733,8 @@ extra card style:
 		visible: {(is_d20() and number_of_rolls(card.text) > 0) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm() and not is_inverted())}
 	level 3 overlay:
 		left: 29
-		top: { if is_d20() then top_of_para(rolls_start(card.text)+2) else 329 + lv_3_coordinate()}
-		height: { if is_d20() then height_of_para(rolls_start(card.text)+2) else lv_3_height()}
+		top: { if is_d20() then top_of_para(rolls_start(card.text)+2-invert_rolls()) else 329 + lv_3_coordinate()}
+		height: { if is_d20() then height_of_para(rolls_start(card.text)+2-invert_rolls()) else lv_3_height()}
 		width: 314
 		z index: 1
 		render style: image
@@ -1730,8 +1742,8 @@ extra card style:
 		visible: {(is_d20() and number_of_rolls(card.text)-no_roll(card.text) > 2) or (is_leveler() and not is_full_art() and not is_map() and not is_fnm() and not is_inverted())}
 	level 4 overlay:
 		left: 29
-		top: { if is_d20() then top_of_para(rolls_start(card.text)+4) else 329 + lv_4_coordinate()}
-		height: { if is_d20() then height_of_para(rolls_start(card.text)+4) else lv_4_height()}
+		top: { if is_d20() then top_of_para(rolls_start(card.text)+4-invert_rolls()) else 329 + lv_4_coordinate()}
+		height: { if is_d20() then height_of_para(rolls_start(card.text)+4-invert_rolls()) else lv_4_height()}
 		width: 314
 		z index: 1
 		render style: image
