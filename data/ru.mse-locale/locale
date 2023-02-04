@@ -6,116 +6,116 @@ icon: ru.png
 
 ############################################################## Menu items
 menu:
-	file:			&Файл
-	new set:			&Новый...	Ctrl+N
-	open set:			&Открыть...	Ctrl+O
-	save set:			&Сохранить	Ctrl+S
-	save set as:		Сохранить &как...	F12
-	save set as directory:		Cохранить как папку...
-	export:				&Экспорт
-	export html:			&HTML...
-	export image:			Card &Image...
-	export images:			All Card I&mages...
-	export apprentice:		&Apprentice...
+	file:			Файл
+	new set:			Новый сет	Ctrl+N
+	open set:			Открытьсет	Ctrl+O
+	save set:			Сохранить сет	Ctrl+S
+	save set as:		Сохранить сет как...	F12
+	save set as directory:		Cохранить сет как папку...
+	export:				Экспорт
+	export html:			HTML...
+	export image:			Изображение карты...
+	export images:			Изображения всех карт...
+	export apprentice:		Apprentice...
 	export mws:				Magic &Workstation...
 	check updates:		Проверить обновление...
-	print preview:		Print Pre&view...
-	print:				&Print...	Ctrl+P
-	reload data:		Reload Data	Ctrl+F5
+	print preview:		Предпросмотр печати...
+	print:				Печать...	Ctrl+P
+	reload data:		Перезагрузить данные	Ctrl+F5
 	show profiler:		Show Profiler	Ctrl+F6
-	exit:				E&xit	Alt+F4
+	exit:				Выход	Alt+F4
 	
-	edit:			&Редактировать
-	undo:				&Назад%s	Ctrl+Z
-	redo:				&Вперед%s	Ctrl+Y
+	edit:			Редактировать
+	undo:				Назад	Ctrl+Z
+	redo:				Вперед	Ctrl+Y
 	cut:				Вырезать	Ctrl+X
-	cut card:		Cu&t	Ctrl+X
-	cut keyword:	Cu&t	Ctrl+X
-	copy:				&Copy	Ctrl+C
-	copy card:			&Copy	Ctrl+C
-	copy keyword:		&Copy	Ctrl+C
-	paste:				&Paste	Ctrl+V
-	paste card:		&Paste	Ctrl+V
-	paste keyword:	&Paste	Ctrl+V
-	select all:				Select &All	Ctrl+A
-	find:				&Find	Ctrl+F
-	find next:			Find &Next	F3
-	replace:			R&eplace	Ctrl+H
-	auto replace:		Auto Rep&lace...
-	preferences:		&Preferences...
+	cut card:			Вырезать	Ctrl+X
+	cut keyword:		Вырезать	Ctrl+X
+	copy:				Копировать	Ctrl+C
+	copy card:			Копировать	Ctrl+C
+	copy keyword:		Копировать	Ctrl+C
+	paste:				Вставить	Ctrl+V
+	paste card:			Вставить	Ctrl+V
+	paste keyword:		Вставить	Ctrl+V
+	select all:			Выделить все	Ctrl+A
+	find:				Найти	Ctrl+F
+	find next:			Найти дальше	F3
+	replace:			Заменить	Ctrl+H
+	auto replace:		Автозамена...
+	preferences:		Настройки...
 	
-	cards:			&Cards
-	previous card:		Select &Previous Card	PgUp
-	next card:			Select &Next Card	PgDn
-	search cards:			&Search Cards	Ctrl+K
-	add card:			&Add Card	Ctrl+Enter
-	add cards:			Add &Multiple Cards...
-	remove card:		&Delete Selected Card
-	orientation:		&Orientation
-	rotate 0:				&Normal
-	rotate 270:				Rotated 90° &Clockwise
-	rotate 90:				Rotated 90° C&ounter Clockwise
-	rotate 180:				Rotated 180°, &Up Side Down
-	card list columns:	C&ard List Columns...
+	cards:			Карты
+	previous card:		Предыдущая карта	PgUp
+	next card:			Следующая карта	PgDn
+	search cards:		Найти карты	Ctrl+K
+	add card:			Добавить карту	Ctrl+Enter
+	add cards:			Добавить несколько карт...
+	remove card:		Удалить выделенную карту
+	orientation:		Ориентация
+	rotate 0:			Нормальная
+	rotate 270:			Повернуть на 90° по часовой стрелке
+	rotate 90:			Повернуть на 90° против часовой стрелке
+	rotate 180:			Повернуть на 180°
+	card list columns:	Колонки списка карт...
 	
-	keywords:		&Keywords
-	previous keyword:	Select &Previous Keyword	PgUp
-	next keyword:		Select &Next Keyword	PgDn
-	search keywords:			&Search Keywords	Ctrl+K
-	add keyword:		&Add Keyword	Ctrl+Enter
-	remove keyword:		&Remove Select Keyword	 Del
+	keywords:		Ключевые слова
+	previous keyword:	Выбрать предыдущее ключевое слово	PgUp
+	next keyword:		Выбрать следующее ключевое слово	PgDn
+	search keywords:			Найти ключевое слово	Ctrl+K
+	add keyword:		Добавить ключевое слово	Ctrl+Enter
+	remove keyword:		Удалить выделенное ключевое слово	 Del
 	
-	format:			F&ormat
-	bold:				&Bold	Ctrl+B
-	italic:				&Italic	Ctrl+I
-	symbols:			&Symbols	Ctrl+M
-	reminder text:		&Reminder Text	Ctrl+R
-	insert symbol:		I&nsert Symbol
+	format:			Формат
+	bold:				Полужирный	Ctrl+B
+	italic:				Курсив	Ctrl+I
+	symbols:			Символ	Ctrl+M
+	reminder text:		Текст напоминания	Ctrl+R
+	insert symbol:		Вставить символ
 	# spelling
 	no spelling suggestions:	(no suggestions)
 	
-	graph:			&Graph
-	pie:				&Pie	1
-	bar:				&Bar	2
-	stack:				&Stacked Bars	3
-	scatter:			S&catter Plot	4
+	graph:			&Графики
+	pie:				Сектора	1
+	bar:				Прямоугольники	2
+	stack:				Сложенные прямоугольники	3
+	scatter:			Точечная диаграмма	4
 	scatter pie:		Sc&atter-Pie	5
 	
-	window:			&Window
-	new window:			&New Window
-	cards tab:			&Cards	Alt+1
-	style tab:			St&yle	Alt+2
-	set info tab:		&Set Information	Alt+3
-	keywords tab:		&Keywords	Alt+4
-	stats tab:			S&tatistics	Alt+5
-	random pack tab:	&Random Packs	Alt+6
-	console tab:		&Console	Alt+7
+	window:			Окна
+	new window:			Новое окно
+	cards tab:			Вкладка карты	Alt+1
+	style tab:			Вкладка стиля	Alt+2
+	set info tab:		Вкладка инфомрации сета	Alt+3
+	keywords tab:		Вкладка ключевых слов	Alt+4
+	stats tab:			Вкладка статистики	Alt+5
+	random pack tab:	Вкладка случайного пака	Alt+6
+	console tab:		Вкладка консоли	Alt+7
 	
-	help:			&Help
-	index:				&Index...	F1
-	website:			&Website...
-	about:				&About Magic Set Editor...
+	help:			Помощь
+	index:				Основное...	F1
+	website:			Сайт проекта MSE...
+	about:				О Magic Set Editor...
 	
 	# symbol editor
 	
-	new symbol:			&New...	Ctrl+N
-	open symbol:		&Open...	Ctrl+O
-	save symbol:		&Save	Ctrl+S
-	save symbol as:		Save &As...	F12
-	store symbol:		S&tore	Ctrl+Enter
-	close symbol editor:Close	Alt+F4
+	new symbol:			Новый...	Ctrl+N
+	open symbol:		Открыть...	Ctrl+O
+	save symbol:		Сохранить	Ctrl+S
+	save symbol as:		Сохранить как...	F12
+	store symbol:		Запомнить	Ctrl+Enter
+	close symbol editor:Закрыть	Alt+F4
 	
-	duplicate:			&Duplicate	Ctrl+D
-	group:				&Group	Ctrl+G
-	ungroup:			&Ungroup	Ctrl+U
+	duplicate:			Дублировать	Ctrl+D
+	group:				Группировать	Ctrl+G
+	ungroup:			Разгруппировать	Ctrl+U
 	
-	tool:			&Tool
-	select:				&Select	F5
-	rotate:				&Rotate	F6
-	points:				&Points	F7
-	basic shapes:		&Basic Shapes	F8
-	symmetry:			S&ymmetry	F9
-	paint:				P&aint	F10
+	tool:			Инструменты
+	select:				Выделить	F5
+	rotate:				Повернуть	F6
+	points:				Точки	F7
+	basic shapes:		Базовые формы	F8
+	symmetry:			Симетрия	F9
+	paint:				Рисовать	F10
 
 ############################################################## Menu help texts
 help:
@@ -125,87 +125,87 @@ help:
 	new set:			Создать новый сет
 	open set:			Открыть сет
 	last opened set:	Открыть '%s'
-	save set:			Save the set
-	save set as:		Save the set with a new name
-	save set as directory:		Save the set as a directory with separate files for each card
-	export:				Export the set...
+	save set:			Сохранить сет
+	save set as:		Сохранить сет под новым именем
+	save set as directory:		Сохранить сет в виде каталога с отдельными файлами для каждой карты
+	export:				Экспортировать сет...
 	export html:			Export the set to a web page
 	export image:			Export the selected card to an image file
 	export images:			Export images for all cards
 	export apprentice:		Export the set so it can be played with in Apprentice
 	export mws:				Export the set so it can be played with in Magic Workstation
-	check updates:		Install/update packages.
-	print preview:		Shows cards as they will be printed
-	print:				Print cards from this set
-	reload data:		Reload all template files (game and style) as well as the set.
-	show profiler:		Show the profiler window, with timings of (script) functions. Used for optimization.
-	exit:				Quits Magic Set Editor; prompts to save the set
+	check updates:		Установить/обновить дополнительные стили/шрифты
+	print preview:		Показать карты в том виде, в каком они будут напечатаны
+	print:				Печатать карты этого сета
+	reload data:		Перезагрузите все файлы шаблонов (игры и стиля), а также сет
+	show profiler:		Показать окно профилировщика с таймингами функций. Используется для оптимизации
+	exit:				Выход Magic Set Editor; Будет предложено сохранить сет
 	
 	#edit:
-	undo:				Undoes the last action
-	redo:				Redoes the last action
-	cut:				Move the selected text to the clipboard
-	cut card:			Move the selected card to the clipboard
-	cut keyword:		Move the selected keyword to the clipboard
-	copy:				Place the selected text on the clipboard
-	copy card:			Place the selected card on the clipboard
-	copy keyword:		Place the selected keyword on the clipboard
-	paste:				Inserts the text from the clipboard
-	paste card:			Inserts the card from the clipboard
-	paste keyword:		Inserts the keyword from the clipboard
-	select all:				Select all text
-	find:				Search the card texts
-	find next:			Find the next match
-	replace:			Replace in the card texts
-	auto replace:		What text should automatically be replaced?
-	preferences:		Change the configuration of Magic Set Editor
+	undo:				Отменить предыдущее дейтсвие
+	redo:				Повторить отменненое действие
+	cut:				Вырезать выделенный текст в буфер обмена
+	cut card:			Переместить выбранную карту в буфер обмена
+	cut keyword:		Переместить выбранное ключевое слово в буфер обмена
+	copy:				Копировать выделенный текст в буфер обмена
+	copy card:			Копировать выбранную карту в буфер обмена
+	copy keyword:		Копировать выбранное ключевое слово в буфер обмена
+	paste:				Вставить текст из буфера обмена
+	paste card:			Вставить карту из буфера обмена
+	paste keyword:		Вставить ключевое слово из буфера обмена
+	select all:				Выделить весь текст
+	find:				Искать текст в картах
+	find next:			Искать следующее совпадение
+	replace:			Заменить текст в карте
+	auto replace:		Какой текст следует заменить автоматически?
+	preferences:		Изменить конфигурацию Magic Set Editor
 	
 	#cards:
-	previous card:		Selects the previous card in the list
-	next card:			Selects the next card in the list
-	search cards:		Filter the card list using search terms
-	add card:			Add a new, blank, card to this set
-	add cards:			Add multiple cards to the set
-	remove card:		Delete the selected card from this set
-	orientation:		Orientation of the displayed card
-	rotate card:			Rotate the card display 90° clockwise
-	rotate 0:				Display the card with the right side up
-	rotate 270:				Display the card rotated clockwise
-	rotate 90:				Display the card rotated counter-clockwise (anti-clockwise for the British)
-	rotate 180:				Display the card up side down
-	card list columns:	Select what columns should be shown and in what order.
+	previous card:		Выбрать предыдущую карту в списке
+	next card:			Выбрать следующую карту в списке
+	search cards:		Отфильтруйте список карточек с помощью условий поиска
+	add card:			Добавить новую карту в текущий сет
+	add cards:			Добавить несколько новых карт в текущий сет
+	remove card:		Удалить выбранную карту из текущего сета
+	orientation:		Ориентация отображаемой карты
+	rotate card:			Повернуть карту на 90° по часовой стрелке
+	rotate 0:				Отобразить карту "вверх ногами"
+	rotate 270:				Повернуть карту на 270° по часовой стрелке
+	rotate 90:				Повернуть карту на 90° против часовой стрелке
+	rotate 180:				Отобразить карту "вверх ногами"
+	card list columns:	Выберать, какие столбцы следует отображать и в каком порядке
 	
 	#keywords:
-	previous keyword:	Selects the previous keyword in the list
-	next keyword:		Selects the next keyword in the list
-	search keywords:		Filter the keyword list using search terms
-	add keyword:		Add a new keyword to this set
-	remove keyword:		Delete the selected keyword from this set
+	previous keyword:	Выбирать предыдущее ключевое слово в списке
+	next keyword:		Выбирать следующее ключевое слово в списке
+	search keywords:		Фильтровать список ключевых слов по условиям поиска
+	add keyword:		Добавить новое ключевое слово в текущий сет
+	remove keyword:		Удалить выбранное ключевое слово из текущего сета
 	
 	#format:
-	bold:				Makes the selected text bold
-	italic:				Makes the selected text italic
-	symbols:			Draws the selected text with symbols
-	reminder text:		Show reminder text for the selected keyword
+	bold:				Сделать выделенные текст жирным
+	italic:				Сделать выделенный текст курсивом
+	symbols:			Отрисовать выделенный текст символами
+	reminder text:		Показать текст напоминания для выбранного ключевого слова
 	# spelling
-	no spelling suggestions:	There are no suggestions for correcting this error
+	no spelling suggestions:	Нет предложений по исправлению этой ошибки
 	
 	#graph:
-	pie:				A pie graph, the size of the slice indicates the number of cards
-	bar:				A bar graph, the height of the bar indicates the number of cards
-	stack:				A bar graph with stacked bars
-	scatter:			A scatter plot, the size indicates the number of cards
-	scatter pie:		A scatter plot where each item is a small pie graph
+	pie:				Круговая диаграмма, размер среза указывает количество карт
+	bar:				Гистограмма, высота столбца указывает количество карт
+	stack:				Гистограмма со сложенными столбцами
+	scatter:			Диаграмма разброса, размер указывает количество карт
+	scatter pie:		Диаграмма рассеяния, где каждый элемент представляет собой небольшую круговую диаграмму
 	
 	#window:
-	new window:			Creates another window to edit the same set
-	cards tab:			Edit the cards in the set
-	set info tab:		Edit information about the set, its creator, etc.
-	style tab:			Change the style of cards
-	keywords tab:		Define extra keywords for this set
-	stats tab:			Show statistics about the cards in the set
-	random pack tab:	Try how the set works out in practice by generating random booster packs.
-	console tab:		Shows error messages and allows executing script commands.
+	new window:			Открыть новое окно для редактирования текущего сета
+	cards tab:			Редактировать карты в сете
+	set info tab:		Редактировать информацию о сете, его создателе, и т.д.
+	style tab:			Изменить стиль карты
+	keywords tab:		Определить дополнительные ключевые слова
+	stats tab:			Показать статистику по картам в сете
+	random pack tab:	Попробовать набор на практике, создавая случайные бустеры
+	console tab:		Показать сообщения об ошибках или выполнить команды скриптов
 	
 	#help:
 	index:				
@@ -213,368 +213,369 @@ help:
 	about:				
 	
 	# Cards panel
-	collapse notes:		Hide the card notes box
-	expand notes:		Show the card notes box
-	search cards control:	Filter the card list. Use - to exclude cards. Use field: to search in a specific field. Use quotes for literal search. Separate multiple queries with a space.
+	collapse notes:		Скрыть поле заметок для карт
+	expand notes:		Показать поле заметок для карт
+	search cards control:	Отфильтровать список карт. Используйте для исключения карт. Использовать поле: для поиска в определенном поле. Используйте кавычки для буквального поиска. Разделите несколько запросов пробелом
 	# Keywords panel
-	search keywords control: Filter the keyword list. Use - to exclude keywords. Use field: to search in a specific field. Use quotes for literal search. Separate multiple queries with a space.
+	search keywords control: Отфильтровать список ключевых слов. Используйте для исключения ключевых слов. Использовать поле: для поиска в определенном поле. Используйте кавычки для буквального поиска. Разделите несколько запросов пробелом
 	# Random pack panel
-	random seed:		Different packs will be generated each time.
-	fixed seed:			Using the same seed number gives the same 'random' packs.
-	seed:				Seed number for the random generator. Using the same seed number gives the same 'random' packs.
-	edit pack type:		Double click to edit pack type
-	number of packs:	The number of %ss to generate
+	random seed:		Каждый раз будут генерироваться разные паки
+	fixed seed:			Использование одного и того же начального числа дает одинаковые «случайные» паки
+	seed:				Номер начального числа для генератора случайных чисел. Использование одного и того же начального числа дает одинаковые «случайные» паки
+	edit pack type:		Двойной клик, чтобы изменить тип пака
+	number of packs:	Количество %ss для генерации
 	
 	# Preferences
 	app language:
-		Note: You must restart MSE for the changes to take effect.
+		Примечание: необходимо перезапустить MSE, чтобы изменения вступили в силу.
 	zoom export:
-		(When off, the cards are exported
-		 and copied at 100% size and normal rotation)
+		(Если включено, то карты экспортируются
+		 и копируются со 100% размером и номальным вращением)
 	
 	# apprentice export
-	set code:			A set code is a two character code that is used by Apprentice to refer to a set.
+	set code:			Код набора - это двухсимвольный код, который Apprentice использует для обозначения набора
 	
 	# Symbol editor
-	new symbol:			Create a new symbol
-	open symbol:		Open a symbol
-	save symbol:		Save the symbol
-	save symbol as:		Save the symbol under a diferent filename
-	store symbol:		Stores the symbol in the set
-	close symbol editor:Closes the symbol editor
+	new symbol:			Создать новый символ
+	open symbol:		Открыть символ
+	save symbol:		Сохранить символ
+	save symbol as:		Сохранить символ под другим именем
+	store symbol:		Сохранить символ в сете
+	close symbol editor:Закрыть редактор символа
 	
-	duplicate:			Duplicates the selected shapes
-	group:				Group the selected shapes together
-	ungroup:			Break up the selected group
+	duplicate:			Дублировать выбранные фигуры
+	group:				Группировать выбранные фигуры
+	ungroup:			Разгруппировать группу фигур
 	
-	grid:				Show gridlines
-	snap:				Snap shapes and points to gridlines
+	grid:				Показать линии сетки
+	snap:				Привязать фигуры и точки к линиям сетки
 	
 	#tool:
-	select:				Select and move shapes
-	rotate:				Rotate and shear shapes
-	points:				Edit control points for a shape in the symbol
-	basic shapes:		Draw basic shapes, such as rectangles and circles
-	symmetry:			Add symmetries to the symbol
-	paint:				Paint on the shape using a paintbrush
+	select:				Выделить и переместить фигуры
+	rotate:				Повернуть и сдвинуть фигуры
+	points:				Редактировать контрольные точки для фигуры
+	basic shapes:		Нарисовать базовые фигуры, например прямоугольник, круг
+	symmetry:			Добавить симметрии к символу
+	paint:				Нарисовать фигуру кистью
 	
 	#select editor:
-	merge:				Merges this shape with those below it
-	subtract:			Subtracts this shape from shapes below it, leaves only the area in that shape that is not in this shape
-	intersect:			Intersects this shape with shapes below it, leaves only the area in both shapes
-	difference:			Differs this shape from the shapes below it, leaves only the area not in any other shape
-	overlap:			Place this shape, and its border above shapes below it
-	border:				Draws this shape as a border
+	merge:				Объединить выбранную фигуру с фигурой под ней
+	subtract:			Вычитает выбранную фигуру из фигур под ней, оставляет только ту область в этой фигуре, которой нет в этой форме
+	intersect:			Совмещает выбранную фигуру с фигурами под ней. Оставляет только область обеих фигур
+	difference:			Оставляет только форму выбранной фигуры не имеющую пересечений с другими фигурами под ней
+	overlap:			Помещает выбранную фигуру и ее граничу над фигурами под ней
+	border:				Рисует эту фигуру как границу
 	
-	drag to shear:		Drag to shear selected %s
-	drag to rotate:		Drag to rotate selected %s, Ctrl constrains angle to multiples of 15 degrees
-	drag to resize:		Drag to resize selected %s, Ctrl constrains size
-	click to select shape:	Click to select shape, drag to move shape, double click to edit shape
+	drag to shear:		Перетащить, чтобы сдвинуть выбранный %s
+	drag to rotate:		Перетащить, чтобы повернуть выбранный %s, Ctrl ограничивает угол до 15 градусов
+	drag to resize:		Перетащить, чтобы изменить размер выбранного %s, Ctrl ограничивает размер
+	click to select shape:	Кликнуть, чтобы выбрать и перетащить фигуру, кликнуть дважды, чтобы изменить фигуру
 	
-	ellipse:			Draw circles and ellipses
-	rectangle:			Draw squares and rectangles
-	polygon:			Draw triangles, pentagons and other regular polygons
-	star:				Draw stars
-	sides:				The number of sides of the polygon or points of the star
-	drag to draw shape:	Drag to resize shape, Ctrl constrains shape, Shift centers shape
-	draw ellipse:		Click and drag to draw a ellipse, hold Ctrl for a circle
-	draw rectangle:		Click and drag to draw a rectangle, hold Ctrl for a square
-	draw polygon:		Click and drag to draw a polygon
-	draw star:			Click and drag to draw a star
+	ellipse:			Нарисовать круг или эллипс
+	rectangle:			Нарисовать квадрат или прямоугольник
+	polygon:			Нарисовать треугольник, пятиугольник или другой правильный многоугольник
+	star:				Нарисовать звезду
+	sides:				Количество сторон многоугольника или лучей звезды
+	drag to draw shape:	Перетащить, чтобы изменить размер фигуры, Ctrl ограничивает фигуру, Shift центрирует фигуру
+	draw ellipse:		Кликнуть, чтобы нарисовать эллипс, удерживать Ctrl для круга
+	draw rectangle:		Кликнуть, чтобы нарисовать прямоугольник, удерживать Ctrl для квадрата
+	draw polygon:		Кликнуть, чтобы нарисовать многоугольник
+	draw star:			Кликнуть, чтобы нарисовать звезду
 	
-	line segment:		Makes the selected line segment straight
-	curve segment:		Makes the selected line segment curved
-	free point:			Allows the two control points of the point to be moved freely
-	smooth point:		Makes the selected point smooth by placing the two control points opposite each other
-	symmetric point:	Makes the selected point symetric
-	drag to move curve:	Drag to move curve
-	drag to move line:	Alt + drag to move curve;  double click to add a point on this line
-	drag to move point:	Click and drag to move control point;  double click to remove the point
+	line segment:		Делает выбранный отрезок прямой линией
+	curve segment:		Делает выбранный сегмент линии изогнутым
+	free point:			Позволяет свободно перемещать две контрольные точки
+	smooth point:		Сглаживает выбранную точку, помещая две контрольные точки друг напротив друга
+	symmetric point:	Делает выбранную точку симметричной
+	drag to move curve:	Перетащить, чтобы переместить кривую
+	drag to move line:	Alt + перетащить, чтобы переместить кривую; двойной клик, чтобы добавить точку на линии
+	drag to move point:	Кликнуть и перетащить, чтобы переместить контрольную точку; дважды кликнуть, чтобы удалить точку
 	
-	rotation:			Rotational symmetry (wheel)
-	reflection:			Reflectional symmetry (mirror)
-	add symmetry:		Add symmetries to the symbol
-	remove symmetry:	Remove this symmetry
-	copies:				Number of reflections (including the original)
+	rotation:			Вращательная симметрия (колесо)
+	reflection:			Отражательная симметрия (зеркало)
+	add symmetry:		Добавить симметрии к символу
+	remove symmetry:	Удалить выбранную симметрию
+	copies:				Колличество отражений (включая оригинал)
 	
 	# Card select
-	filename format:	(Use {card.name} for the name of the card  ;  The filetype is determined based on the extension)
+	filename format:	(Используй {card.name} в качестве названия карты; тип файла определяется на основе расширения)
 
 ############################################################## Toolbar
 tool:
-	undo:				Undo
-	redo:				Redo
+	undo:				Отменить
+	redo:				Повторить
 	
-	cards tab:			Cards
-	set info tab:		Set info
-	style tab:			Style
-	keywords tab:		Keywords
-	stats tab:			Statistics
-	random pack tab:	Random
-	console tab:		Console
+	cards tab:			Карты
+	set info tab:		Информация по сету
+	style tab:			Стиль
+	keywords tab:		Ключевые слова
+	stats tab:			Статистика
+	random pack tab:	Случайный пак
+	console tab:		Консоль
 	
 	# symbol editor
-	store symbol:		Store
+	store symbol:		Запомнить
 	
-	grid:				Grid
-	snap:				Snap
+	grid:				Сетка
+	snap:				Привязать
 	
-	select:				Select
-	rotate:				Rotate
-	points:				Points
-	basic shapes:		Basic Shapes
-	symmetry:			Symmetry
-	paint:				Paint
+	select:				Выбрать
+	rotate:				Повернуть
+	points:				Точки
+	basic shapes:		Базовые фигуры
+	symmetry:			Симетрия
+	paint:				Кисть
 	
-	merge:				Merge
-	subtract:			Subtract
-	intersect:			Intersect
-	difference:			Difference
-	overlap:			Overlap
-	border:				Border
+	merge:				Объединить
+	subtract:			Извлечь
+	intersect:			Совместить
+	difference:			Разность
+	overlap:			Перекрыть
+	border:				Граница
 	
-	ellipse:			Ellipse
-	rectangle:			Rectangle
-	polygon:			Polygon
-	star:				Star
+	ellipse:			Эллипс
+	rectangle:			Прямоугольник
+	polygon:			Многоугольник
+	star:				Звезда
 	
-	rotation:			Rotation
-	reflection:			Reflection
-	add symmetry:		Add
-	remove symmetry:	Remove
+	rotation:			Повернуть
+	reflection:			Отразить
+	add symmetry:		Добавить симметрию
+	remove symmetry:	Удалить симметрию
 	
-	line segment:		Line
-	curve segment:		Curve
-	free point:			Free
-	smooth point:		Smooth
-	symmetric point:	Symmetric
+	line segment:		Прямая линия
+	curve segment:		Изогнутая линия
+	free point:			Свободная точки
+	smooth point:		Точка сглаживания
+	symmetric point:	Точка симметрии
 	
 ############################################################## Toolbar help text
 tooltip:
 	cards tab:			
-	set info tab:		Set information
+	set info tab:		Информация по сету
 	style tab:			
 	keywords tab:		
 	stats tab:			
-	random pack tab:	Random packs
+	random pack tab:	Случайный пак
 	console tab:		
 	
 	new set:			Новый сет
-	open set:			Open set
-	save set:			Save set
-	export:				Export set
+	open set:			Открыть сет
+	save set:			Сохранить сет
+	export:				Экспорт сета
 	
-	cut:				Cut
-	copy:				Copy
-	paste:				Paste
-	undo:				Undo%s
-	redo:				Redo%s
+	cut:				Вырезать
+	copy:				Копировать
+	paste:				Встевить
+	undo:				Назад
+	redo:				Вперед
 	
-	add card:			Add card
-	remove card:		Remove selected card
-	rotate card:		Rotate card
+	add card:			Добавить карту
+	remove card:		Удалить выделенную карту
+	rotate card:		Повернуть карту
 	
-	add keyword:		Add keyword
-	remove keyword:		Remove selected keyword
+	add keyword:		Добавить ключевое слово
+	remove keyword:		Удалить ключевое слово
 	
-	bold:				Bold
-	italic:				Italic
-	symbols:			Symbols
-	reminder text:		Reminder Text
+	bold:				Полужирный
+	italic:				Курсив
+	symbols:			Символ
+	reminder text:		Текст напоминания
 	
-	pie:				Pie Graph
-	bar:				Bar Graph
-	stack:				Stacked Bar Graph
-	scatter:			Scatter Plot
-	scatter pie:		Scatter-Pie plot
+	pie:				Круговая диаграмма
+	bar:				Гистограмма
+	stack:				Гистограмма с накоплением
+	scatter:			Точечная диаграмма
+	scatter pie:		Диаграмма рассеяния
 	
 	# symbol editor
-	store symbol:		Store symbol in set
+	store symbol:		Записать символ в сет
 	
-	grid:				Show grid
-	snap:				Snap to grid
+	grid:				Показать сетку
+	snap:				Привязать к сетке
 	
-	select:				Select (F5)
-	rotate:				Rotate (F6)
-	points:				Points (F7)
-	basic shapes:		Basic Shapes (F8)
-	symmetry:			Symmetry (F9)
-	paint:				Paint on Shape (F10)
+	select:				Выделить (F5)
+	rotate:				Повернуть (F6)
+	points:				Точка (F7)
+	basic shapes:		Базовые фигуры (F8)
+	symmetry:			Симетрия (F9)
+	paint:				Нарисовать фигуру (F10)
 	
-	merge:				Merge with shapes below
-	subtract:			Subtract from shapes below
-	intersect:			Intersect with shapes below
-	difference:			Differ from shapes below
-	overlap:			Place above other shapes
-	border:				Draw as a border
+	merge:				Соединить с фигурами ниже
+	subtract:			Вырезать из фигуры ниже
+	intersect:			Пересечь с фигурой ниже
+	difference:			Исключить от фигуры ниже
+	overlap:			Поместить над другими фигурами
+	border:				Нарисовать как границу
 	
-	ellipse:			Circle / Ellipse
-	rectangle:			Square / Rectangle
-	polygon:			Polygon
-	star:				Star
+	ellipse:			Круг / Эллипс
+	rectangle:			Квадрат / Прямоугольник
+	polygon:			Многоугольник
+	star:				Звезда
 	
-	rotation:			Rotational symmetry (wheel)
-	reflection:			Reflectional symmetry (mirror)
-	add symmetry:		Add symmetry to selected parts
-	remove symmetry:	Remove this symmetry
+	rotation:			Вращательная симметрия (колесо)
+	reflection:			Отражательная симметрия (зеркало)
+	add symmetry:		Добавить симметрии к символу
+	remove symmetry:	Удалить выбранную симметрию
 	
-	line segment:		To straigt line
-	curve segment:		To curve
-	free point:			Unlock point
-	smooth point:		Make point smooth
-	symmetric point:	Make point symmetric
+	line segment:		Привести к прямой
+	curve segment:		Привести к изогнутой
+	free point:			Свободная точка
+	smooth point:		Поставить точку сглаживания
+	symmetric point:	Поставить точку симметрии
 
 ############################################################## Labels in the GUI
 label:
 	# Cards tab
-	card notes:			Card notes:
-	search cards:		Search cards (Ctrl+K)
+	card notes:			Заметки по карте:
+	search cards:		Найти карты (Ctrl+K)
 	
 	# Keywords tab
-	search keywords:	Search keywords (Ctrl+K)
-	keyword:			Keyword
-	match:				Matches
-	mode:				Mode
-	uses:				Uses
-	reminder:			Reminder text
-	rules:				Additional rules
+	search keywords:	Найти ключевое слово (Ctrl+K)
+	keyword:			Ключевое слово
+	match:				Совпадение
+	mode:				Тип
+	uses:				Использования
+	reminder:			Текст подсказки
+	rules:				Дополнительные правила
 	standard keyword:
-		This is a standard %s keyword, you can not edit it.
-		If you make a copy of the keyword your copy will take precedent.
+		Это стандартное ключевое слово в %s, ты не можешь его редактировать
+		Если ты сделаешь копию этого ключевого слово, оно может быть использовано как прецедент
 	
 	# Style tab
-	styling options:	Styling options
+	styling options:	Опции шаблона
 	
 	# Random pack panel
-	pack selection:		Pack selection
-	pack totals:		Totals
-	pack name:			Pack name
+	pack selection:		Выбор пака
+	pack totals:		Итого паков
+	pack name:			Имя пака
 	seed:				Seed
-	total cards:		Total
+	total cards:		Итого карт
 	
 	# Other set window dialogs
 	save changes:
-		The set '%s' has changed.
+		Сет '%s' был изменен
 		
-		Do you want to save the changes?
+		Ты хочешь сохранить изменения?
 	
 	# New set window
-	game type:			&Game type:
-	style type:			&Card style:
+	game type:			Тип игры:
+	style type:			Стиль кард:
 	
 	stylesheet not found:
-		The set you are trying to open uses the stylesheet "%s".
-		This stylesheet is not found on your system, please select an alternative.
+		Сет, который ты пытаешься открыть использует стиль "%s".
+		Этого стиля не найдено в твоей системе, выбери альтернативу
 	
 	# Preferences
-	language:			Language
-	windows:			Open sets
-	app language:		Language of the user interface:
-	card display:		Card Display
-	zoom:				&Zoom:
-	percent of normal:	% of normal size
-	external programs:	External programs
+	language:			Язык
+	windows:			Открытие сетов
+	app language:		Язык интерфейса пользователя:
+	card display:		Отображение карты
+	zoom:				Увеличение:
+	percent of normal:	% от нормального размера
+	external programs:	Внешние программы
 	apprentice:			&Apprentice:
 	apprentice exe:		Apprentice Executable
-	check at startup:	Check for new versions at startup
+	check at startup:	Проверять наличие новых версий при запуске
 	checking requires internet:
-		Checking for updates requires an internet connection.
-		When no internet connection is found upates are not checked.
+		Для проверки обновлений необходимо подключение к интернету.
+		При отсутствии подключения к интернету проверка обновлений не происходит.
 		
-		No information is collected when checking for updates.
+		При проверке обновлений никакая персональная информация не собирается.
 	
 	# Column select
-	select columns:		Select the columns you want to display
-	columns:			Columns:
+	select columns:		Выберать столбцы, которые нужно отобразить
+	columns:			Стобцы:
 	
 	# Card select / images export
-	select cards:			Cards to export
-	selected card count:	%s cards will be exported.
-	filename format:	&Format: 
-	filename conflicts:	&Handle duplicating filenames:
-	export filenames:	Filenames
-	filename is ignored: (filename is ignored)
+	select cards:			Карты для экспорта
+	selected card count:	Будет экспортировано карт: %s
+	filename format:	Формат файла: 
+	filename conflicts:	Обработать повторяющиеся имена:
+	export filenames:	Имя файла для экспорта
+	filename is ignored: (Имя файла игнорируется)
 	
 	# apprentice export
-	set code:			Set &Code:
-	apprentice export cancelled: Export to Apprentice is cancelled
+	set code:			Код сета:
+	apprentice export cancelled: экпорт в Apprentice отменен
 	
 	# Html export
-	html template:		Template:
-	html export options:Export options
+	html template:		Шаблон:
+	html export options:Опции экспорта
 	
 	# Image slicer
-	original:			Original:
-	result:				Result:
-	size:				Size
-	original size:			&Original Size
-	size to fit:			Size to &Fit
-	force to fit:			F&orce to Fit
-	custom size:			&Custom Size
-	selection:			Selection
-	selection left:			&Left
-	selection top:			&Top
-	selection width:		&Width
-	selection height:		&Height
-	#zoom:				Zoom
-	fix aspect ratio:		Fix aspect ratio (width/height)
-	zoom amount:			Zoom
-	zoom amount x:			Zoom &X
-	zoom amount y:			Zoom &Y
+	original:			Оригинал:
+	result:				Результат:
+	size:				Размер
+	original size:			Оригинальный
+	size to fit:			Подходящий размер
+	force to fit:			Все изображение
+	custom size:			Выбранный размер
+	selection:			Выделение
+	selection left:			Слева
+	selection top:			Сверху
+	selection width:		Ширина
+	selection height:		Высота
+	#zoom:				Увеличение
+	fix aspect ratio:		Исправить соотношение сторон
+	zoom amount:			Увеличение
+	zoom amount x:			Увеличение &X
+	zoom amount y:			Увеличение &Y
 	zoom %:					%
-	filter:				Filter
-	sharpen filter:			&Sharpen filter
+	filter:				Фильтр
+	sharpen filter:			Фильтр резкости
 	
 	# Auto replace
-	auto match:			Match
-	auto replace:		Replace
+	auto match:			Заменяемое
+	auto replace:		Заменить на
 	
 	# Symbol editor
-	sides:				sides
+	sides:				стороны
 	
 	# Packages window
-	package name:				Package
-	package status:				Status
-	package action:				Action
+	package name:				Пакет модификации
+	package status:				Статус
+	package action:				Состояние
 	
-	package conflicts:		conflicting modifications
-	package modified:		local modifications
-	package updates:		updates available
-	package installed:		installed
-	package installable:	not installed
-	install package:		install
-	reinstall package:		reinstall
-	upgrade package:		update
-	remove package:			remove
+	package conflicts:		Конфликт модификаций
+	package modified:		Локальные модификации
+	package updates:		Доступные апдейты
+	package installed:		Установлены
+	package installable:	Не установлены
+	install package:		Установить
+	reinstall package:		Переустановить
+	upgrade package:		Апдейт
+	remove package:			Удалить
 	
-	installed version:		Installed version:
-	installable version:	Latest version:
-	installer size:			Size:
-	installer status:		Status:
+	installed version:		Установленная версия:
+	installable version:	Последняя версия:
+	installer size:			Размер:
+	installer status:		Статус:
 	no version:				-
 
 ############################################################## Buttons/checkboxes/choices in the GUI
 button:
 	# Editor
-	edit symbol:		Edit
-	symbol gallery:		Gallery
+	edit symbol:		Редактировать
+	symbol gallery:		Галерея
 	
 	# Style panel
-	use for all cards:	Use for &all cards
-	use custom styling options: Options &specific to this card
+	use for all cards:	Использовать для всех карт
+	#use custom styling options: Options &specific to this card	Использовать специфичные опции шаблона для этой карты
+	use custom styling options:		Использовать специфичные опции шаблона для этой карты
 	
 	# Keywords panel
-	insert parameter:	Insert Parameter...
-	refer parameter:	Use Parameter...
+	insert parameter:	Втсавить параметр...
+	refer parameter:	Использовать параметр...
 	
 	# Random pack panel
-	generate pack:		&Generate Pack
-	random seed:		&Random Seed
-	fixed seed:			&Fixed Seed
-	add custom pack:	Add &Custom Pack...
+	generate pack:		Генерировать пак
+	random seed:		Случайно
+	fixed seed:			Фиксировано
+	add custom pack:	Добавить пак...
 	
 	# Console panel
-	evaluate:			&Evaluate
+	evaluate:			Выполнить
 	
 	# Welcome
 	new set:			Новый сет
@@ -583,113 +584,113 @@ button:
 	last opened set:	Последний сет
 	
 	# Preferences
-	open sets in new window:	Open all sets in a new &window
-	select:				&Select...
-	browse:				&Browse...
-	high quality:		&High quality rendering
-	show lines:			Show &lines around fields
-	show editing hints:	Show boxes and hints for &editing
-	zoom export:		Use zoom and rotation settings when e&xporting
-	spellcheck enabled:	Show &spelling errors on cards
-	check now:			Check &Now
-	always:							Always
-	if internet connection exists:	If internet connection exists
-	never:							Never
+	open sets in new window:	Открывать все сеты в новых окнах
+	select:				Выбрать...
+	browse:				Обзор...
+	high quality:		Отрисовывать в высоком качестве
+	show lines:			Показывать границы полей
+	show editing hints:	Показывать подсказки для редактирования
+	zoom export:		Применять масштабирование при поворотах, экспорте, импорте
+	spellcheck enabled:	Показать орфографические ошибки в картах
+	check now:			Проверить сейчас
+	always:							Всегда
+	if internet connection exists:	При наличии подключения к интернету
+	never:							Никогда
 	
 	# Column select
-	move up:			Move &Up
-	move down:			Move &Down
-	show:				&Show
-	hide:				&Hide
+	move up:			Выше
+	move down:			Ниже
+	show:				Показать
+	hide:				Скрыть
 	
 	# Card select
-	export entire set:				Entire set
-	export generated packs:			Generated packs
-	export custom cards selection:	Custom selection
-	select cards:		&Select Cards...
-	select all:			Select &All
-	select none:		Select &None
-	overwrite:			Overwrite old files
-	keep old:			Keep old files
-	number:				Add a number to the filename
-	number overwrite:	Add a number to the filename, overwrite previous exports
+	export entire set:				Весь сет
+	export generated packs:			Сгенерированный пак
+	export custom cards selection:	Выбранные карты
+	select cards:		Выбрать каррты
+	select all:			Выбрать все
+	select none:		Отменить выбор
+	overwrite:			Перезаписать файлы
+	keep old:			Не перезаписывать файлы
+	number:				Добавить число к имени файла
+	number overwrite:	Добавить число к имени файла, перезаписать предыдущий экспорт
 	
 	# Auto replace
-	use auto replace:	Use auto replace
-	add item:			&Add
-	remove item:		&Remove
-	defaults:			Reset to &Defaults
-	enabled:			Enabled
-	whole word:			Match whole word only
+	use auto replace:	Использовать автозамену
+	add item:			Добавить
+	remove item:		Удалить
+	defaults:			Сбросить по-умолчанию
+	enabled:			Включить
+	whole word:			Искать только целое слово
 	
 	# Old style update checker  (NOTE: this will be removed in a feature version)
-	close:				&Close
+	close:				Закрыть
 	
 	# Packages window
-	keep package:			&Don't change
-	don't install package:	&Don't install
-	install package:		&Install
-	upgrade package:		&Update
-	reinstall package:		Re&install
-	remove package:			&Remove
-	install group:			&Install All
-	upgrade group:			&Upgrade All
-	remove group:			&Remove All
+	keep package:			Не изменять
+	don't install package:	Не устанавливать
+	install package:		Установить
+	upgrade package:		Обновить
+	reinstall package:		Переустановить
+	remove package:			Удалить
+	install group:			Установить все
+	upgrade group:			Обновить все
+	remove group:			Удалить все
 
 ############################################################## Titles in the GUI
 title:
 	magic set editor:	Magic Set Editor
 	%s - magic set editor:	%s - Magic Set Editor
-	untitled:			Untitled
-	about:				About Magic Set Editor
-	symbol editor:		Symbol Editor
+	untitled:			Без названия
+	about:				О Magic Set Editor
+	symbol editor:		Редактор символов
 	# dialogs
-	new set:			New Set
-	open set:			Open Set
-	save set:			Save Set As
-	save set as directory:	Save Set As Directory
-	save image:			Save Image
-	updates available:	Updates Available
-	save changes:		Save Changes?
-	select stylesheet:	Select Stylesheet
+	new set:			Новый сет
+	open set:			Открыть сет
+	save set:			Сохранить сет как...
+	save set as directory:	Сохранить сет как дирректорию...
+	save image:			Сохранить изображение
+	updates available:	Доступны обвноления
+	save changes:		Сохранить изменения?
+	select stylesheet:	Выбрать стиль
 	#preferences
-	preferences:		Preferences
-	global:					Global
-	display:				Display
+	preferences:		Настройки
+	global:					Глобально
+	display:				Изображение
 	directories:			Directories
-	updates:				Updates
-	update check:			Update Check
+	updates:				Обновления
+	update check:			Проверить обновление
 	locate apprentice:		Locate Apprentice
 	# select
-	select columns:		Select Columns
-	select cards:		Select Cards
-	select cards export:Select Cards to Export
-	select cards print:	Select the cards you want to print
+	select columns:		Выбрать колонки
+	select cards:		Выбрать карты
+	select cards export:Выбрать карты для экспорта
+	select cards print:	Выбрать карты для экспорта на печать
 	# slice
-	slice image:		Slice Image
+	slice image:		Изображение
 	# pack
-	custom pack:		Custom Pack Type
+	custom pack:		Тип пользовательского пакета
 	# print
-	print preview:		Print Preview
+	print preview:		Предпросмотр печати
 	# export
-	export images:		Export Images
-	export cancelled:	Export Cancelled
-	export html:		Export to HTML
-	save html:			Export to HTML
+	export images:		Экспорт изображений
+	export cancelled:	Экспорт отменен
+	export html:		Экспорт в HTML
+	save html:			Сохранить в HTML
 	# auto replace
-	auto replaces:		Auto Replace
+	auto replaces:		Автозамена
 	
 	# Package Update Window
-	packages window:	Package Manager
-	installing updates:	Installing updates
+	packages window:	Менеджер модификаций
+	installing updates:	Установка обновлений
 	
-	cannot create file:	Cannot create file
+	cannot create file:	Невозможно создать файл
 
 ############################################################## Action (undo/redo) names
 action:
 	# List boxes
-	add item:			Add %s
-	remove item:		Remove %s
+	add item:			Добавить %s
+	remove item:		Удалить %s
 	
 	# Text editor
 	typing:				Typing
@@ -700,7 +701,7 @@ action:
 	delete:				Delete
 	cut:				Cut
 	paste:				Paste
-	auto replace:		Auto Replace
+	auto replace:		Автозамена
 	correct:			Spelling Correction
 	# Choice/color editors
 	change:				Change %s
@@ -851,9 +852,9 @@ type:
 	export template:export template
 	symbol:			symbol
 	card:			card
-	cards:			cards
+	cards:			Карты
 	field:			field
-	style:			style
+	style:			Стиль
 	value:			value
 	keyword:		keyword
 	keywords:		keywords
@@ -877,19 +878,19 @@ type:
 	reflection:		reflection
 	group:			group
 	
-	point:			point
-	points:			points
+	point:			точка
+	points:			точки
 
 ############################################################## Magic
 package:
 	magic.mse-game:
 		# Card fields
-		name:		Name
-		cc:			CC
-		type:		Type
-		p/t:		P/T
-		rarity:		Rarity
-		card name:	Card Name
+		name:		Имя
+		cc:			Стоимость
+		type:		Тип
+		p/t:		С/З
+		rarity:		Редкость
+		card name:	Имя карты
 		
 		# Set info
 		
@@ -898,49 +899,49 @@ package:
 	magic-mana-*.mse-symbol-font:
 		# note: reminder/shortcut must start with a space, otherwise it is used as a shortcut
 		#       so typing T *anywhere* would insert a symbol (which would be bad)
-		menu item T:			&Tap symbol	 T
-		menu item Q:			&Untap symbol	 Q
-		menu item W:			&White mana	 W
-		menu item U:			Bl&ue mana	 U
-		menu item B:			&Black mana	 B
-		menu item R:			&Red mana	 R
-		menu item G:			&Green mana	 G
-		menu item S:			&Snow mana	 S
-		menu item X:			Variable mana &X	 X
-		menu item Y:			Variable mana &Y	 Y
-		menu item Z:			Variable mana &Z	 Z
-		menu item I:			&Infinite mana	I
-		menu item colorless:	&Colorless mana...
-		title colorless:		Colorless mana
-		message colorless:		Enter amount of colorless mana:
-		menu item half:				&Half mana
-		menu item |W:				&White	 |W
-		menu item |U:				Bl&ue	 |U
-		menu item |B:				&Black	 |B
-		menu item |R:				&Red	 |R
-		menu item |G:				&Green	 |G
-		menu item |S:				&Snow	 |S
-		menu item 1/2:				&Colorless	1/2
-		menu item hybrid:		H&ybrid mana (two color)
-		menu item W/U:				White/Blue mana	 W/U
-		menu item U/B:				Blue/Black mana	 U/B
-		menu item B/R:				Black/Red mana	 B/R
-		menu item R/G:				Red/Green mana	 R/G
-		menu item G/W:				Green/White mana	 G/W
-		menu item W/B:				White/Black mana	 W/B
-		menu item U/R:				Blue/Red mana	 U/R
-		menu item B/G:				Black/Green mana	 B/G
-		menu item R/W:				Red/White mana	 R/W
-		menu item G/U:				Green/Blue mana	 G/U
-		menu item hybrid 3:		H&ybrid mana (three color)
-		menu item W/U/B:			White/Blue/Black mana	 W/U/B
-		menu item U/B/R:			Blue/Black/Red mana	 U/B/R
-		menu item B/R/G:			Black/Red/Green mana	 B/R/G
-		menu item R/G/W:			Red/Green/White mana	 R/G/W
-		menu item G/W/U:			Green/White/Blue mana	 G/W/U
-		menu item W/B/R:			White/Black/Red mana	 W/B/R
-		menu item U/R/G:			Blue/Red/Green mana	 U/R/G
-		menu item B/G/W:			Black/Green/White mana	 B/G/W
-		menu item R/W/U:			Red/White/Blue mana	 R/W/U
-		menu item G/U/B:			Green/Blue/Black mana	 G/U/B
+		menu item T:			Символ поворота	 T
+		menu item Q:			Символ разворота	 Q
+		menu item W:			Белая мана	 W
+		menu item U:			Синяя мана	 U
+		menu item B:			Черная мана	 B
+		menu item R:			Красная мана	 R
+		menu item G:			Зеленая мана	 G
+		menu item S:			Снежная мана	 S
+		menu item X:			Стоимость &X	 X
+		menu item Y:			Стоимость &Y	 Y
+		menu item Z:			Стоимость &Z	 Z
+		menu item I:			Бескоченая мана	I
+		menu item colorless:	Безцветная мана...
+		title colorless:		Безцветная мана
+		message colorless:		Введите количество безсветной маны:
+		menu item half:				Половина маны
+		menu item |W:				Белая	 |W
+		menu item |U:				Синяя	 |U
+		menu item |B:				Черная	 |B
+		menu item |R:				Красная	 |R
+		menu item |G:				Зеленая	 |G
+		menu item |S:				Снежная	 |S
+		menu item 1/2:				Безцветная	1/2
+		menu item hybrid:		Гибридная мана (два цвета)
+		menu item W/U:				Белая/Синяя мана	 W/U
+		menu item U/B:				Синяя/Черная мана	 U/B
+		menu item B/R:				Черная/Красная мана	 B/R
+		menu item R/G:				Красная/Зеленая мана	 R/G
+		menu item G/W:				Зеленая/Белая мана	 G/W
+		menu item W/B:				Белая/Черная мана	 W/B
+		menu item U/R:				Синяя/Красная мана	 U/R
+		menu item B/G:				Черная/Зеленая мана	 B/G
+		menu item R/W:				Красная/Белая мана	 R/W
+		menu item G/U:				Зеленая/Синяя мана	 G/U
+		menu item hybrid 3:		Гибридная мана (три цвета)
+		menu item W/U/B:			Белая/Синяя/Черная мана	 W/U/B
+		menu item U/B/R:			Синяя/Черная/Красная мана	 U/B/R
+		menu item B/R/G:			Черная/Красная/Зеленая мана	 B/R/G
+		menu item R/G/W:			Красная/Зеленая/Белая мана	 R/G/W
+		menu item G/W/U:			Зеленая/Белая/Синяя мана	 G/W/U
+		menu item W/B/R:			Белая/Черная/Красная мана	 W/B/R
+		menu item U/R/G:			Синяя/Красная/Зеленая мана	 U/R/G
+		menu item B/G/W:			Черная/Зеленая/Белая мана	 B/G/W
+		menu item R/W/U:			Красная/Белая/Синяя мана	 R/W/U
+		menu item G/U/B:			Зеленая/Синяя/Черная мана	 G/U/B
 
