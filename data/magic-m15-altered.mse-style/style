@@ -75,6 +75,8 @@ init script:
 	}
 	crown_follow := {
 		if input != "crown" then ""
+		else if is_borderless()
+		  then "bl"
 		else if styling.legend_crown == "nyx" or (is_nyx() and chosen(styling.other_options, choice:"auto nyx crowns"))
 			then "nyx"
 		else if styling.legend_crown == "companion"
@@ -162,7 +164,7 @@ init script:
 	is_d20 := {styling.d20_dividers != "off" and not is_leveler()}
 	is_all_break := {contains(styling.d20_dividers, match:"all breaks")}
 	d20string := "^(<b>)?(((</sym>)?[-0-9 ,+>\<](<sym>)?)+|[Ee]lse|[Oo]ther) ?(</b>)?[|]"
-	d20_array := 
+	d20_array :=
 		filter_text@(match:"(\n|"+d20string+")")
 		+split_text@(match:d20string)
 	number_of_rolls := {min(6, if is_all_break() then 1+length(filter_text(card.rule_text, match:"\n"))-(rolls_start(card.text)-invert_rolls()) else length(d20_array(input))-1)}
@@ -213,7 +215,7 @@ init script:
 			then output := split_text(string+"0,0,0:0,0,0:0.07:", match:",|:")
 		else if colons == 1
 			then output := split_text(string+splits[0]+":0,0,0:0,0,0:0.07:", match:",|:")
-		
+
 		output
 	}
 	alt_symbol := {symbol_variation(symbol:set.symbol, border_radius: alt_rarity_color().12, fill_type: "linear gradient", fill_color_1: rgb(alt_rarity_color().0, alt_rarity_color().1, alt_rarity_color().2), fill_color_2: rgb(alt_rarity_color().3, alt_rarity_color().4, alt_rarity_color().5), border_color_1: rgb(alt_rarity_color().6, alt_rarity_color().7, alt_rarity_color().8), border_color_2: rgb(alt_rarity_color().9, alt_rarity_color().10, alt_rarity_color().11), center_x:0.5, center_y:0.5, end_x:1, end_y:1)}
@@ -1038,7 +1040,7 @@ card style:
 	copyright:
 		right: 350
 		top:
-			{ 
+			{
 				if is_leveler() and not lone_pt()
 					then 488
 				else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty())
@@ -1519,7 +1521,7 @@ extra card style:
 	auto copyright:
 		right: 350
 		top:
-			{ 
+			{
 				if is_leveler() and not lone_pt()
 					then 488
 				else if (starting_loyalty() and card.loyalty != "") or (card.pt != "" and not starting_loyalty())
@@ -1555,7 +1557,7 @@ extra card style:
 		image: {if (is_clear() or clear_tops()) and not is_devoid() then "legend/xcrown.png" else if is_fnm() then set_mask(image:crown_background(), mask:"legend/fnm_mask.png") else crown_background()}
 		z index: 5
 		visible: {is_legend() and not is_map()}
-		mask: {if is_legend() and styling.legend_crown != "custom" and (is_curtains() or is_expanded_art() or is_puma() or is_devoid()) then "curtainmask.png" else if is_season() then "crown_season_mask.png" else ""}
+		mask: {if is_legend() and styling.legend_crown != "custom" and (is_curtains() or is_expanded_art() or is_puma() or is_devoid() and not is_borderless()) then "curtainmask.png" else if is_season() then "crown_season_mask.png" else ""}
 	curtain:
 		left: 0
 		top: 0
