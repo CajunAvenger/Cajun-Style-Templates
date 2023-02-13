@@ -1,3 +1,6 @@
+# This repo has moved!
+Please direct issues and pull requests to [the Full-Pack repo here](https://github.com/MagicSetEditorPacks/Full-Magic-Pack).
+
 Some template images provided by [CardConjurer](https://cardconjurer.com/):
 Praetor Showcase, JP Mystical Archive, PT Box for Mystical Archives, Sketch frame, Monster Manual frame
 
